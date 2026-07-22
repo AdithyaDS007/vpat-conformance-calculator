@@ -94,7 +94,7 @@ tr:last-child td{border-bottom:none}
 <label>WCAG target:&nbsp;<select id="target">
 <option>2.0 A</option><option>2.0 AA</option><option>2.0 AAA</option><option>2.1 A</option><option selected>2.1 AA</option><option>2.1 AAA</option><option>2.2 A</option><option>2.2 AA</option><option>2.2 AAA</option>
 </select></label>
-<label><input type="checkbox" id="incClosed"> Include Closed / Fixed issues</label>
+<label title="By default Open and Fixed issues count as failures; only Closed issues are excluded. Tick to count Closed issues too."><input type="checkbox" id="incClosed"> Include Closed issues</label>
 <label title="The denominator for Coverage %. Pages with zero issues never appear in the CSV, so set the real in-scope page count here to avoid inflated percentages.">Total pages in scope:&nbsp;<input type="number" id="totPages" min="0" placeholder="auto" style="width:78px;font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--bd2);border-radius:8px;background:var(--card)"></label>
 </div>
 <details class="help" style="margin:0 0 12px"><summary>Full page list (optional) — overrides the count and enables exact mapping</summary>
@@ -117,6 +117,7 @@ tr:last-child td{border-bottom:none}
 <div class="stats">
 <div class="stat"><div class="n" id="s-pages">0</div><div class="l">Pages in scope</div></div>
 <div class="stat"><div class="n" id="s-comp">0</div><div class="l">Components</div></div>
+<div class="stat"><div class="n" id="s-iss" style="color:var(--dns)">0</div><div class="l">Issues in scope</div></div>
 <div class="stat"><div class="n" id="s-sup" style="color:var(--ok)">0</div><div class="l">Supports</div></div>
 <div class="stat"><div class="n" id="s-part" style="color:var(--part)">0</div><div class="l">Partially Supports</div></div>
 <div class="stat"><div class="n" id="s-dns" style="color:var(--dns)">0</div><div class="l">Does Not Support</div></div>
@@ -190,12 +191,19 @@ function ingest(name,text){const rows=parseCSV(text);if(!rows.length)return;cons
 
 function aggregate(){const inc=document.getElementById('incClosed').checked;
  const allPages=new Set(),pages=new Set(),comps=new Set(),sc_pages={},sc_pageblk={},comp_sc={},comp_crit={},comp_blk={},pw_issues={};
- FILES.forEach(f=>f.rows.forEach(r=>{if(/^(closed|fixed)$/i.test(r.status)&&!inc)return;if(!r.test||!r.scs.length)return;
+ let nIss=0,nExcl=0;
+ FILES.forEach(f=>f.rows.forEach(r=>{if(!r.test||!r.scs.length)return;
+  // A test unit that appears in the CSV was audited and stays in scope even if all its issues are Closed —
+  // it is then a PASSING page. The status filter applies to the ISSUES only, never to the page/component universe.
+  // VPAT rule: Open and Fixed issues both count as failures; only Closed issues are excluded (unless included via the toggle).
+  const closed=/^closed$/i.test(r.status)&&!inc;
+  if(closed)nExcl++;else nIss++;
   const blk=/blocker/i.test(r.impact||''),crit=/critical/i.test(r.impact||'');
-  if(/component/i.test(r.unit)){comps.add(r.test);(comp_sc[r.test]=comp_sc[r.test]||new Set());(comp_crit[r.test]=comp_crit[r.test]||new Set());(comp_blk[r.test]=comp_blk[r.test]||new Set());r.scs.forEach(s=>{comp_sc[r.test].add(s);if(crit)comp_crit[r.test].add(s);if(blk)comp_blk[r.test].add(s);});}
+  if(/component/i.test(r.unit)){comps.add(r.test);(comp_sc[r.test]=comp_sc[r.test]||new Set());(comp_crit[r.test]=comp_crit[r.test]||new Set());(comp_blk[r.test]=comp_blk[r.test]||new Set());
+   if(closed)return;r.scs.forEach(s=>{comp_sc[r.test].add(s);if(crit)comp_crit[r.test].add(s);if(blk)comp_blk[r.test].add(s);});}
   else{allPages.add(r.test);
-   if(PW.has(r.test)){(pw_issues[r.test]=pw_issues[r.test]||[]).push({id:r.id,desc:r.desc,scs:r.scs.slice(),blk,crit,impact:r.impact,status:r.status});}
-   else{pages.add(r.test);r.scs.forEach(s=>{(sc_pages[s]=sc_pages[s]||new Set()).add(r.test);if(blk)(sc_pageblk[s]=sc_pageblk[s]||new Set()).add(r.test);});}}}));
+   if(PW.has(r.test)){if(closed)return;(pw_issues[r.test]=pw_issues[r.test]||[]).push({id:r.id,desc:r.desc,scs:r.scs.slice(),blk,crit,impact:r.impact,status:r.status});}
+   else{pages.add(r.test);if(closed)return;r.scs.forEach(s=>{(sc_pages[s]=sc_pages[s]||new Set()).add(r.test);if(blk)(sc_pageblk[s]=sc_pageblk[s]||new Set()).add(r.test);});}}}));
  const listEl=document.getElementById('pageList'),numEl=document.getElementById('totPages');
  const listPages=(listEl?listEl.value:'').split(/[\n,]+/).map(s=>s.trim()).filter(Boolean).filter(p=>!PW.has(p));
  const manual=[...EXTRA].filter(p=>!PW.has(p));
@@ -203,7 +211,7 @@ function aggregate(){const inc=document.getElementById('incClosed').checked;
  let universe,total;
  if(listPages.length||manual.length){const u=new Set(listPages);manual.forEach(p=>u.add(p));pages.forEach(p=>u.add(p));universe=[...u];total=Math.max(num>0?num:0,u.size);}
  else{universe=[...pages];total=(num>0?Math.max(num,pages.size):pages.size);}
- AGG={pages:universe.sort(),csvPages:[...pages],total,known:universe.length,allPages:[...allPages].sort(scCmp),pwPages:[...PW].filter(p=>allPages.has(p)).sort(scCmp),pw_issues,base_pages:sc_pages,base_pageblk:sc_pageblk,sc_pages:{},sc_pageblk:{},sc_redist:{},comps:[...comps].sort(),comp_sc,comp_crit,comp_blk};
+ AGG={pages:universe.sort(),csvPages:[...pages],total,known:universe.length,nIss,nExcl,allPages:[...allPages].sort(scCmp),pwPages:[...PW].filter(p=>allPages.has(p)).sort(scCmp),pw_issues,base_pages:sc_pages,base_pageblk:sc_pageblk,sc_pages:{},sc_pageblk:{},sc_redist:{},comps:[...comps].sort(),comp_sc,comp_crit,comp_blk};
  redistribute();}
 // Redistribute project-wide issues onto the real pages they reproduce on; they count as direct page failures (carry blocker severity).
 function redistribute(){const base=AGG.base_pages||{},baseB=AGG.base_pageblk||{};const sc_pages={},sc_pageblk={},sc_redist={};
@@ -234,8 +242,13 @@ function renderFiles(){const w=document.getElementById('files');w.innerHTML='';F
 function enc(s){return btoa(unescape(encodeURIComponent(s))).replace(/=/g,'');}
 function renderComps(){const wrap=document.getElementById('comps');wrap.innerHTML='';
  if(!AGG.comps||!AGG.comps.length){wrap.innerHTML='<p class="empty">No components found yet.</p>';return;}
+ // Only components with at least one in-scope (non-excluded) issue need mapping; closed-only components have nothing to map.
+ const active=AGG.comps.filter(c=>(AGG.comp_sc[c]||new Set()).size>0);
+ const skipped=AGG.comps.length-active.length;
+ if(skipped>0){const n=document.createElement('p');n.className='note';n.textContent=skipped+' component'+(skipped!=1?'s':'')+' hidden — all their issues are Closed (excluded), so there is nothing to map.';wrap.appendChild(n);}
+ if(!active.length){const e=document.createElement('p');e.className='empty';e.textContent='No components with in-scope issues.';wrap.appendChild(e);return;}
  const K=AGG.pages.length;
- AGG.comps.forEach(c=>{if(!MAP[c])MAP[c]=new Set();const scs=[...(AGG.comp_sc[c]||[])].sort();const isG=K>0&&MAP[c].size===K;
+ active.forEach(c=>{if(!MAP[c])MAP[c]=new Set();const scs=[...(AGG.comp_sc[c]||[])].sort();const isG=K>0&&MAP[c].size===K;
   const card=document.createElement('div');card.className='comp';
   card.innerHTML='<div class="comp-head"><span class="comp-name">'+c+'</span><span class="chips">'+scs.map(s=>'<span class="chip">'+s+'</span>').join('')+'</span><span class="cnt" id="cnt-'+enc(c)+'">'+MAP[c].size+' / '+K+' pages</span></div><div class="btns"><button class="g '+(isG?'on':'')+'">Global (all '+K+')</button><button class="clr">Clear</button></div><input class="search" placeholder="Filter pages…"><div class="pglist"></div>';
   wrap.appendChild(card);
@@ -256,6 +269,8 @@ function renderPW(){const wrap=document.getElementById('pwpages');wrap.innerHTML
  // per project-wide page: list each individual issue (by ID) and map it to the real pages it reproduces on
  const real=AGG.pages||[];const K=real.length;
  (AGG.pwPages||[]).forEach(pw=>{const issues=AGG.pw_issues[pw]||[];
+  // A project-wide page whose issues are all Closed (excluded) has nothing to map — it is still removed from the page count above.
+  if(!issues.length){const n=document.createElement('p');n.className='note';n.textContent='↺ '+pw+': no in-scope issues (all Closed/excluded) — nothing to map.';wrap.appendChild(n);return;}
   const card=document.createElement('div');card.className='comp';
   const unmapped=issues.filter(iss=>!(PWM[pw]&&PWM[pw][iss.id]&&PWM[pw][iss.id].size)).length;
   card.innerHTML='<div class="comp-head"><span class="comp-name">↺ '+esc(pw)+'</span><span class="chips"><span class="chip">project-wide</span></span><span class="cnt">'+issues.length+' issue'+(issues.length!=1?'s':'')+(unmapped?' · '+unmapped+' unmapped':'')+'</span></div><p class="note" style="margin:0">Each row below is one issue from this page. Tick the real pages where it reproduces, or use <b>All pages</b>. An issue applies all of its success criteria to every page you map it to. Mapped pages count as direct failures; unmapped issues are not counted.</p>';
@@ -375,6 +390,7 @@ function compute(){const tb=document.getElementById('rows');const scs=allSC();
   if(openRem.has(sc)&&(x.verdict=='dns'||x.verdict=='part')){const rr=document.createElement('tr');rr.innerHTML='<td colspan="7"><div class="rembox"><b>Remarks &amp; Explanations (draft) — '+sc+' '+esc(NAMES[sc]||'')+'</b><textarea readonly>'+esc(genRemarks(sc))+'</textarea><div class="hint">ITI requires remarks for Partially Supports / Does Not Support. Edit this draft before pasting into your ACR.</div></div></td>';tb.appendChild(rr);}});
  document.getElementById('s-pages').textContent=AGG.total||0;
  document.getElementById('s-comp').textContent=(AGG.comps||[]).length;
+ const isEl=document.getElementById('s-iss');isEl.textContent=AGG.nIss||0;isEl.parentElement.title=(AGG.nExcl||0)+' Closed issue(s) excluded';isEl.parentElement.querySelector('.l').textContent=(AGG.nExcl||0)>0?('Issues in scope ('+AGG.nExcl+' closed excluded)'):'Issues in scope';
  document.getElementById('s-sup').textContent=cnt.sup;document.getElementById('s-part').textContent=cnt.part;
  document.getElementById('s-dns').textContent=cnt.dns;document.getElementById('s-na').textContent=cnt.na;document.getElementById('s-ne').textContent=cnt.ne;}
 function exportCSV(){const scs=allSC();if(!scs.length){alert('No data to export.');return;}
@@ -392,7 +408,7 @@ function exportCSV(){const scs=allSC();if(!scs.length){alert('No data to export.
  const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='vpat_conformance.csv';a.click();}
 function resetMap(){if(confirm('Clear all component mappings, project-wide selections, and overrides?')){MAP={};OVR={};PW=new Set();PWM={};refresh();}}
-function newVpat(){if(confirm('Start a new VPAT? This clears uploaded files, the page list, total pages, all mappings and overrides.')){FILES=[];MAP={};OVR={};PW=new Set();PWM={};EXTRA=new Set();openWhere=new Set();openFix=new Set();openRem=new Set();openUnion=new Set();document.getElementById('pageList').value='';document.getElementById('totPages').value='';refresh();}}
+function newVpat(){if(confirm('Start a new VPAT? This clears uploaded files, the page list, total pages, all mappings and overrides.')){FILES=[];MAP={};OVR={};PW=new Set();PWM={};EXTRA=new Set();openWhere=new Set();openFix=new Set();openRem=new Set();openUnion=new Set();document.getElementById('pageList').value='';document.getElementById('totPages').value='';refresh();}} /* v7 */
 
 const drop=document.getElementById('drop'),fileInput=document.getElementById('file');
 drop.onclick=()=>fileInput.click();
