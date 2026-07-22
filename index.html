@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>VPAT conformance calculator v4</title>
@@ -77,7 +78,7 @@ tr:last-child td{border-bottom:none}
 <details class="help" open><summary>How to use this tool</summary>
 <ol>
 <li><b>Pick your WCAG target</b> (version + level) below. This defines the full set of success criteria your VPAT covers, so the tool can count Supports and Not Applicable, not just failures.</li>
-<li><b>Set the true page count.</b> Pages with zero issues never appear in the CSV, so by default the denominator only counts pages that have findings &mdash; which inflates Coverage %. Enter <b>Total pages in scope</b>, or paste the <b>full page list</b>, so percentages use the real denominator.</li>
+<li><b>Set the true page count.</b> Pages with zero issues never appear in the CSV, so by default the denominator only counts pages that have findings &mdash; which inflates Coverage %. Enter <b>Total pages in scope</b>, paste the <b>full page list</b>, or use <b>Add pages manually</b> for individual zero-issue pages, so percentages use the real denominator and those pages are selectable in every mapping list.</li>
 <li><b>Upload one or more CSV exports</b> from axe Auditor. Drag them onto the box or click to browse. Add files from different platforms (web, iOS, Android&hellip;) &mdash; they are merged cumulatively: a page that fails a criterion on <i>any</i> platform is counted as failing.</li>
 <li><b>Map each shared component to its pages</b> (do this first &mdash; it decides the verdict). For every component the audit found (header, footer, nav, widgets&hellip;), click <b>Global (all pages)</b> or tick the exact pages it sits on. Every failing component's mapped pages are <b>unioned into Coverage %</b>, so an unmapped or under-mapped component silently <b>undercounts</b> coverage and can hide a Does Not Support verdict that should have fired.</li>
 <li><b>Handle project-wide pages</b> (optional). If your audit logs application-wide issues on a dedicated <b>project-wide / app-wide page</b>, mark it in section 2b. It is dropped from the page count, and you map each of its issues to the real pages where they reproduce (or <b>All pages</b>). Those issues then count as <b>direct page failures</b> on the mapped pages &mdash; adding to Coverage just like any other page failure.</li>
@@ -100,6 +101,15 @@ tr:last-child td{border-bottom:none}
 <p style="margin:8px 0 6px;color:var(--mut);font-size:13px">Paste every in-scope page (URL or name), one per line or comma-separated — including pages with <b>zero</b> issues. When filled, this list becomes the denominator and the page universe for component mapping. Failing pages from the CSV are always merged in automatically.</p>
 <textarea id="pageList" placeholder="Home&#10;Search&#10;Results&#10;Profile&#10;Settings&#10;Help" style="width:100%;min-height:96px;font:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--bd2);border-radius:8px;background:var(--card);resize:vertical"></textarea>
 </details>
+<div class="comp" style="margin:0 0 12px;padding:12px 14px">
+ <div class="comp-head" style="margin-bottom:6px"><span class="comp-name">Add pages manually</span><span class="cnt" id="extraCnt">0 added</span></div>
+ <p class="note" style="margin:0 0 8px">Pages with <b>zero issues</b> never appear in the CSV, so they are missing from the page lists (component mapping and project-wide issue mapping) and from the denominator. Add them here — each added page joins the page universe, the total count, and every mapping list.</p>
+ <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+  <input id="addPageName" placeholder="Page name, e.g. TV Media tab" style="flex:1;min-width:220px;font:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--bd2);border-radius:8px;background:var(--card)">
+  <button id="addPageBtn" type="button">+ Add page</button>
+ </div>
+ <div id="extraChips" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"></div>
+</div>
 <div class="drop" id="drop"><b>Click to choose</b> or drag &amp; drop CSV files here<p>axe Auditor exports &middot; multiple files allowed</p>
 <input type="file" id="file" accept=".csv,text/csv" multiple hidden></div>
 <div class="files" id="files"></div>
@@ -159,7 +169,8 @@ function fcol(H,names){for(const n of names){const i=col(H,n);if(i>=0)return i;}
 function normSC(v){if(!v)return[];return String(v).split(/[,;\n]+/).map(s=>{const m=s.match(/\d+\.\d+(?:\.\d+)?/);return m?m[0]:null;}).filter(Boolean);}
 
 let FILES=[],MAP={},OVR={},AGG={},openWhere=new Set(),openFix=new Set(),openRem=new Set(),openUnion=new Set();
-let PW=new Set(),PWM={};// PW = page names marked project-wide; PWM[page][sc] = Set of real pages that issue is redistributed to
+let PW=new Set(),PWM={};
+let EXTRA=new Set();// manually added zero-issue pages// PW = page names marked project-wide; PWM[page][sc] = Set of real pages that issue is redistributed to
 // No persistence by design: every session starts clean so one VPAT's mappings/overrides never leak into the next report.
 function saveMap(){}
 function saveOVR(){}
@@ -187,9 +198,10 @@ function aggregate(){const inc=document.getElementById('incClosed').checked;
    else{pages.add(r.test);r.scs.forEach(s=>{(sc_pages[s]=sc_pages[s]||new Set()).add(r.test);if(blk)(sc_pageblk[s]=sc_pageblk[s]||new Set()).add(r.test);});}}}));
  const listEl=document.getElementById('pageList'),numEl=document.getElementById('totPages');
  const listPages=(listEl?listEl.value:'').split(/[\n,]+/).map(s=>s.trim()).filter(Boolean).filter(p=>!PW.has(p));
+ const manual=[...EXTRA].filter(p=>!PW.has(p));
  const num=parseInt(numEl?numEl.value:'',10);
  let universe,total;
- if(listPages.length){const u=new Set(listPages);pages.forEach(p=>u.add(p));universe=[...u];total=universe.length;}
+ if(listPages.length||manual.length){const u=new Set(listPages);manual.forEach(p=>u.add(p));pages.forEach(p=>u.add(p));universe=[...u];total=Math.max(num>0?num:0,u.size);}
  else{universe=[...pages];total=(num>0?Math.max(num,pages.size):pages.size);}
  AGG={pages:universe.sort(),csvPages:[...pages],total,known:universe.length,allPages:[...allPages].sort(scCmp),pwPages:[...PW].filter(p=>allPages.has(p)).sort(scCmp),pw_issues,base_pages:sc_pages,base_pageblk:sc_pageblk,sc_pages:{},sc_pageblk:{},sc_redist:{},comps:[...comps].sort(),comp_sc,comp_crit,comp_blk};
  redistribute();}
@@ -205,7 +217,17 @@ function universe(){return SETS[document.getElementById('target').value]||[];}
 function allSC(){const u=new Set(universe());if(AGG.sc_pages)Object.keys(AGG.sc_pages).forEach(s=>u.add(s));if(AGG.comp_sc)Object.values(AGG.comp_sc).forEach(set=>set.forEach(s=>u.add(s)));
  return [...u].sort((a,b)=>{const A=a.split('.').map(Number),B=b.split('.').map(Number);for(let i=0;i<3;i++){if((A[i]||0)!=(B[i]||0))return (A[i]||0)-(B[i]||0);}return 0;});}
 
-function refresh(){aggregate();renderFiles();renderPW();renderComps();compute();}
+function renderExtra(){const w=document.getElementById('extraChips'),c=document.getElementById('extraCnt');if(!w)return;
+ w.innerHTML='';c.textContent=EXTRA.size+' added';
+ [...EXTRA].sort().forEach(p=>{const s=document.createElement('span');s.className='chip';s.style.cssText='display:inline-flex;align-items:center;gap:6px;font-size:13px';
+  s.appendChild(document.createTextNode(p));
+  const x=document.createElement('button');x.type='button';x.textContent='\u00d7';x.title='Remove '+p;x.setAttribute('aria-label','Remove '+p);
+  x.style.cssText='border:0;background:none;cursor:pointer;font-size:14px;line-height:1;color:var(--dns);padding:0';
+  x.onclick=()=>{EXTRA.delete(p);refresh();};s.appendChild(x);w.appendChild(s);});}
+function addManualPage(){const el=document.getElementById('addPageName');const v=(el.value||'').trim();if(!v)return;
+ if(PW.has(v)){alert('"'+v+'" is marked as a project-wide page \u2014 it cannot also be a real page.');return;}
+ EXTRA.add(v);el.value='';el.focus();refresh();}
+function refresh(){aggregate();renderFiles();renderExtra();renderPW();renderComps();compute();}
 function renderFiles(){const w=document.getElementById('files');w.innerHTML='';FILES.forEach((f,i)=>{const d=document.createElement('div');d.className='file';
  d.innerHTML='<span class="nm">'+f.name+'</span><span class="meta">'+f.rows.length+' issues</span><button class="rm" data-i="'+i+'">&times;</button>';
  d.querySelector('.rm').onclick=()=>{FILES.splice(i,1);refresh();};w.appendChild(d);});}
@@ -370,7 +392,7 @@ function exportCSV(){const scs=allSC();if(!scs.length){alert('No data to export.
  const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='vpat_conformance.csv';a.click();}
 function resetMap(){if(confirm('Clear all component mappings, project-wide selections, and overrides?')){MAP={};OVR={};PW=new Set();PWM={};refresh();}}
-function newVpat(){if(confirm('Start a new VPAT? This clears uploaded files, the page list, total pages, all mappings and overrides.')){FILES=[];MAP={};OVR={};PW=new Set();PWM={};openWhere=new Set();openFix=new Set();openRem=new Set();openUnion=new Set();document.getElementById('pageList').value='';document.getElementById('totPages').value='';refresh();}}
+function newVpat(){if(confirm('Start a new VPAT? This clears uploaded files, the page list, total pages, all mappings and overrides.')){FILES=[];MAP={};OVR={};PW=new Set();PWM={};EXTRA=new Set();openWhere=new Set();openFix=new Set();openRem=new Set();openUnion=new Set();document.getElementById('pageList').value='';document.getElementById('totPages').value='';refresh();}}
 
 const drop=document.getElementById('drop'),fileInput=document.getElementById('file');
 drop.onclick=()=>fileInput.click();
@@ -384,5 +406,7 @@ document.getElementById('target').onchange=compute;
 const totEl=document.getElementById('totPages'),listEl=document.getElementById('pageList');
 let scopeT;const scopeChanged=()=>{clearTimeout(scopeT);scopeT=setTimeout(refresh,250);};
 totEl.oninput=scopeChanged;listEl.oninput=scopeChanged;
+document.getElementById('addPageBtn').onclick=addManualPage;
+document.getElementById('addPageName').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addManualPage();}});
 refresh();
 </script></body></html>
