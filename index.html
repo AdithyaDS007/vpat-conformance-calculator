@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VPAT Conformance Dashboard</title>
+<title>VPAT conformance calculator v4</title>
 <style>
 :root{--bg:#faf9f5;--card:#fff;--bd:#e3e1d8;--bd2:#cfcdc2;--tx:#1d1c1a;--mut:#6b6a64;--dns:#b3261e;--dnsbg:#fcebea;--part:#8a5a00;--partbg:#fbf0db;--ok:#1d6b3f;--okbg:#e7f3ea;--na:#555;--nabg:#eceae2;--accent:#3c3489;--accentbg:#eeedfe}
 *{box-sizing:border-box}
 body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--tx);line-height:1.5;font-size:15px}
-.wrap{max-width:1340px;margin:0 auto;padding:28px 22px 80px}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 22px 80px}
 h1{font-size:24px;font-weight:600;margin:0 0 4px}
 .sub{color:var(--mut);margin:0 0 18px}
 h2{font-size:17px;font-weight:600;margin:30px 0 12px}
+.help{background:var(--accentbg);border:1px solid #d8d5f5;border-radius:12px;padding:14px 20px;margin-bottom:8px}
+.help summary{font-weight:600;cursor:pointer;color:var(--accent)}
+.help ol{margin:10px 0 4px;padding-left:20px}
+.help li{margin:5px 0}
 .drop{border:2px dashed var(--bd2);border-radius:12px;background:var(--card);padding:28px 20px;text-align:center;cursor:pointer;transition:.15s}
 .drop:hover,.drop.over{border-color:var(--accent);background:var(--accentbg)}
 .drop b{color:var(--accent)}.drop p{margin:6px 0 0;color:var(--mut);font-size:13px}
@@ -37,7 +41,7 @@ button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 .pglist label{display:flex;align-items:center;gap:7px;font-size:13px;padding:3px 6px;border-radius:6px;cursor:pointer}
 .pglist label:hover{background:#f4f3ee}.pglist input{margin:0}
 table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--bd);border-radius:12px;overflow:hidden;font-size:14px}
-th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--bd);vertical-align:top}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--bd)}
 th{background:#f4f3ee;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--mut);font-weight:600}
 tr:last-child td{border-bottom:none}
 .pill{font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap}
@@ -45,37 +49,66 @@ tr:last-child td{border-bottom:none}
 .pill.sup{background:var(--okbg);color:var(--ok)}.pill.na{background:var(--nabg);color:var(--na)}
 .pill.ne{background:var(--nabg);color:var(--na);font-style:italic}
 .ovr{font:inherit;font-size:12px;padding:3px 6px;border:1px solid var(--bd2);border-radius:8px;background:var(--card)}
+.rembox{background:var(--accentbg);border:1px solid #d8d5f5;border-radius:10px;padding:12px 16px}
+.rembox textarea{width:100%;min-height:90px;font:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--bd2);border-radius:8px;background:#fff;resize:vertical}
+.rembox .hint{font-size:11px;color:var(--mut);margin-top:6px}
 .bar{height:7px;background:#eceae2;border-radius:4px;position:relative;margin-top:4px;overflow:hidden}
 .bar i{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
 .bar .thr{position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:var(--mut)}
+.viacomp{font-size:11px;color:var(--accent)}
 .toolbar{display:flex;gap:8px;align-items:center;margin:30px 0 12px}
 .toolbar h2{margin:0}.toolbar .sp{margin-left:auto}
 .note{font-size:12px;color:var(--mut);margin-top:10px}
 .lvl{display:inline-block;font-size:10px;font-weight:700;color:var(--mut);border:1px solid var(--bd2);border-radius:4px;padding:0 4px;margin-left:6px;vertical-align:1px}
 .empty{color:var(--mut);font-style:italic;padding:14px 0}
-.failed{font-size:12px;min-width:120px;max-width:180px}
+.failed{font-size:12px;min-width:150px;max-width:260px}
 .cchip{display:inline-block;background:var(--accentbg);color:var(--accent);font-weight:600;padding:1px 7px;border-radius:20px;margin:0 3px 3px 0}
 .cchip.crit{background:var(--dnsbg);color:var(--dns)}
 .tog{color:var(--accent);cursor:pointer;text-decoration:underline;white-space:nowrap}
 .plist{margin-top:4px;color:var(--mut);line-height:1.5}
-.rem-cell{font-size:13px;min-width:380px;max-width:540px;line-height:1.45}
-.rem-cell p{margin:0 0 6px}
-.rem-cell ul{margin:4px 0 0;padding-left:18px}
-.rem-cell li{margin-bottom:8px}
-.vpat-highlight{background:#fff3cd;color:#856404;padding:2px 6px;border-radius:4px;border:1px solid #ffeeba;display:inline-block}
+.planbtn{margin-top:6px;font-size:11px;padding:3px 9px}
+.plan{background:var(--dnsbg);border:1px solid #f3cfcd;border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.6}
+.plan .plist{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:8px 10px;margin-top:6px;max-height:140px;overflow:auto;color:var(--tx)}
 </style></head><body><div class="wrap">
-<h1>VPAT Conformance Calculator</h1>
-<p class="sub">Upload axe Auditor CSV exports, map shared components to pages, and read per-criterion conformance.</p>
+<h1>VPAT conformance calculator</h1>
+<p class="sub">Upload axe Auditor CSV exports, map shared components to the pages they appear on, and read per-criterion conformance. Multiple files combine cumulatively across platforms. <b>v4</b> — union-based Coverage % formula, per-criterion failing pages/components viewer, and zero persistence: nothing is stored in this browser, so each VPAT starts completely clean.</p>
+<div style="background:var(--accentbg);border:1px solid #d8d5f5;border-radius:12px;padding:12px 18px;margin:0 0 14px"><b style="color:var(--accent)">How the verdict is decided</b><br><span style="font-size:13px;color:var(--mut)">Every failing component is mapped to its pages and those pages are added to coverage (union with the pages that fail directly). A criterion is <b>Does Not Support</b> if a <b>blocker</b> is present anywhere, OR that page union covers <b>more than 50%</b> of in-scope pages. Otherwise, any finding caps at <b>Partially Supports</b>. No component severity/criticality is used in the math — every failing component contributes its full mapped pages.</span></div>
+
+<details class="help" open><summary>How to use this tool</summary>
+<ol>
+<li><b>Pick your WCAG target</b> (version + level) below. This defines the full set of success criteria your VPAT covers, so the tool can count Supports and Not Applicable, not just failures.</li>
+<li><b>Set the true page count.</b> Pages with zero issues never appear in the CSV, so by default the denominator only counts pages that have findings &mdash; which inflates Coverage %. Enter <b>Total pages in scope</b>, paste the <b>full page list</b>, or use <b>Add pages manually</b> for individual zero-issue pages, so percentages use the real denominator and those pages are selectable in every mapping list.</li>
+<li><b>Upload one or more CSV exports</b> from axe Auditor. Drag them onto the box or click to browse. Add files from different platforms (web, iOS, Android&hellip;) &mdash; they are merged cumulatively: a page that fails a criterion on <i>any</i> platform is counted as failing.</li>
+<li><b>Map each shared component to its pages</b> (do this first &mdash; it decides the verdict). For every component the audit found (header, footer, nav, widgets&hellip;), click <b>Global (all pages)</b> or tick the exact pages it sits on. Every failing component's mapped pages are <b>unioned into Coverage %</b>, so an unmapped or under-mapped component silently <b>undercounts</b> coverage and can hide a Does Not Support verdict that should have fired.</li>
+<li><b>Handle project-wide pages</b> (optional). If your audit logs application-wide issues on a dedicated <b>project-wide / app-wide page</b>, mark it in section 2b. It is dropped from the page count, and you map each of its issues to the real pages where they reproduce (or <b>All pages</b>). Those issues then count as <b>direct page failures</b> on the mapped pages &mdash; adding to Coverage just like any other page failure.</li>
+<li><b>Read the conformance table.</b> Each criterion shows <b>Coverage %</b> = the union of directly-failing pages and every failing component’s mapped pages. The rule: <b>Does Not Support</b> if a <b>blocker</b> is present anywhere, <b>or</b> that page union covers <b>more than 50%</b> of in-scope pages. Everything else with findings is <b>Partially Supports</b>; nothing found is <b>Supports</b>. Component severity is <b>not</b> used — every failing component adds its full mapped pages. Because components are unioned into coverage, mapping each component to its real pages (section 2) directly affects the verdict.</li>
+<li><b>Override a verdict</b> in the last column when needed: <b>Not Applicable</b> where a criterion does not apply, and (for WCAG AAA criteria only, per ITI rules) <b>Not Evaluated</b> or <b>Supports</b>. AAA criteria with no findings default to Not Evaluated.</li>
+<li><b>Draft remarks.</b> On any Partially Supports / Does Not Support row, click <b>Remarks</b> to generate ITI-style "Remarks &amp; Explanations" text listing the affected components and pages &mdash; edit it before pasting into your ACR.</li>
+<li><b>Export CSV</b> to drop the results straight into your VPAT. Nothing is stored in this browser \u2014 refreshing the page or clicking <b>Start new VPAT</b> gives a completely clean slate, so one VPAT's data never leaks into the next. Export your CSV before closing the tab.</li>
+</ol>
+</details>
 
 <h2>1. Set target &amp; upload audit CSV(s)</h2>
 <div class="opts" style="margin:0 0 12px">
 <label>WCAG target:&nbsp;<select id="target">
 <option>2.0 A</option><option>2.0 AA</option><option>2.0 AAA</option><option>2.1 A</option><option selected>2.1 AA</option><option>2.1 AAA</option><option>2.2 A</option><option>2.2 AA</option><option>2.2 AAA</option>
 </select></label>
-<label><input type="checkbox" id="incClosed"> Include Closed issues</label>
-<label>Total pages in scope:&nbsp;<input type="number" id="totPages" min="0" placeholder="auto" style="width:78px;font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--bd2);border-radius:8px;background:var(--card)"></label>
+<label title="By default Open and Fixed issues count as failures; only Closed issues are excluded. Tick to count Closed issues too."><input type="checkbox" id="incClosed"> Include Closed issues</label>
+<label title="The denominator for Coverage %. Pages with zero issues never appear in the CSV, so set the real in-scope page count here to avoid inflated percentages.">Total pages in scope:&nbsp;<input type="number" id="totPages" min="0" placeholder="auto" style="width:78px;font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--bd2);border-radius:8px;background:var(--card)"></label>
 </div>
-
+<details class="help" style="margin:0 0 12px"><summary>Full page list (optional) — overrides the count and enables exact mapping</summary>
+<p style="margin:8px 0 6px;color:var(--mut);font-size:13px">Paste every in-scope page (URL or name), one per line or comma-separated — including pages with <b>zero</b> issues. When filled, this list becomes the denominator and the page universe for component mapping. Failing pages from the CSV are always merged in automatically.</p>
+<textarea id="pageList" placeholder="Home&#10;Search&#10;Results&#10;Profile&#10;Settings&#10;Help" style="width:100%;min-height:96px;font:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--bd2);border-radius:8px;background:var(--card);resize:vertical"></textarea>
+</details>
+<div class="comp" style="margin:0 0 12px;padding:12px 14px">
+ <div class="comp-head" style="margin-bottom:6px"><span class="comp-name">Add pages manually</span><span class="cnt" id="extraCnt">0 added</span></div>
+ <p class="note" style="margin:0 0 8px">Pages with <b>zero issues</b> never appear in the CSV, so they are missing from the page lists (component mapping and project-wide issue mapping) and from the denominator. Add them here — each added page joins the page universe, the total count, and every mapping list.</p>
+ <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+  <input id="addPageName" placeholder="Page name, e.g. TV Media tab" style="flex:1;min-width:220px;font:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--bd2);border-radius:8px;background:var(--card)">
+  <button id="addPageBtn" type="button">+ Add page</button>
+ </div>
+ <div id="extraChips" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"></div>
+</div>
 <div class="drop" id="drop"><b>Click to choose</b> or drag &amp; drop CSV files here<p>axe Auditor exports &middot; multiple files allowed</p>
 <input type="file" id="file" accept=".csv,text/csv" multiple hidden></div>
 <div class="files" id="files"></div>
@@ -95,42 +128,19 @@ tr:last-child td{border-bottom:none}
 <div id="comps"><p class="empty">Upload a CSV to list its components.</p></div>
 
 <h2>2b. Project-wide / app-wide pages</h2>
+<details class="help" style="margin:0 0 10px"><summary>What is this, and when do I use it?</summary>
+<p style="margin:8px 0 6px;color:var(--mut);font-size:13px">Sometimes an audit includes a deliberate <b>project-wide / app-wide page</b> — a container used to log issues that are common across the whole application rather than tied to one screen. Such a page is not a real screen, so counting it as one would distort the page total and Coverage&nbsp;%.</p>
+<p style="margin:0 0 6px;color:var(--mut);font-size:13px">Mark that page below. The tool will (1) <b>remove it from the in-scope page count</b>, but (2) <b>keep its issues</b>. Then you see <b>every individual issue</b> logged on that page (by issue ID, with its description, severity and success criteria) — because one criterion can have several distinct issues that reproduce on different screens. For each issue, tick the <b>real pages where it reproduces</b> — or click <b>All pages</b> if it affects the whole product. Each redistributed issue applies all of its success criteria to the pages you mapped it to and is counted as a <b>direct page failure</b> there, so it adds to Coverage and can drive the verdict exactly as a normal page failure would (a blocker still forces Does Not Support). Issues you leave unmapped are not counted.</p>
+</details>
 <div id="pwpages"><p class="empty">Upload a CSV to choose project-wide pages.</p></div>
 
 <div class="toolbar"><h2>3. Conformance results</h2><span class="sp"></span>
 <button onclick="exportCSV()">Export CSV</button><button onclick="resetMap()">Reset mapping</button><button onclick="newVpat()">Start new VPAT</button></div>
-<div style="overflow-x:auto"><table><thead><tr><th>SC</th><th>Criterion</th><th>Direct pages</th><th>Mapped pages</th><th>Coverage %</th><th>Conformance</th><th>Remarks and Explanations</th><th>Failed on</th><th>Override</th></tr></thead>
-<tbody id="rows"><tr><td colspan="9" class="empty">Choose a target and upload a CSV.</td></tr></tbody></table></div>
+<div style="overflow-x:auto"><table><thead><tr><th>SC</th><th>Criterion</th><th>Direct pages</th><th>Coverage %</th><th>Conformance</th><th>Failed on</th><th>Override</th></tr></thead>
+<tbody id="rows"><tr><td colspan="7" class="empty">Choose a target and upload a CSV.</td></tr></tbody></table></div>
+<p class="note"><b>How the verdict is decided.</b> <b>Does Not Support</b> if (1) a <b>blocker</b> issue is present anywhere, <b>or</b> (2) the <b>union of directly-failing pages and every failing component’s mapped pages</b> covers <b>more than 50%</b> of in-scope pages. <b>Coverage %</b> here is that page union. Component severity/criticality is <b>not</b> used: every failing component contributes its full mapped pages, and a union at or below 50% (with no blocker) keeps the criterion at <b>Partially Supports</b>. For pages + components we take the page union, deduped. No findings is <b>Supports</b>. Project-wide pages are excluded from the count; their issues redistribute to mapped pages as direct failures.</p>
 </div>
-
 <script>
-let BULLET_LANG = {}, ISSUE_DESCS = {}, ACR_IDL = {};
-
-// Load JSON files with graceful local fallbacks
-Promise.all([
- fetch('bulleted_vpat_text.json').then(r=>r.json()).catch(()=>[]),
- fetch('issue_descriptions.json').then(r=>r.json()).catch(()=>[]),
- fetch('acr_idl.json').then(r=>r.json()).catch(()=>[])
-]).then(([bulletData, descData, idlData]) => {
- (bulletData||[]).forEach(item => {
-  const rid = item["Rule ID"] || item["id"];
-  if(rid) {
-   BULLET_LANG[rid] = {
-    v1: (item["VPAT Text One"] || item["vpatTextOne"] || "").trim(),
-    vM: (item["VPAT Text Multiple"] || item["vpatTextMultiple"] || "").trim(),
-    st: (item["Short Text"] || item["shortText"] || "").trim()
-   };
-  }
- });
- (descData||[]).forEach(item => {
-  if(item.id) ISSUE_DESCS[item.id] = item;
- });
- (idlData||[]).forEach(item => {
-  if(item.Criteria) ACR_IDL[item.Criteria] = item;
- });
- compute();
-});
-
 const NAMES={'1.1.1':'Non-text Content','1.2.1':'Audio-only & Video-only (Prerecorded)','1.2.2':'Captions (Prerecorded)','1.2.3':'Audio Description or Media Alternative','1.2.4':'Captions (Live)','1.2.5':'Audio Description (Prerecorded)','1.3.1':'Info & Relationships','1.3.2':'Meaningful Sequence','1.3.3':'Sensory Characteristics','1.3.4':'Orientation','1.3.5':'Identify Input Purpose','1.4.1':'Use of Color','1.4.2':'Audio Control','1.4.3':'Contrast (Minimum)','1.4.4':'Resize Text','1.4.5':'Images of Text','1.4.10':'Reflow','1.4.11':'Non-text Contrast','1.4.12':'Text Spacing','1.4.13':'Content on Hover or Focus','2.1.1':'Keyboard','2.1.2':'No Keyboard Trap','2.1.4':'Character Key Shortcuts','2.2.1':'Timing Adjustable','2.2.2':'Pause, Stop, Hide','2.3.1':'Three Flashes or Below Threshold','2.4.1':'Bypass Blocks','2.4.2':'Page Titled','2.4.3':'Focus Order','2.4.4':'Link Purpose (In Context)','2.4.5':'Multiple Ways','2.4.6':'Headings & Labels','2.4.7':'Focus Visible','2.4.11':'Focus Not Obscured (Minimum)','2.5.1':'Pointer Gestures','2.5.2':'Pointer Cancellation','2.5.3':'Label in Name','2.5.4':'Motion Actuation','2.5.7':'Dragging Movements','2.5.8':'Target Size (Minimum)','3.1.1':'Language of Page','3.1.2':'Language of Parts','3.2.1':'On Focus','3.2.2':'On Input','3.2.3':'Consistent Navigation','3.2.4':'Consistent Identification','3.2.6':'Consistent Help','3.3.1':'Error Identification','3.3.2':'Labels or Instructions','3.3.3':'Error Suggestion','3.3.4':'Error Prevention (Legal, Financial, Data)','3.3.7':'Redundant Entry','3.3.8':'Accessible Authentication (Minimum)','4.1.1':'Parsing','4.1.2':'Name, Role, Value','4.1.3':'Status Messages'};
 const LEVELS={'1.1.1':'A','1.2.1':'A','1.2.2':'A','1.2.3':'A','1.2.4':'AA','1.2.5':'AA','1.3.1':'A','1.3.2':'A','1.3.3':'A','1.3.4':'AA','1.3.5':'AA','1.4.1':'A','1.4.2':'A','1.4.3':'AA','1.4.4':'AA','1.4.5':'AA','1.4.10':'AA','1.4.11':'AA','1.4.12':'AA','1.4.13':'AA','2.1.1':'A','2.1.2':'A','2.1.4':'A','2.2.1':'A','2.2.2':'A','2.3.1':'A','2.4.1':'A','2.4.2':'A','2.4.3':'A','2.4.4':'A','2.4.5':'AA','2.4.6':'AA','2.4.7':'AA','2.4.11':'AA','2.5.1':'A','2.5.2':'A','2.5.3':'A','2.5.4':'A','2.5.7':'AA','2.5.8':'AA','3.1.1':'A','3.1.2':'AA','3.2.1':'A','3.2.2':'A','3.2.3':'AA','3.2.4':'AA','3.2.6':'A','3.3.1':'A','3.3.2':'A','3.3.3':'AA','3.3.4':'AA','3.3.7':'A','3.3.8':'AA','4.1.1':'A','4.1.2':'A','4.1.3':'AA'};
 const A20=['1.1.1','1.2.1','1.2.2','1.2.3','1.3.1','1.3.2','1.3.3','1.4.1','1.4.2','2.1.1','2.1.2','2.2.1','2.2.2','2.3.1','2.4.1','2.4.2','2.4.3','2.4.4','3.1.1','3.2.1','3.2.2','3.3.1','3.3.2','4.1.1','4.1.2'];
@@ -140,69 +150,59 @@ const AA21=['1.3.4','1.3.5','1.4.10','1.4.11','1.4.12','1.4.13','4.1.3'];
 const A22=['3.2.6','3.3.7'];const AA22=['2.4.11','2.5.7','2.5.8','3.3.8'];
 const no411=a=>a.filter(x=>x!='4.1.1');
 const SETS={'2.0 A':A20,'2.0 AA':A20.concat(AA20),'2.1 A':A20.concat(A21),'2.1 AA':A20.concat(A21,AA20,AA21),'2.2 A':no411(A20).concat(A21,A22),'2.2 AA':no411(A20).concat(A21,AA20,AA21,A22,AA22)};
-
-let FILES=[],MAP={},OVR={},AGG={},openWhere=new Set(),PW=new Set(),PWM={},EXTRA=new Set();
+Object.assign(NAMES,{'1.2.6':'Sign Language (Prerecorded)','1.2.7':'Extended Audio Description (Prerecorded)','1.2.8':'Media Alternative (Prerecorded)','1.2.9':'Audio-only (Live)','1.3.6':'Identify Purpose','1.4.6':'Contrast (Enhanced)','1.4.7':'Low or No Background Audio','1.4.8':'Visual Presentation','1.4.9':'Images of Text (No Exception)','2.1.3':'Keyboard (No Exception)','2.2.3':'No Timing','2.2.4':'Interruptions','2.2.5':'Re-authenticating','2.2.6':'Timeouts','2.3.2':'Three Flashes','2.3.3':'Animation from Interactions','2.4.8':'Location','2.4.9':'Link Purpose (Link Only)','2.4.10':'Section Headings','2.4.12':'Focus Not Obscured (Enhanced)','2.4.13':'Focus Appearance','2.5.5':'Target Size (Enhanced)','2.5.6':'Concurrent Input Mechanisms','3.1.3':'Unusual Words','3.1.4':'Abbreviations','3.1.5':'Reading Level','3.1.6':'Pronunciation','3.2.5':'Change on Request','3.3.5':'Help','3.3.6':'Error Prevention (All)','3.3.9':'Accessible Authentication (Enhanced)'});
+const AAA20=['1.2.6','1.2.7','1.2.8','1.2.9','1.4.6','1.4.7','1.4.8','1.4.9','2.1.3','2.2.3','2.2.4','2.2.5','2.3.2','2.4.8','2.4.9','2.4.10','3.1.3','3.1.4','3.1.5','3.1.6','3.2.5','3.3.5','3.3.6'];
+const AAA21=['1.3.6','2.2.6','2.3.3','2.5.5','2.5.6'];
+const AAA22=['2.4.12','2.4.13','3.3.9'];
+AAA20.concat(AAA21,AAA22).forEach(s=>LEVELS[s]='AAA');
+SETS['2.0 AAA']=A20.concat(AA20,AAA20);
+SETS['2.1 AAA']=A20.concat(A21,AA20,AA21,AAA20,AAA21);
+SETS['2.2 AAA']=no411(A20).concat(A21,AA20,AA21,A22,AA22,AAA20,AAA21,AAA22);
 
 function parseCSV(t){t=t.replace(/^﻿/,'');const rows=[];let row=[],f='',q=false;
  for(let i=0;i<t.length;i++){const c=t[i];
   if(q){if(c=='"'){if(t[i+1]=='"'){f+='"';i++;}else q=false;}else f+=c;}
   else{if(c=='"')q=true;else if(c==',' ){row.push(f);f='';}else if(c=='\n'){row.push(f);rows.push(row);row=[];f='';}else if(c=='\r'){}else f+=c;}}
  if(f.length||row.length){row.push(f);rows.push(row);}return rows;}
-
-function fcol(H,names){
- for(const n of names){
-  const idx = H.findIndex(h => h.trim().toLowerCase() === n.toLowerCase());
-  if(idx >= 0) return idx;
- }
- return -1;
-}
-
+function col(H,n){return H.findIndex(h=>h.trim().toLowerCase()===n.toLowerCase());}
+function fcol(H,names){for(const n of names){const i=col(H,n);if(i>=0)return i;}return -1;}
 function normSC(v){if(!v)return[];return String(v).split(/[,;\n]+/).map(s=>{const m=s.match(/\d+\.\d+(?:\.\d+)?/);return m?m[0]:null;}).filter(Boolean);}
 
-function ingest(name,text){const rows=parseCSV(text);if(!rows.length)return;const H=rows[0];
- const ci={
-  unit:fcol(H,['Unit Type','UnitType','Type']),
-  test:fcol(H,['Test Unit','TestUnit','Page','Screen','Page Name','URL']),
-  sc:fcol(H,['Success Criteria','SuccessCriteria','SC','Checkpoint','WCAG SC']),
-  status:fcol(H,['Issue Status','Status','State']),
-  impact:fcol(H,['Impact','Severity','Priority']),
-  platform:fcol(H,['Platform','OS','Environment']),
-  id:fcol(H,['Issue ID','Issue Id','IssueID','ID','Issue Number','Issue #','Issue No','Defect ID','Bug ID','Key']),
-  ruleId:fcol(H,['Rule ID','RuleId','Rule ID/Name','Rule Name','Rule','Test Name']),
-  vpat1:fcol(H,['VPAT Text One','VPAT Text 1','VPAT Text Single']),
-  vpatM:fcol(H,['VPAT Text Multiple','VPAT Text Multi','VPAT Text Several']),
-  shortText:fcol(H,['Short Text','Rule Title','Summary','Title']),
-  desc:fcol(H,['Issue Description','Description','Issue','Issue Summary','Name'])
- };
+let FILES=[],MAP={},OVR={},AGG={},openWhere=new Set(),openFix=new Set(),openRem=new Set(),openUnion=new Set();
+let PW=new Set(),PWM={};
+let EXTRA=new Set();// manually added zero-issue pages// PW = page names marked project-wide; PWM[page][sc] = Set of real pages that issue is redistributed to
+// No persistence by design: every session starts clean so one VPAT's mappings/overrides never leak into the next report.
+function saveMap(){}
+function saveOVR(){}
+function savePW(){}
+function scCmp(a,b){const A=a.split('.').map(Number),B=b.split('.').map(Number);for(let i=0;i<3;i++){if((A[i]||0)!=(B[i]||0))return(A[i]||0)-(B[i]||0);}return 0;}
 
+function ingest(name,text){const rows=parseCSV(text);if(!rows.length)return;const H=rows[0];
+ const ci={unit:col(H,'Unit Type'),test:col(H,'Test Unit'),sc:col(H,'Success Criteria'),status:col(H,'Issue Status'),impact:col(H,'Impact'),platform:col(H,'Platform'),
+  id:fcol(H,['Issue ID','Issue Id','IssueID','ID','Issue Number','Issue #','Issue No','Defect ID','Bug ID','Key']),
+  desc:fcol(H,['Issue Description','Description','Issue','Summary','Title','Issue Summary','Test Name','Rule','Name'])};
  const out=[],seen={};for(let r=1;r<rows.length;r++){const row=rows[r];if(row.every(c=>!String(c).trim()))continue;
   const unit=(ci.unit>=0?row[ci.unit]||'':'Page').trim(),test=(ci.test>=0?row[ci.test]||'':'').trim(),scs=normSC(ci.sc>=0?row[ci.sc]:''),status=(ci.status>=0?row[ci.status]||'':'').trim(),impact=(ci.impact>=0?row[ci.impact]||'':'').trim(),platform=(ci.platform>=0?row[ci.platform]||'':'').trim();
-  let id=(ci.id>=0?row[ci.id]||'':'').trim();
-  let ruleId=(ci.ruleId>=0?row[ci.ruleId]||'':'').trim();
-  let v1=(ci.vpat1>=0?row[ci.vpat1]||'':'').trim();
-  let vM=(ci.vpatM>=0?row[ci.vpatM]||'':'').trim();
-  let st=(ci.shortText>=0?row[ci.shortText]||'':'').trim();
-  let desc=(ci.desc>=0?row[ci.desc]||'':'').trim();
-  
-  if(!id){let base='auto:'+test+'|'+scs.join(',')+'|'+impact+'|'+ruleId+'|'+desc;if(seen[base]!=null){seen[base]++;base+='#'+seen[base];}else seen[base]=0;id=base;}
-  out.push({unit,test,scs,status,impact,platform,id,ruleId,v1,vM,st,desc});}
+  let id=(ci.id>=0?row[ci.id]||'':'').trim(),desc=(ci.desc>=0?row[ci.desc]||'':'').trim();
+  if(!id){let base='auto:'+test+'|'+scs.join(',')+'|'+impact+'|'+desc;if(seen[base]!=null){seen[base]++;base+='#'+seen[base];}else seen[base]=0;id=base;}
+  out.push({unit,test,scs,status,impact,platform,id,desc});}
  FILES.push({name,rows:out});}
 
 function aggregate(){const inc=document.getElementById('incClosed').checked;
- const allPages=new Set(),pages=new Set(),comps=new Set(),sc_pages={},sc_pageblk={},comp_sc={},comp_crit={},comp_blk={},pw_issues={},sc_raw_issues={};
+ const allPages=new Set(),pages=new Set(),comps=new Set(),sc_pages={},sc_pageblk={},comp_sc={},comp_crit={},comp_blk={},pw_issues={};
  let nIss=0,nExcl=0;
  FILES.forEach(f=>f.rows.forEach(r=>{if(!r.test||!r.scs.length)return;
+  // A test unit that appears in the CSV was audited and stays in scope even if all its issues are Closed —
+  // it is then a PASSING page. The status filter applies to the ISSUES only, never to the page/component universe.
+  // VPAT rule: Open and Fixed issues both count as failures; only Closed issues are excluded (unless included via the toggle).
   const closed=/^closed$/i.test(r.status)&&!inc;
   if(closed)nExcl++;else nIss++;
   const blk=/blocker/i.test(r.impact||''),crit=/critical/i.test(r.impact||'');
   if(/component/i.test(r.unit)){comps.add(r.test);(comp_sc[r.test]=comp_sc[r.test]||new Set());(comp_crit[r.test]=comp_crit[r.test]||new Set());(comp_blk[r.test]=comp_blk[r.test]||new Set());
-   if(closed)return;
-   r.scs.forEach(s=>{comp_sc[r.test].add(s);if(crit)comp_crit[r.test].add(s);if(blk)comp_blk[r.test].add(s);
-     (sc_raw_issues[s]=sc_raw_issues[s]||[]).push({comp:r.test,ruleId:r.ruleId,v1:r.v1,vM:r.vM,st:r.st,desc:r.desc});});}
+   if(closed)return;r.scs.forEach(s=>{comp_sc[r.test].add(s);if(crit)comp_crit[r.test].add(s);if(blk)comp_blk[r.test].add(s);});}
   else{allPages.add(r.test);
-   if(PW.has(r.test)){if(closed)return;(pw_issues[r.test]=pw_issues[r.test]||[]).push({id:r.id,ruleId:r.ruleId,v1:r.v1,vM:r.vM,st:r.st,desc:r.desc,scs:r.scs.slice(),blk,crit,impact:r.impact,status:r.status});}
-   else{pages.add(r.test);if(closed)return;r.scs.forEach(s=>{(sc_pages[s]=sc_pages[s]||new Set()).add(r.test);if(blk)(sc_pageblk[s]=sc_pageblk[s]||new Set()).add(r.test);
-     (sc_raw_issues[s]=sc_raw_issues[s]||[]).push({page:r.test,ruleId:r.ruleId,v1:r.v1,vM:r.vM,st:r.st,desc:r.desc});});}}}));
+   if(PW.has(r.test)){if(closed)return;(pw_issues[r.test]=pw_issues[r.test]||[]).push({id:r.id,desc:r.desc,scs:r.scs.slice(),blk,crit,impact:r.impact,status:r.status});}
+   else{pages.add(r.test);if(closed)return;r.scs.forEach(s=>{(sc_pages[s]=sc_pages[s]||new Set()).add(r.test);if(blk)(sc_pageblk[s]=sc_pageblk[s]||new Set()).add(r.test);});}}}));
  const listEl=document.getElementById('pageList'),numEl=document.getElementById('totPages');
  const listPages=(listEl?listEl.value:'').split(/[\n,]+/).map(s=>s.trim()).filter(Boolean).filter(p=>!PW.has(p));
  const manual=[...EXTRA].filter(p=>!PW.has(p));
@@ -210,9 +210,9 @@ function aggregate(){const inc=document.getElementById('incClosed').checked;
  let universe,total;
  if(listPages.length||manual.length){const u=new Set(listPages);manual.forEach(p=>u.add(p));pages.forEach(p=>u.add(p));universe=[...u];total=Math.max(num>0?num:0,u.size);}
  else{universe=[...pages];total=(num>0?Math.max(num,pages.size):pages.size);}
- AGG={pages:universe.sort(),csvPages:[...pages],total,known:universe.length,nIss,nExcl,allPages:[...allPages].sort(scCmp),pwPages:[...PW].filter(p=>allPages.has(p)).sort(scCmp),pw_issues,base_pages:sc_pages,base_pageblk:sc_pageblk,sc_pages:{},sc_pageblk:{},sc_redist:{},comps:[...comps].sort(),comp_sc,comp_crit,comp_blk,sc_raw_issues};
+ AGG={pages:universe.sort(),csvPages:[...pages],total,known:universe.length,nIss,nExcl,allPages:[...allPages].sort(scCmp),pwPages:[...PW].filter(p=>allPages.has(p)).sort(scCmp),pw_issues,base_pages:sc_pages,base_pageblk:sc_pageblk,sc_pages:{},sc_pageblk:{},sc_redist:{},comps:[...comps].sort(),comp_sc,comp_crit,comp_blk};
  redistribute();}
-
+// Redistribute project-wide issues onto the real pages they reproduce on; they count as direct page failures (carry blocker severity).
 function redistribute(){const base=AGG.base_pages||{},baseB=AGG.base_pageblk||{};const sc_pages={},sc_pageblk={},sc_redist={};
  Object.keys(base).forEach(s=>sc_pages[s]=new Set(base[s]));Object.keys(baseB).forEach(s=>sc_pageblk[s]=new Set(baseB[s]));
  const uni=new Set(AGG.pages||[]);
@@ -224,101 +224,70 @@ function universe(){return SETS[document.getElementById('target').value]||[];}
 function allSC(){const u=new Set(universe());if(AGG.sc_pages)Object.keys(AGG.sc_pages).forEach(s=>u.add(s));if(AGG.comp_sc)Object.values(AGG.comp_sc).forEach(set=>set.forEach(s=>u.add(s)));
  return [...u].sort((a,b)=>{const A=a.split('.').map(Number),B=b.split('.').map(Number);for(let i=0;i<3;i++){if((A[i]||0)!=(B[i]||0))return (A[i]||0)-(B[i]||0);}return 0;});}
 
-function getRuleLanguage(ruleId, v1CSV, vMCSV, stCSV, descCSV){
- const rid = (ruleId || '').trim();
- let v1 = v1CSV, vM = vMCSV, st = stCSV;
- let isStandard = false;
+function renderExtra(){const w=document.getElementById('extraChips'),c=document.getElementById('extraCnt');if(!w)return;
+ w.innerHTML='';c.textContent=EXTRA.size+' added';
+ [...EXTRA].sort().forEach(p=>{const s=document.createElement('span');s.className='chip';s.style.cssText='display:inline-flex;align-items:center;gap:6px;font-size:13px';
+  s.appendChild(document.createTextNode(p));
+  const x=document.createElement('button');x.type='button';x.textContent='\u00d7';x.title='Remove '+p;x.setAttribute('aria-label','Remove '+p);
+  x.style.cssText='border:0;background:none;cursor:pointer;font-size:14px;line-height:1;color:var(--dns);padding:0';
+  x.onclick=()=>{EXTRA.delete(p);refresh();};s.appendChild(x);w.appendChild(s);});}
+function addManualPage(){const el=document.getElementById('addPageName');const v=(el.value||'').trim();if(!v)return;
+ if(PW.has(v)){alert('"'+v+'" is marked as a project-wide page \u2014 it cannot also be a real page.');return;}
+ EXTRA.add(v);el.value='';el.focus();refresh();}
+function refresh(){aggregate();renderFiles();renderExtra();renderPW();renderComps();compute();}
+function renderFiles(){const w=document.getElementById('files');w.innerHTML='';FILES.forEach((f,i)=>{const d=document.createElement('div');d.className='file';
+ d.innerHTML='<span class="nm">'+f.name+'</span><span class="meta">'+f.rows.length+' issues</span><button class="rm" data-i="'+i+'">&times;</button>';
+ d.querySelector('.rm').onclick=()=>{FILES.splice(i,1);refresh();};w.appendChild(d);});}
+function enc(s){return btoa(unescape(encodeURIComponent(s))).replace(/=/g,'');}
+function renderComps(){const wrap=document.getElementById('comps');wrap.innerHTML='';
+ if(!AGG.comps||!AGG.comps.length){wrap.innerHTML='<p class="empty">No components found yet.</p>';return;}
+ // Only components with at least one in-scope (non-excluded) issue need mapping; closed-only components have nothing to map.
+ const active=AGG.comps.filter(c=>(AGG.comp_sc[c]||new Set()).size>0);
+ const skipped=AGG.comps.length-active.length;
+ if(skipped>0){const n=document.createElement('p');n.className='note';n.textContent=skipped+' component'+(skipped!=1?'s':'')+' hidden — all their issues are Closed (excluded), so there is nothing to map.';wrap.appendChild(n);}
+ if(!active.length){const e=document.createElement('p');e.className='empty';e.textContent='No components with in-scope issues.';wrap.appendChild(e);return;}
+ const K=AGG.pages.length;
+ active.forEach(c=>{if(!MAP[c])MAP[c]=new Set();const scs=[...(AGG.comp_sc[c]||[])].sort();const isG=K>0&&MAP[c].size===K;
+  const card=document.createElement('div');card.className='comp';
+  card.innerHTML='<div class="comp-head"><span class="comp-name">'+c+'</span><span class="chips">'+scs.map(s=>'<span class="chip">'+s+'</span>').join('')+'</span><span class="cnt" id="cnt-'+enc(c)+'">'+MAP[c].size+' / '+K+' pages</span></div><div class="btns"><button class="g '+(isG?'on':'')+'">Global (all '+K+')</button><button class="clr">Clear</button></div><input class="search" placeholder="Filter pages…"><div class="pglist"></div>';
+  wrap.appendChild(card);
+  card.querySelector('.g').onclick=()=>{MAP[c]=(MAP[c].size===K)?new Set():new Set(AGG.pages);saveMap();renderComps();compute();};
+  card.querySelector('.clr').onclick=()=>{MAP[c]=new Set();saveMap();renderComps();compute();};
+  const box=card.querySelector('.pglist');const draw=fl=>{box.innerHTML='';AGG.pages.filter(p=>p.toLowerCase().includes(fl)).forEach(p=>{const l=document.createElement('label');l.innerHTML='<input type="checkbox" '+(MAP[c].has(p)?'checked':'')+'> '+p;l.querySelector('input').onchange=e=>{e.target.checked?MAP[c].add(p):MAP[c].delete(p);saveMap();document.getElementById('cnt-'+enc(c)).textContent=MAP[c].size+' / '+K+' pages';compute();};box.appendChild(l);});};
+  draw('');card.querySelector('.search').oninput=e=>draw(e.target.value.toLowerCase());});}
 
- if(rid && BULLET_LANG[rid]){
-  if(!v1) v1 = BULLET_LANG[rid].v1;
-  if(!vM) vM = BULLET_LANG[rid].vM;
-  if(!st) st = BULLET_LANG[rid].st;
-  isStandard = true;
- } else if(v1 || vM) {
-  isStandard = true;
- }
-
- return { 
-  ruleKey: rid || st || descCSV || 'Accessibility Requirement', 
-  v1, vM, st, desc: descCSV, isStandard 
- };
-}
-
-function buildDetailedRemarks(sc){
- const x=rowFor(sc);
- if(x.verdict==='sup') return '<p>' + (ACR_IDL[sc]?.Supports || 'The product meets the requirements of this criterion.') + '</p>';
- if(x.verdict==='na') return '<p>' + (ACR_IDL[sc]?.['Not Applicable'] || 'Content required for this criterion is not present in the application.') + '</p>';
- if(x.verdict==='ne') return '<p>This criterion was not evaluated.</p>';
-
- const raw = AGG.sc_raw_issues&&AGG.sc_raw_issues[sc] || [];
- const uniP = new Set(AGG.pages||[]);
- const ruleGroupMap = {};
-
- function addIssue(ruleId, v1, vM, st, desc, compName, pageName){
-  const info = getRuleLanguage(ruleId, v1, vM, st, desc);
-  const key = info.ruleKey;
-  if(!ruleGroupMap[key]) ruleGroupMap[key] = { info, compSet: new Set(), pageSet: new Set() };
-  if(compName) ruleGroupMap[key].compSet.add(compName);
-  if(pageName && uniP.has(pageName)) ruleGroupMap[key].pageSet.add(pageName);
- }
-
- raw.forEach(item => {
-  if(item.comp) addIssue(item.ruleId, item.v1, item.vM, item.st, item.desc, item.comp, null);
-  else if(item.page) addIssue(item.ruleId, item.v1, item.vM, item.st, item.desc, null, item.page);
- });
-
- Object.keys(AGG.pw_issues||{}).forEach(pw=>{
-  (AGG.pw_issues[pw]||[]).forEach(iss=>{
-   if(iss.scs.includes(sc)){
-    const mapped = (PWM[pw]&&PWM[pw][iss.id]) ? [...PWM[pw][iss.id]] : [];
-    mapped.forEach(p => addIssue(iss.ruleId, iss.v1, iss.vM, iss.st, iss.desc, null, p));
-   }
-  });
- });
-
- const keys = Object.keys(ruleGroupMap);
- const baseIntro = x.verdict==='dns' ? (ACR_IDL[sc]?.['Does not Support'] || 'Most, if not all, functionality does not meet this criterion.') : (ACR_IDL[sc]?.['Partially Supports'] || 'Most information, structure, and relationships conveyed through presentation meet this criterion.');
- const introText = baseIntro + (keys.length > 1 ? ' The following issues exist:' : ' The following exception exists:');
-
- let html = '<p>' + esc(introText) + '</p>';
- if(keys.length > 0){
-  html += '<ul>';
-  keys.forEach(k => {
-   const group = ruleGroupMap[k];
-   const cList = [...group.compSet].sort();
-   const pList = [...group.pageSet].sort();
-   const totalAffected = cList.length + pList.length;
-   const isSingle = totalAffected <= 1;
-   const info = group.info;
-   
-   let vpatText = isSingle ? (info.v1 || info.vM || info.st) : (info.vM || info.v1 || info.st);
-   let needsHighlight = false;
-
-   if(!vpatText) {
-    vpatText = info.desc || 'An issue was found.';
-    needsHighlight = true;
-   }
-
-   let whereStr = '';
-   if(cList.length > 0 && pList.length > 0) {
-    whereStr = ' This occurs in the following component' + (cList.length > 1 ? 's: ' : ': ') + cList.join('; ') + 
-               ' and following page' + (pList.length > 1 ? 's: ' : ': ') + pList.join('; ') + '.';
-   } else if(cList.length > 0) {
-    whereStr = ' This occurs in the following component' + (cList.length > 1 ? 's: ' : ': ') + cList.join('; ') + '.';
-   } else if(pList.length > 0) {
-    whereStr = ' This occurs on the following page' + (pList.length > 1 ? 's: ' : ': ') + pList.join('; ') + '.';
-   }
-
-   if(needsHighlight) {
-    html += '<li><span class="vpat-highlight" title="Missing standard VPAT text for this Rule ID. Please edit to human-centered VPAT text.">⚠️ <b>[Action Required: Change to Human-Centered VPAT Text]</b> ' + esc(vpatText) + '</span>' + esc(whereStr) + '</li>';
-   } else {
-    html += '<li>' + esc(vpatText) + esc(whereStr) + '</li>';
-   }
-  });
-  html += '</ul>';
- }
- return html;
-}
+function renderPW(){const wrap=document.getElementById('pwpages');wrap.innerHTML='';
+ const all=AGG.allPages||[];
+ if(!all.length){wrap.innerHTML='<p class="empty">Upload a CSV to choose project-wide pages.</p>';return;}
+ // selector: mark which uploaded pages are project-wide containers
+ const sel=document.createElement('div');sel.className='comp';
+ sel.innerHTML='<div class="comp-head"><span class="comp-name">Mark project-wide pages</span><span class="cnt">'+(AGG.pwPages||[]).length+' selected · removed from page count</span></div><div class="pglist" id="pwsel"></div>';
+ wrap.appendChild(sel);const sb=sel.querySelector('#pwsel');
+ all.forEach(p=>{const l=document.createElement('label');l.innerHTML='<input type="checkbox" '+(PW.has(p)?'checked':'')+'> '+esc(p);
+  l.querySelector('input').onchange=e=>{e.target.checked?PW.add(p):PW.delete(p);savePW();refresh();};sb.appendChild(l);});
+ // per project-wide page: list each individual issue (by ID) and map it to the real pages it reproduces on
+ const real=AGG.pages||[];const K=real.length;
+ (AGG.pwPages||[]).forEach(pw=>{const issues=AGG.pw_issues[pw]||[];
+  // A project-wide page whose issues are all Closed (excluded) has nothing to map — it is still removed from the page count above.
+  if(!issues.length){const n=document.createElement('p');n.className='note';n.textContent='↺ '+pw+': no in-scope issues (all Closed/excluded) — nothing to map.';wrap.appendChild(n);return;}
+  const card=document.createElement('div');card.className='comp';
+  const unmapped=issues.filter(iss=>!(PWM[pw]&&PWM[pw][iss.id]&&PWM[pw][iss.id].size)).length;
+  card.innerHTML='<div class="comp-head"><span class="comp-name">↺ '+esc(pw)+'</span><span class="chips"><span class="chip">project-wide</span></span><span class="cnt">'+issues.length+' issue'+(issues.length!=1?'s':'')+(unmapped?' · '+unmapped+' unmapped':'')+'</span></div><p class="note" style="margin:0">Each row below is one issue from this page. Tick the real pages where it reproduces, or use <b>All pages</b>. An issue applies all of its success criteria to every page you map it to. Mapped pages count as direct failures; unmapped issues are not counted.</p>';
+  wrap.appendChild(card);
+  if(!real.length){const w=document.createElement('p');w.className='note';w.style.color='var(--dns)';w.textContent='No real pages available to map to — add other pages or a full page list first.';card.appendChild(w);return;}
+  issues.forEach((iss,idx)=>{if(!PWM[pw])PWM[pw]={};if(!PWM[pw][iss.id])PWM[pw][iss.id]=new Set();
+   const cnt=PWM[pw][iss.id].size;const isG=K>0&&cnt===K;const id=enc(pw+'|'+iss.id+'|'+idx);
+   const sev=iss.blk?'⛔ blocker':iss.crit?'⚠ critical':(iss.impact||'').trim();
+   const sevStyle=(iss.blk||iss.crit)?' style="background:var(--dnsbg);color:var(--dns)"':'';
+   const scChips=iss.scs.map(s=>'<span class="chip" title="'+esc(NAMES[s]||'')+'">'+s+'</span>').join('');
+   const idLabel=String(iss.id).startsWith('auto:')?'auto-id':esc(iss.id);
+   const sub=document.createElement('div');sub.style.cssText='border-top:1px solid var(--bd);padding-top:8px;margin-top:8px';
+   sub.innerHTML='<div class="comp-head" style="margin-bottom:6px"><span class="comp-name" style="font-size:13px">#'+idLabel+'</span>'+(sev?' <span class="chip"'+sevStyle+'>'+esc(sev)+'</span>':'')+' <span class="chips">'+scChips+'</span><span class="cnt" id="pwc-'+id+'">'+cnt+' / '+K+' pages</span></div>'+(iss.desc?'<p class="note" style="margin:0 0 6px">'+esc(iss.desc)+'</p>':'')+'<div class="btns"><button class="g '+(isG?'on':'')+'">All pages ('+K+')</button><button class="clr">Clear</button></div><input class="search" placeholder="Filter pages…"><div class="pglist"></div>';
+   card.appendChild(sub);
+   sub.querySelector('.g').onclick=()=>{PWM[pw][iss.id]=(PWM[pw][iss.id].size===K)?new Set():new Set(real);savePW();refresh();};
+   sub.querySelector('.clr').onclick=()=>{PWM[pw][iss.id]=new Set();savePW();refresh();};
+   const box=sub.querySelector('.pglist');const draw=fl=>{box.innerHTML='';real.filter(p=>p.toLowerCase().includes(fl)).forEach(p=>{const l=document.createElement('label');l.innerHTML='<input type="checkbox" '+(PWM[pw][iss.id].has(p)?'checked':'')+'> '+esc(p);l.querySelector('input').onchange=e=>{e.target.checked?PWM[pw][iss.id].add(p):PWM[pw][iss.id].delete(p);savePW();document.getElementById('pwc-'+id).textContent=PWM[pw][iss.id].size+' / '+K+' pages';redistribute();compute();};box.appendChild(l);});};
+   draw('');sub.querySelector('.search').oninput=e=>draw(e.target.value.toLowerCase());});});}
 
 function rowFor(sc){const direct=new Set(AGG.sc_pages&&AGG.sc_pages[sc]||[]);
  const comps=(AGG.comps||[]).filter(c=>(AGG.comp_sc[c]||new Set()).has(sc));
@@ -327,63 +296,118 @@ function rowFor(sc){const direct=new Set(AGG.sc_pages&&AGG.sc_pages[sc]||[]);
  const pageBlk=!!(AGG.sc_pageblk&&AGG.sc_pageblk[sc]&&AGG.sc_pageblk[sc].size);
  const blockerAnywhere=pageBlk||blk.length>0;
  const uniP=new Set(AGG.pages||[]);
- const cover=new Set(direct);
+ const cover=new Set(direct);// coverage = union of directly-failing pages and EVERY failing component's mapped pages (no criticality); only pages in the current in-scope universe count, so coverage can never exceed 100%
  comps.forEach(c=>{const cp=MAP[c]||new Set();cp.forEach(p=>{if(uniP.has(p))cover.add(p);});});
  const coverN=cover.size;
  const hasFind=direct.size>0||comps.length>0;
+ const pctDP=AGG.total?Math.round(direct.size/AGG.total*100):0;
  const pctE=AGG.total?Math.min(100,Math.round(coverN/AGG.total*100)):0;
- const over50=!!AGG.total&&coverN*2>AGG.total;
+ const over50=!!AGG.total&&coverN*2>AGG.total;// exact rule: union strictly MORE than 50% of in-scope pages (never a rounded percent)
  const ov=OVR[sc],isAAA=LEVELS[sc]==='AAA';
  let v;if(ov==='na')v='na';else if(ov==='sup')v='sup';else if(ov==='ne'&&isAAA)v='ne';else if(!hasFind)v=isAAA?'ne':'sup';else if(blockerAnywhere||over50)v='dns';else v='part';
- const reason=[];if(blockerAnywhere)reason.push('blocker present'+(blk.length?' in '+blk.join(', '):'')+(pageBlk?(blk.length?' + page(s)':' on page(s)'):''));if(over50)reason.push('over half of in-scope pages fail ('+coverN+'/'+AGG.total+' = '+pctE+'%)');
- return{direct:direct.size,cover:coverN,pctE,comps,crit,blk,pageBlk,blockerAnywhere,verdict:v,reason:reason.join('; ')};}
-
-function compute(){const tb=document.getElementById('rows');const scs=allSC();
- if(!scs.length){tb.innerHTML='<tr><td colspan="9" class="empty">Choose a target and upload a CSV.</td></tr>';return;}
- tb.innerHTML='';const cnt={sup:0,part:0,dns:0,na:0,ne:0};
- scs.forEach(sc=>{const x=rowFor(sc);cnt[x.verdict]=(cnt[x.verdict]||0)+1;const col=x.verdict=='dns'?'var(--dns)':x.verdict=='part'?'var(--part)':x.verdict=='sup'?'var(--ok)':'var(--na)';
-  const reason=x.verdict=='dns'&&x.reason?'<div class="viacomp" style="color:var(--dns)">'+esc(x.reason)+'</div>':'';
-  const tr=document.createElement('tr');
-  tr.innerHTML='<td><b>'+sc+'</b><span class="lvl">'+(LEVELS[sc]||'')+'</span></td><td>'+(NAMES[sc]||'<i>Unknown SC</i>')+reason+'</td><td>'+x.direct+'/'+(AGG.total||0)+'</td><td>'+x.cover+'/'+(AGG.total||0)+'</td><td>'+x.pctE+'%<div class="bar"><i style="width:'+x.pctE+'%;background:'+col+'"></i><span class="thr"></span></div></td><td><span class="pill '+x.verdict+'">'+LABEL[x.verdict]+'</span></td><td class="rem-cell">'+buildDetailedRemarks(sc)+'</td><td class="failed">'+failedOn(sc)+'</td><td style="text-align:center">'+ovrCell(sc)+'</td>';
-  tr.querySelector('.ovr').onchange=e=>{const val=e.target.value;if(val)OVR[sc]=val;else delete OVR[sc];compute();};
-  tb.appendChild(tr);});
- document.getElementById('s-pages').textContent=AGG.total||0;
- document.getElementById('s-comp').textContent=(AGG.comps||[]).length;
- document.getElementById('s-iss').textContent=AGG.nIss||0;
- document.getElementById('s-sup').textContent=cnt.sup;document.getElementById('s-part').textContent=cnt.part;
- document.getElementById('s-dns').textContent=cnt.dns;document.getElementById('s-na').textContent=cnt.na;document.getElementById('s-ne').textContent=cnt.ne;}
-
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+ const reason=[];if(blockerAnywhere)reason.push('blocker present'+(blk.length?' in '+blk.join(', '):'')+(pageBlk?(blk.length?' + page(s)':' on page(s)'):''));if(over50)reason.push('over half of in-scope pages fail (pages ∪ components = '+coverN+'/'+AGG.total+' = '+pctE+'%)');
+ return{direct:direct.size,cover:coverN,pctDP,pctE,comps,crit,blk,pageBlk,blockerAnywhere,verdict:v,reason:reason.join('; ')};}
+const LABEL={dns:'Does Not Support',part:'Partially Supports',sup:'Supports',na:'Not Applicable',ne:'Not Evaluated'};
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function failedOn(sc){const comps=(AGG.comps||[]).filter(c=>(AGG.comp_sc[c]||new Set()).has(sc));const pages=[...(AGG.sc_pages&&AGG.sc_pages[sc]||[])].sort();
  const uniP=new Set(AGG.pages||[]);
  let h=comps.map(c=>{const bl=(AGG.comp_blk&&AGG.comp_blk[c]||new Set()).has(sc),cr=(AGG.comp_crit&&AGG.comp_crit[c]||new Set()).has(sc);
   const cls=(bl||cr)?' crit':'',tag=bl?'⛔ ':cr?'⚠ ':'',suf=bl?' (blocker)':cr?' (critical)':'';
   const cp=[...(MAP[c]||new Set())].filter(p=>uniP.has(p));const un=!cp.length;
-  return '<span class="cchip'+cls+'"'+(un?' title="Not mapped to any pages"':' title="All '+cp.length+' mapped page(s)"')+'>'+tag+esc(c)+suf+(un?' · unmapped':' · '+cp.length+' pg')+'</span>';}).join('');
+  return '<span class="cchip'+cls+'"'+(un?' title="Not mapped to any pages — contributes 0 pages to Coverage %, which may be undercounted. Map it in section 2."':' title="All '+cp.length+' mapped page(s) count toward Coverage %"')+'>'+tag+esc(c)+suf+(un?' · unmapped':' · '+cp.length+' pg')+'</span>';}).join('');
  if(pages.length){const open=openWhere.has(sc);const pb=AGG.sc_pageblk&&AGG.sc_pageblk[sc]&&AGG.sc_pageblk[sc].size;
   h+='<span class="tog" data-w="'+sc+'">'+(open?'▾':'▸')+' '+pages.length+' direct page'+(pages.length>1?'s':'')+'</span>';
   if(pb)h+=' <span class="cchip crit">⛔ blocker on '+pb+' page'+(pb>1?'s':'')+'</span>';
   if(open)h+='<div class="plist">'+pages.map(esc).join(', ')+'</div>';}
- return h||'<span style="color:var(--mut)">–</span>';}
-
+ // live coverage-union viewer: every page in the union, with why it is there (direct and/or via which component)
+ const srcs={};pages.forEach(p=>{(srcs[p]=srcs[p]||[]).push('direct');});
+ comps.forEach(c=>{[...(MAP[c]||new Set())].filter(p=>uniP.has(p)).forEach(p=>{(srcs[p]=srcs[p]||[]).push('via '+c);});});
+ const upages=Object.keys(srcs).sort();
+ if(upages.length&&comps.length){const openU=openUnion.has(sc);
+  h+=' <span class="tog" data-u="'+sc+'">'+(openU?'▾':'▸')+' coverage union: '+upages.length+' page'+(upages.length>1?'s':'')+'</span>';
+  if(openU)h+='<div class="plist">'+upages.map(p=>esc(p)+' — '+srcs[p].map(esc).join(' + ')).join('<br>')+'</div>';}
+ const rd=AGG.sc_redist&&AGG.sc_redist[sc];
+ if(rd&&rd.size)h+=' <span class="cchip" title="Pages mapped from a project-wide page">↺ '+rd.size+' via project-wide</span>';
+ if(!comps.length&&!pages.length)h='<span style="color:var(--mut)">–</span>';
+ return h;}
+function threshold(T){return Math.floor(T/2);}// largest union at or below exactly 50% (Does Not Support fires only when the union is MORE than half)
+function fixPlan(sc){const T=AGG.total;const D=[...(AGG.sc_pages&&AGG.sc_pages[sc]||[])];
+ const target=threshold(T);
+ const comps=(AGG.comps||[]).filter(c=>(AGG.comp_sc[c]||new Set()).has(sc));
+ const blk=comps.filter(c=>(AGG.comp_blk&&AGG.comp_blk[c]||new Set()).has(sc));
+ const pageBlk=AGG.sc_pageblk&&AGG.sc_pageblk[sc]?[...AGG.sc_pageblk[sc]]:[];
+ const uniP=new Set(AGG.pages||[]);const cover=new Set(D);comps.forEach(c=>{(MAP[c]||new Set()).forEach(p=>{if(uniP.has(p))cover.add(p);});});
+ const coverN=cover.size,pctE=T?Math.round(coverN/T*100):0,over50=!!T&&coverN*2>T;
+ const blocker=blk.length>0||pageBlk.length>0;
+ const why=[];if(blocker)why.push('a <b>blocker</b> issue is present (a blocker is an automatic Does Not Support at any coverage)');if(over50)why.push('the union of directly-failing pages and failing components\u2019 mapped pages covers <b>'+coverN+'/'+T+' = '+pctE+'%</b> of in-scope pages (over 50%)');
+ let h='<div class="plan"><b>Fix plan — '+sc+' '+esc(NAMES[sc]||'')+'</b><br>This criterion is <b>Does Not Support</b> because '+why.join(' <b>and</b> ')+'.';
+ let step=1;
+ if(blocker){const src=[];if(blk.length)src.push('component(s) <b>'+blk.map(esc).join(', ')+'</b>');if(pageBlk.length)src.push('<b>'+pageBlk.length+'</b> page-level finding(s)');
+  h+='<br><br><b>Step '+(step++)+' — clear every blocker (mandatory):</b> fix the blocker '+sc+' issue(s) in '+src.join(' and ')+'. A single remaining blocker keeps this at Does Not Support regardless of coverage.';
+  if(pageBlk.length)h+='<div class="plist">'+pageBlk.map(esc).join(', ')+'</div>';}
+ if(over50){const need=coverN-target;
+  h+='<br><br><b>Step '+(step++)+' — bring the coverage union to '+target+'/'+T+' (≤50%):</b> at least <b>'+need+'</b> page(s) must leave the union of <b>'+coverN+'</b> failing page(s). Two levers:';
+  const mapped=comps.filter(c=>(MAP[c]||new Set()).size);
+  if(mapped.length){const cl=mapped.map(c=>{const cp=[...MAP[c]];const only=cp.filter(p=>!D.includes(p)).length;return '<b>'+esc(c)+'</b> ('+cp.length+' mapped page'+(cp.length!=1?'s':'')+', '+only+' failing only via this component)';});
+   h+='<br>\u2022 <b>Fix a shared component once</b> \u2014 its entire mapped-page set leaves the union: '+cl.join('; ')+'.';}
+  if(D.length)h+='<br>\u2022 <b>Fix direct page failures</b> on these '+D.length+' page(s):<div class="plist">'+D.map(esc).join(', ')+'</div>';}
+ const unm=comps.filter(c=>!(MAP[c]&&MAP[c].size));
+ if(unm.length)h+='<br><span style="color:var(--dns)">Warning: component(s) '+unm.map(esc).join(', ')+' are not mapped to any pages, so they contribute 0 pages to Coverage %. Map them in section 2 before trusting this plan \u2014 the true union may be larger.</span>';
+ h+='<br><br>Clearing the step(s) above moves '+sc+' out of <b>Does Not Support</b>.';
+ return h+'</div>';}
+function genRemarks(sc){const x=rowFor(sc);if(x.verdict!=='part'&&x.verdict!=='dns')return '';
+ const parts=[x.verdict==='dns'?'The majority of product functionality does not meet this criterion.':'Some product functionality does not meet this criterion.'];
+ if(x.comps.length)parts.push('Affected component(s): '+x.comps.map(c=>c+(x.blk.includes(c)?' (blocker)':x.crit.includes(c)?' (critical)':'')).join(', ')+'.');
+ const pages=[...(AGG.sc_pages&&AGG.sc_pages[sc]||[])];
+ if(pages.length)parts.push('Affected page(s) ('+pages.length+' of '+(AGG.total||0)+'): '+pages.join(', ')+'.');
+ if(x.pageBlk)parts.push('Includes blocker-level page issue(s).');
+ const rd=AGG.sc_redist&&AGG.sc_redist[sc];
+ if(rd&&rd.size)parts.push('Includes '+rd.size+' page(s) carried over from a project-wide finding.');
+ parts.push('Coverage (union of directly-failing pages and failing components\u2019 mapped pages): '+x.cover+'/'+(AGG.total||0)+' ('+x.pctE+'%).');
+ return parts.join(' ');}
 function ovrCell(sc){const isAAA=LEVELS[sc]==='AAA',cur=OVR[sc]||'';
  let o='<option value="">Auto</option><option value="na"'+(cur==='na'?' selected':'')+'>Not Applicable</option>';
  if(isAAA)o+='<option value="ne"'+(cur==='ne'?' selected':'')+'>Not Evaluated</option><option value="sup"'+(cur==='sup'?' selected':'')+'>Supports</option>';
  return '<select class="ovr" data-sc="'+sc+'">'+o+'</select>';}
-
+function compute(){const tb=document.getElementById('rows');const scs=allSC();
+ if(!scs.length){tb.innerHTML='<tr><td colspan="7" class="empty">Choose a target and upload a CSV.</td></tr>';['pages','comp','sup','part','dns','na','ne'].forEach(k=>document.getElementById('s-'+k).textContent=0);return;}
+ tb.innerHTML='';const cnt={sup:0,part:0,dns:0,na:0,ne:0};
+ scs.forEach(sc=>{const x=rowFor(sc);cnt[x.verdict]=(cnt[x.verdict]||0)+1;const col=x.verdict=='dns'?'var(--dns)':x.verdict=='part'?'var(--part)':x.verdict=='sup'?'var(--ok)':'var(--na)';
+  const planBtn=x.verdict=='dns'?'<button class="planbtn" data-f="'+sc+'">'+(openFix.has(sc)?'Hide fix plan':'Plan fix')+'</button>':'';
+  const remBtn=(x.verdict=='dns'||x.verdict=='part')?'<button class="planbtn" data-r="'+sc+'">'+(openRem.has(sc)?'Hide remarks':'Remarks')+'</button>':'';
+  const btns=(planBtn||remBtn)?'<br>'+planBtn+(planBtn&&remBtn?' ':'')+remBtn:'';
+  const reason=x.verdict=='dns'&&x.reason?'<div class="viacomp" style="color:var(--dns)">'+esc(x.reason)+'</div>':'';
+  const tr=document.createElement('tr');
+  tr.innerHTML='<td><b>'+sc+'</b><span class="lvl">'+(LEVELS[sc]||'')+'</span></td><td>'+(NAMES[sc]||'<i>Unknown SC</i>')+reason+'</td><td>'+x.direct+'/'+(AGG.total||0)+'</td><td>'+x.pctE+'%<div class="bar"><i style="width:'+x.pctE+'%;background:'+col+'"></i><span class="thr"></span></div></td><td><span class="pill '+x.verdict+'">'+LABEL[x.verdict]+'</span>'+btns+'</td><td class="failed">'+failedOn(sc)+'</td><td style="text-align:center">'+ovrCell(sc)+'</td>';
+  tr.querySelector('.ovr').onchange=e=>{const val=e.target.value;if(val)OVR[sc]=val;else delete OVR[sc];saveOVR();compute();};
+  const tg=tr.querySelector('[data-w]');if(tg)tg.onclick=()=>{openWhere.has(sc)?openWhere.delete(sc):openWhere.add(sc);compute();};
+  const tu=tr.querySelector('[data-u]');if(tu)tu.onclick=()=>{openUnion.has(sc)?openUnion.delete(sc):openUnion.add(sc);compute();};
+  const pb=tr.querySelector('[data-f]');if(pb)pb.onclick=()=>{openFix.has(sc)?openFix.delete(sc):openFix.add(sc);compute();};
+  const rb=tr.querySelector('[data-r]');if(rb)rb.onclick=()=>{openRem.has(sc)?openRem.delete(sc):openRem.add(sc);compute();};
+  tb.appendChild(tr);
+  if(openFix.has(sc)&&x.verdict=='dns'){const dr=document.createElement('tr');dr.innerHTML='<td colspan="7">'+fixPlan(sc)+'</td>';tb.appendChild(dr);}
+  if(openRem.has(sc)&&(x.verdict=='dns'||x.verdict=='part')){const rr=document.createElement('tr');rr.innerHTML='<td colspan="7"><div class="rembox"><b>Remarks &amp; Explanations (draft) — '+sc+' '+esc(NAMES[sc]||'')+'</b><textarea readonly>'+esc(genRemarks(sc))+'</textarea><div class="hint">ITI requires remarks for Partially Supports / Does Not Support. Edit this draft before pasting into your ACR.</div></div></td>';tb.appendChild(rr);}});
+ document.getElementById('s-pages').textContent=AGG.total||0;
+ document.getElementById('s-comp').textContent=(AGG.comps||[]).length;
+ const isEl=document.getElementById('s-iss');isEl.textContent=AGG.nIss||0;isEl.parentElement.title=(AGG.nExcl||0)+' Closed issue(s) excluded';isEl.parentElement.querySelector('.l').textContent=(AGG.nExcl||0)>0?('Issues in scope ('+AGG.nExcl+' closed excluded)'):'Issues in scope';
+ document.getElementById('s-sup').textContent=cnt.sup;document.getElementById('s-part').textContent=cnt.part;
+ document.getElementById('s-dns').textContent=cnt.dns;document.getElementById('s-na').textContent=cnt.na;document.getElementById('s-ne').textContent=cnt.ne;}
 function exportCSV(){const scs=allSC();if(!scs.length){alert('No data to export.');return;}
- let rows=[['SC','Level','Criterion','Direct page failures','Mapped pages','Total pages','Coverage %','Conformance','Remarks and Explanations']];
- scs.forEach(sc=>{const x=rowFor(sc);
-  const tempDiv = document.createElement('div');
-  tempDiv.innerHTML = buildDetailedRemarks(sc);
-  const plainRemarks = tempDiv.innerText || tempDiv.textContent || '';
-  rows.push([sc,LEVELS[sc]||'',NAMES[sc]||'Unknown',x.direct,x.cover,AGG.total,x.pctE+'%',LABEL[x.verdict],plainRemarks]);
- });
+ let rows=[['SC','Level','Criterion','Direct page failures','Total pages','Coverage','Coverage %','Conformance','Remarks (draft)','Blocker components','Critical components','All failing components','Page-level blocker','Why Does Not Support']];
+ scs.forEach(sc=>{const x=rowFor(sc);rows.push([sc,LEVELS[sc]||'',NAMES[sc]||'Unknown',x.direct,AGG.total,x.cover,x.pctE+'%',LABEL[x.verdict],genRemarks(sc),x.blk.join('; '),x.crit.join('; '),x.comps.join('; '),x.pageBlk?'Yes':'',x.verdict=='dns'?x.reason:'']);});
+ rows.push([]);rows.push(['Methodology notes']);
+ rows.push(['Conformance levels follow ITI VPAT 2.5 definitions: Supports / Partially Supports / Does Not Support / Not Applicable / Not Evaluated (WCAG AAA only).']);
+ rows.push(['"Does Not Support" = the majority of product functionality does not meet the criterion, operationalized here as: the union of directly-failing pages and every failing component\u2019s mapped pages covers more than 50% of in-scope pages, OR a blocker-level issue is present anywhere.']);
+ rows.push(['"Partially Supports" = some functionality does not meet the criterion (a failure that is not a majority).']);
+ rows.push(['Coverage = union of directly-failing pages and every failing component mapped-page set (deduped). Component severity is not used; every failing component contributes its full page breadth.']);
+ rows.push(['Does Not Support if: a blocker is present anywhere, OR the page union covers more than 50% of in-scope pages. Otherwise Partially Supports where findings exist.']);
+ rows.push(['Project-wide pages: a page used to log application-wide issues is excluded from the page count, and each of its issues is redistributed to the real pages where it reproduces. Redistributed issues are counted as direct page failures on those pages.']);
+ if((AGG.pwPages||[]).length)rows.push(['Project-wide pages used in this report: '+AGG.pwPages.join('; ')+'.']);
+ rows.push(['Denominator (total in-scope pages) used for this report: '+(AGG.total||0)+'.']);
  const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='vpat_conformance.csv';a.click();}
-
 function resetMap(){if(confirm('Clear all component mappings, project-wide selections, and overrides?')){MAP={};OVR={};PW=new Set();PWM={};refresh();}}
-function newVpat(){if(confirm('Start a new VPAT? This clears uploaded files, page list, mappings and overrides.')){FILES=[];MAP={};OVR={};PW=new Set();PWM={};EXTRA=new Set();document.getElementById('pageList').value='';document.getElementById('totPages').value='';refresh();}}
+function newVpat(){if(confirm('Start a new VPAT? This clears uploaded files, the page list, total pages, all mappings and overrides.')){FILES=[];MAP={};OVR={};PW=new Set();PWM={};EXTRA=new Set();openWhere=new Set();openFix=new Set();openRem=new Set();openUnion=new Set();document.getElementById('pageList').value='';document.getElementById('totPages').value='';refresh();}} /* v7 */
 
 const drop=document.getElementById('drop'),fileInput=document.getElementById('file');
 drop.onclick=()=>fileInput.click();
@@ -394,8 +418,10 @@ drop.addEventListener('drop',e=>{if(e.dataTransfer.files)readFiles(e.dataTransfe
 function readFiles(list){let p=list.length;if(!p)return;[...list].forEach(f=>{const rd=new FileReader();rd.onload=()=>{try{ingest(f.name,rd.result);}catch(err){alert('Could not parse '+f.name+': '+err.message);}if(--p===0)refresh();};rd.readAsText(f);});}
 document.getElementById('incClosed').onchange=refresh;
 document.getElementById('target').onchange=compute;
-document.getElementById('totPages').oninput=refresh;
-document.getElementById('pageList').oninput=refresh;
+const totEl=document.getElementById('totPages'),listEl=document.getElementById('pageList');
+let scopeT;const scopeChanged=()=>{clearTimeout(scopeT);scopeT=setTimeout(refresh,250);};
+totEl.oninput=scopeChanged;listEl.oninput=scopeChanged;
 document.getElementById('addPageBtn').onclick=addManualPage;
 document.getElementById('addPageName').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addManualPage();}});
+refresh();
 </script></body></html>
