@@ -65,7 +65,7 @@ tr:last-child td{border-bottom:none}
 .vpat-highlight{background:#fff3cd;color:#856404;padding:2px 6px;border-radius:4px;border:1px solid #ffeeba;display:inline-block}
 </style></head><body><div class="wrap">
 <h1>VPAT Conformance Calculator</h1>
-<p class="sub">Upload axe Auditor CSV exports, map shared components to pages, and read per-criterion conformance. Powered by GitHub data integration.</p>
+<p class="sub">Upload axe Auditor CSV exports, map shared components to pages, and read per-criterion conformance.</p>
 
 <h2>1. Set target &amp; upload audit CSV(s)</h2>
 <div class="opts" style="margin:0 0 12px">
@@ -106,7 +106,7 @@ tr:last-child td{border-bottom:none}
 <script>
 let BULLET_LANG = {}, ISSUE_DESCS = {}, ACR_IDL = {};
 
-// Load JSON data files from GitHub repository
+// Load JSON files with graceful local fallbacks
 Promise.all([
  fetch('bulleted_vpat_text.json').then(r=>r.json()).catch(()=>[]),
  fetch('issue_descriptions.json').then(r=>r.json()).catch(()=>[]),
@@ -148,23 +148,30 @@ function parseCSV(t){t=t.replace(/^﻿/,'');const rows=[];let row=[],f='',q=fals
   if(q){if(c=='"'){if(t[i+1]=='"'){f+='"';i++;}else q=false;}else f+=c;}
   else{if(c=='"')q=true;else if(c==',' ){row.push(f);f='';}else if(c=='\n'){row.push(f);rows.push(row);row=[];f='';}else if(c=='\r'){}else f+=c;}}
  if(f.length||row.length){row.push(f);rows.push(row);}return rows;}
-function col(H,n){return H.findIndex(h=>h.trim().toLowerCase()===n.toLowerCase());}
-function fcol(H,names){for(const n of names){const i=col(H,n);if(i>=0)return i;}return -1;}
+
+function fcol(H,names){
+ for(const n of names){
+  const idx = H.findIndex(h => h.trim().toLowerCase() === n.toLowerCase());
+  if(idx >= 0) return idx;
+ }
+ return -1;
+}
+
 function normSC(v){if(!v)return[];return String(v).split(/[,;\n]+/).map(s=>{const m=s.match(/\d+\.\d+(?:\.\d+)?/);return m?m[0]:null;}).filter(Boolean);}
 
 function ingest(name,text){const rows=parseCSV(text);if(!rows.length)return;const H=rows[0];
  const ci={
-  unit:col(H,'Unit Type'),
-  test:col(H,'Test Unit'),
-  sc:col(H,'Success Criteria'),
-  status:col(H,'Issue Status'),
-  impact:col(H,'Impact'),
-  platform:col(H,'Platform'),
+  unit:fcol(H,['Unit Type','UnitType','Type']),
+  test:fcol(H,['Test Unit','TestUnit','Page','Screen','Page Name','URL']),
+  sc:fcol(H,['Success Criteria','SuccessCriteria','SC','Checkpoint','WCAG SC']),
+  status:fcol(H,['Issue Status','Status','State']),
+  impact:fcol(H,['Impact','Severity','Priority']),
+  platform:fcol(H,['Platform','OS','Environment']),
   id:fcol(H,['Issue ID','Issue Id','IssueID','ID','Issue Number','Issue #','Issue No','Defect ID','Bug ID','Key']),
-  ruleId:fcol(H,['Rule ID','RuleId','Rule ID/Name','Rule Name','Rule']),
+  ruleId:fcol(H,['Rule ID','RuleId','Rule ID/Name','Rule Name','Rule','Test Name']),
   vpat1:fcol(H,['VPAT Text One','VPAT Text 1','VPAT Text Single']),
   vpatM:fcol(H,['VPAT Text Multiple','VPAT Text Multi','VPAT Text Several']),
-  shortText:fcol(H,['Short Text','Rule Title','Summary','Title','Test Name']),
+  shortText:fcol(H,['Short Text','Rule Title','Summary','Title']),
   desc:fcol(H,['Issue Description','Description','Issue','Issue Summary','Name'])
  };
 
