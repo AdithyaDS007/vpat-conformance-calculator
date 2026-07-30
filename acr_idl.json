@@ -1,0 +1,1722 @@
+[
+  {
+    "Version": "WCAG",
+    "Checkpoint": "1.1.1.a Alternative Text (Active Images)",
+    "Criteria": "1.1.1",
+    "Supports": "Non-text content includes text alternatives or an equivalent text alternative that serves the same purpose.",
+    "Partially Supports": "Most non-text content has text alternatives or a text alternative that serves an equivalent purpose.",
+    "Does not Support": "Most, if not all, non-text content does not have text alternatives or a text alternative that serves an equivalent purpose.",
+    "Not Applicable": "The tested application does not contain non-text content that requires a text alternative.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "1.2.2.a Captions (Prerecorded)",
+    "Criteria": "1.2.2",
+    "Supports": "Prerecorded multimedia files have text-based synchronized captions.",
+    "Partially Supports": "Most prerecorded multimedia files have text-based synchronized captions.",
+    "Does not Support": "Most, if not all, prerecorded multimedia files do not have text-based synchronized captions.",
+    "Not Applicable": "Prerecorded videos are not present.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "1.2.3.a Text or Audio Description (Prerecorded Video - with Dialogue)",
+    "Criteria": "1.2.3",
+    "Supports": "Prerecorded multimedia files containing essential information that is only conveyed visually have either a full-text alternative describing the important visual details or an audio description track.",
+    "Partially Supports": "Most prerecorded multimedia files, containing essential information that is only conveyed visually, have either a full-text alternative describing the important visual details or an audio description track.",
+    "Does not Support": "Most, if not all, prerecorded multimedia files, containing essential information that is only conveyed visually, do not have either a full-text alternative describing the important visual details or an audio description track.",
+    "Not Applicable": "Prerecorded videos are not present, so the audio description is not required.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "1.2.4.a - Captions (Live)",
+    "Criteria": "1.2.4",
+    "Supports": "All live multimedia that contains audio has text-based synchronized captions.",
+    "Partially Supports": "Most live multimedia that contains audio has text-based synchronized captions.",
+    "Does not Support": "Most, if not all, live multimedia that contains audio does not have text-based synchronized captions.",
+    "Not Applicable": "Live multimedia files with audio are not present, so synchronized captions are not required.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "1.2.5.a Audio Descriptions (Prerecorded)",
+    "Criteria": "1.2.5",
+    "Supports": "Prerecorded multimedia files have audio descriptions where necessary.",
+    "Partially Supports": "Most prerecorded multimedia files have audio descriptions where necessary.",
+    "Does not Support": "Most, if not all, prerecorded media do not have audio descriptions where required.",
+    "Not Applicable": "Prerecorded multimedia files are not present, so audio descriptions are not required.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "1.3.1.a Semantics",
+    "Criteria": "1.3.1",
+    "Supports": "Information, structure, and relationships conveyed through presentation can be programmatically determined or are available in text.",
+    "Partially Supports": "Most information, structure, and relationships conveyed through presentation can be programmatically determined or are available in text.",
+    "Does not Support": "Most, if not all, information, structure, and relationships conveyed through presentation cannot be programmatically determined or are not available in text.",
+    "Not Applicable": "The tested application does not contain information, structure, or relationships that are conveyed through presentation.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "1.3.2.a Reading Order",
+    "Criteria": "1.3.2",
+    "Supports": "The reading and navigation order is logical and intuitive.",
+    "Partially Supports": "The reading and navigation order of most content is logical and intuitive.",
+    "Does not Support": "The reading and navigation order of most, if not all, content is not logical or intuitive.",
+    "Not Applicable": "The tested application does not contain content whose meaning depends on a specific reading or navigation order.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "1.3.3.a Visual Cues",
+    "Criteria": "1.3.3",
+    "Supports": "Instructions to operate and/or understand content do not rely on sensory characteristics of components such as shape, color, size, and visual location.",
+    "Partially Supports": "On most pages, instructions to operate and/or understand content do not rely on sensory characteristics of components such as shape, color, size, and visual location.",
+    "Does not Support": "On most, if not all, pages, instructions to operate and/or understand content do not rely on sensory characteristics of components such as shape, color, size, and visual location.",
+    "Not Applicable": "The tested application does not provide instructions to operate or understand content that could rely on sensory characteristics.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "1.3.4.a - Device Orientation",
+    "Criteria": "1.3.4",
+    "Supports": "Orientation of the content is not locked to either landscape or portrait unless a specific orientation is essential for the functionality.",
+    "Partially Supports": "The orientation of most of the content is not locked to either landscape or portrait unless a specific orientation is essential for the functionality.",
+    "Does not Support": "The orientation of most, if not all, content is locked to either landscape or portrait, and a specific orientation is not essential for functionality.",
+    "Not Applicable": "The tested application is not presented on devices that support changes in display orientation.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "1.4.1.a Color as Information",
+    "Criteria": "1.4.1",
+    "Supports": "Color is not used as the only method to convey information, indicate an action, prompt a response, or distinguish visual elements.",
+    "Partially Supports": "For most content, color is not used as the only method to convey information, indicate an action, prompt a response, or distinguish visual elements.",
+    "Does not Support": "For most, if not all, content, color is the only method used to convey information, indicate an action, prompt a response, or distinguish visual elements.",
+    "Not Applicable": "The tested application does not use color to convey information, indicate an action, prompt a response, or distinguish visual elements.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "1.4.2.a Audio Control",
+    "Criteria": "1.4.2",
+    "Supports": "A mechanism is provided to stop, pause, mute, or adjust volume for audio that automatically plays for more than 3 seconds.",
+    "Partially Supports": "On most pages that have audio that automatically plays for more than 3 seconds, a mechanism is provided to stop, pause, mute, or adjust the volume of that audio.",
+    "Does not Support": "On most, if not all, pages that have audio that automatically plays for more than 3 seconds, a mechanism is not provided to stop, pause, mute, or adjust the volume of that audio.",
+    "Not Applicable": "The tested application does not contain audio content that plays automatically for more than 3 seconds.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "1.4.3.a Color Contrast (regular text)",
+    "Criteria": "1.4.3",
+    "Supports": "Text and images of regular text have the required color contrast ratio with their backgrounds.",
+    "Partially Supports": "Most text and images of regular text have the required color contrast ratio with their backgrounds.",
+    "Does not Support": "Most, if not all, text and images of regular text do not have the required color contrast ratio with their backgrounds.",
+    "Not Applicable": "The tested application does not contain text or images of text.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "1.4.4.a Resize (200%)",
+    "Criteria": "1.4.4",
+    "Supports": "Content is readable and functional when browser zoom is set to 200% of its initial size.",
+    "Partially Supports": "Most content is readable and functional when browser zoom is set to 200% of its initial size.",
+    "Does not Support": "Most, if not all, content is not readable and functional when browser zoom is set to 200% of its initial size.",
+    "Not Applicable": "The tested application does not contain text content that is presented visually.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 11 - Software (Only 11.7 and 11.8 apply to Web)",
+    "Checkpoint": "11.5.2.12 Execution of available actions",
+    "Criteria": "11.5.2.12",
+    "Supports": "The ICT has a user interface that provides a list of actions that can be executed by the user. This list of actions is programmatically determinable and executable by assistive technologies.",
+    "Partially Supports": "The ICT has a user interface that provides a list of actions that can be executed by the user, and most of those actions are programmatically determinable and executable by assistive technologies.",
+    "Does not Support": "The ICT has a user interface that provides a list of actions that can be executed by the user, but most, if not all, of those actions are not programmatically determinable or executable by assistive technologies.",
+    "Not Applicable": "The ICT does not have a user interface or a list of actions that can be executed by the user, or the security requirements prevent assistive technologies from programmatically executing the user actions.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "1.4.5.a Images of Text",
+    "Criteria": "1.4.5",
+    "Supports": "When content can be presented visually using only text, an image of text is not used to present that text.",
+    "Partially Supports": "On most pages, when content can be presented visually using only text, an image of text is not used to present that text.",
+    "Does not Support": "On most, if not all, pages, an image of text is used to present content when that content can be presented visually using only text.",
+    "Not Applicable": "The tested application does not contain images of text.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "1.4.11.a - Non-Text Contrast - Active User Interface Components",
+    "Criteria": "1.4.11",
+    "Supports": "The boundaries and indicators of the visual state(s) of each active user component and any graphics, required to understand content, have a 3:1 color contrast ratio with adjacent color(s) or their background.",
+    "Partially Supports": "Most of the boundaries and indicators of the visual state(s) of each active user component and any graphics required to understand content have a 3:1 color contrast ratio with adjacent color(s) or their background.",
+    "Does not Support": "Most, if not all, boundaries and indicators of the visual state(s) of each active user component and any graphics required to understand content do not have a 3:1 color contrast ratio with adjacent color(s) or their background.",
+    "Not Applicable": "The tested application does not contain active user interface components or graphics required to understand content.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.1.1.a Keyboard Navigation",
+    "Criteria": "2.1.1",
+    "Supports": "Functionality is available using only the keyboard (unless that functionality cannot be accomplished in any known way using a keyboard). If shortcut keys and access keys are present, they do not conflict with existing browser and screen reader shortcuts, and functionality based on custom gestures is available when a screen reader is turned on.",
+    "Partially Supports": "On most pages, all functionality is available using only the keyboard (unless that functionality cannot be accomplished in any known way using a keyboard). If shortcut keys and access keys are present, some may conflict with existing browser and screen reader shortcuts, and some functionality based on custom gestures may not be available when a screen reader is turned on.",
+    "Does not Support": "On most, if not all, pages, significant functionality is not available using only the keyboard (and that functionality cannot be accomplished in any known way using a keyboard). If shortcut keys and access keys are present, some or all may conflict with existing browser and screen reader shortcuts, and some functionality based on custom gestures may not be available when a screen reader is turned on.",
+    "Not Applicable": "The tested application does not contain interactive functionality that requires keyboard operation.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.1.2.a Keyboard Trap",
+    "Criteria": "2.1.2",
+    "Supports": "Keyboard focus is never locked or trapped in a particular area, and the user can navigate to and from all navigable elements using only a keyboard.",
+    "Partially Supports": "In most cases, keyboard focus is not locked or trapped in a particular area, and the user can navigate to and from all navigable elements using only a keyboard.",
+    "Does not Support": "Keyboard focus becomes locked or trapped in a particular area, and the user is not able to navigate to and from navigable elements using only a keyboard.",
+    "Not Applicable": "The tested application does not contain interactive content that can receive keyboard focus.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.2.1.a Timing Adjustable",
+    "Criteria": "2.2.1",
+    "Supports": "If a time limit exists, the user is given options to turn off, adjust, or extend that time limit.",
+    "Partially Supports": "In most cases, when a time limit exists, the user is given an option to turn off, adjust, or extend the time limit.",
+    "Does not Support": "When a time limit exists, the user is not given an option to turn off, adjust, or extend the time limit.",
+    "Not Applicable": "The tested application does not impose any time limits on user interactions.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.2.2.a Pause, Stop, or Hide Content",
+    "Criteria": "2.2.2",
+    "Supports": "Moving, blinking, scrolling, or auto-updating information can be paused, stopped, hidden, or otherwise controlled by the user.",
+    "Partially Supports": "On most pages, where moving, blinking, scrolling, or auto-updating information is present, that information can be paused, stopped, hidden, or otherwise controlled by the user.",
+    "Does not Support": "In most, if not all, cases where moving, blinking, scrolling, or auto-updating information is present, that information cannot be paused, stopped, hidden, or otherwise controlled by the user.",
+    "Not Applicable": "The tested application does not contain moving, blinking, scrolling, or auto-updating information.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.3.1.a Flashing Content",
+    "Criteria": "2.3.1",
+    "Supports": "Flashing content does not flash more than 3 times per second unless that content is sufficiently small.",
+    "Partially Supports": "Most flashing content does not flash more than 3 times per second unless that content is sufficiently small.",
+    "Does not Support": "Most, if not all, flashing content flashes more than 3 times per second and is larger than 10 percent of the viewport.",
+    "Not Applicable": "The tested application does not contain flashing content.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "1.4.10.a - Reflow",
+    "Criteria": "1.4.10",
+    "Supports": "The content of each page is viewable without scrolling horizontally when the viewport is set to 320 CSS pixels wide.",
+    "Partially Supports": "The content of most pages is viewable without scrolling horizontally when the viewport is set to 320 CSS pixels wide.",
+    "Does not Support": "The content of most, if not all, pages is not viewable without scrolling horizontally when the viewport is set to 320 CSS pixels wide.",
+    "Not Applicable": "This success criterion technically doesn't apply to native mobile applications.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "1.4.12.a - Text Spacing",
+    "Criteria": "1.4.12",
+    "Supports": "The spacing between letters, words, lines of text, and paragraphs can be adjusted with no loss of content or functionality.",
+    "Partially Supports": "For most content, the spacing between letters, words, lines of text, and paragraphs can be adjusted with no loss of content or functionality.",
+    "Does not Support": "For most, if not all, the spacing between letters, words, lines of text, and paragraphs cannot be adjusted without causing loss of content or functionality.",
+    "Not Applicable": "This success criterion technically doesn't apply to native mobile applications.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "1.4.13.a - Content on Hover or Focus",
+    "Criteria": "1.4.13",
+    "Supports": "When additional content is triggered by pointer hover or keyboard focus, that additional content can be dismissed and hovered over, and the content persists until the user dismisses it.",
+    "Partially Supports": "In most cases, when additional content is triggered by pointer hover or keyboard focus, that additional content can be dismissed and hovered over, and the content persists until the user dismisses it.",
+    "Does not Support": "In most, if not all, cases when additional content is triggered by pointer hover or keyboard focus, that additional content cannot be dismissed and hovered over, and the content does not persist until the user dismisses it.",
+    "Not Applicable": "This success criterion technically doesn't apply to native mobile applications.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.4.2.a Titles on Pages",
+    "Criteria": "2.4.2",
+    "Supports": "Pages have descriptive and informative titles.",
+    "Partially Supports": "Most pages have descriptive and informative titles.",
+    "Does not Support": "Most, if not all, pages do not have descriptive and informative titles.",
+    "Not Applicable": "This success criterion technically doesn't apply to native mobile applications.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 11 - Software (Only 11.7 and 11.8 apply to Web)",
+    "Checkpoint": "11.5.2.13 Tracking of focus and selection attributes",
+    "Criteria": "11.5.2.13",
+    "Supports": "The ICT has a user interface that allows for text editing and it provides mechanisms to track focus, text insertion points, selection attributes and it is programmatically determinable by assistive technologies.",
+    "Partially Supports": "The ICT has a user interface that allows for text editing, and for most elements it provides mechanisms to track focus, text insertion points, and selection attributes that are programmatically determinable by assistive technologies.",
+    "Does not Support": "The ICT has a user interface that allows for text editing, but for most, if not all, elements the mechanisms to track focus, text insertion points, and selection attributes are not programmatically determinable by assistive technologies.",
+    "Not Applicable": "The ICT does not have a user interface or does not have user interface elements that enable text editing.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.4.3.a Focus Order",
+    "Criteria": "2.4.3",
+    "Supports": "The navigation order of interactive elements (such as links, buttons, or form elements) is logical and preserves meaning and operability. ",
+    "Partially Supports": "The navigation order of most interactive elements (such as links, buttons, or form elements) is logical and preserves meaning and operability.",
+    "Does not Support": "The navigation order of most, if not all, interactive elements (such as links, buttons, or form elements) is not logical and/or does not preserve meaning and operability.",
+    "Not Applicable": "The tested application does not contain interactive elements that receive keyboard focus.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.4.6.a Descriptive Headings",
+    "Criteria": "2.4.6",
+    "Supports": "Headings and labels for form and interactive controls are informative.",
+    "Partially Supports": "Most headings and labels for form and interactive controls are informative.",
+    "Does not Support": "Headings and/or labels for form and interactive controls are not informative.",
+    "Not Applicable": "The tested application does not contain headings or labels for form and interactive controls.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.4.7.a Focus Visible",
+    "Criteria": "2.4.7",
+    "Supports": "It is visually apparent which page element is currently receiving keyboard focus.",
+    "Partially Supports": "In most cases, it is visually apparent which page element is currently receiving keyboard focus.",
+    "Does not Support": "On most, if not all, pages, it is not visually apparent which page element is currently receiving keyboard focus.",
+    "Not Applicable": "The tested application does not contain interactive elements that can receive keyboard focus.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.4.12 Focus Not Obscured (Enhanced)",
+    "Criteria": "2.4.12",
+    "Supports": "When a user interface component receives keyboard focus, no part of the component is hidden by author-created content.",
+    "Partially Supports": "When most user interface components receive keyboard focus, no part of each component is hidden by author-created content.",
+    "Does not Support": "When most, if not all, user interface components receive keyboard focus, part or all of each component is hidden by author-created content.",
+    "Not Applicable": "The tested application does not contain user interface components that receive keyboard focus.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.4.13 Focus Appearance",
+    "Criteria": "2.4.13",
+    "Supports": "When the keyboard focus indicator is visible, an area of the focus indicator is at least as large as the area of a 2 CSS pixel thick perimeter of the unfocused component or sub-component, and it has a contrast ratio of at least 3:1 between the same pixels in the focused and unfocused states. ",
+    "Partially Supports": "When the keyboard focus indicator for most elements is visible, an area of the focus indicator is at least as large as the area of a 2 CSS pixel thick perimeter of the unfocused component or sub-component, and it has a contrast ratio of at least 3:1 between the same pixels in the focused and unfocused states.",
+    "Does not Support": "When the keyboard focus indicator for most, if not all, elements is visible, an area of the focus indicator is not at least as large as the area of a 2 CSS pixel thick perimeter of the unfocused component or sub-component, and it does not have a contrast ratio of at least 3:1 between the same pixels in the focused and unfocused states.",
+    "Not Applicable": "The tested application does not contain user interface components that receive keyboard focus.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.5.1.a - Pointer Gestures",
+    "Criteria": "2.5.1",
+    "Supports": "All functionality that can be operated with a pointer can be operated with single-point actions.",
+    "Partially Supports": "Most functionality that can be operated with a pointer can be operated with single-point actions.",
+    "Does not Support": "On most, if not all, pages, functionality that can be operated with a pointer cannot be operated with single-point actions.",
+    "Not Applicable": "Pointer gestures are not present.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.5.2.a - Pointer Cancellation",
+    "Criteria": "2.5.2",
+    "Supports": "For functionality that can be operated using a single pointer, at least one of the following is true: \n - The action is not triggered on the down event.\n - The action triggers on the up event, and a mechanism is available to abort the function before completion or to undo the function after completion.\n - The up-event reverses any outcome of the preceding down-event.\n - Completing the function on the down-event is essential.",
+    "Partially Supports": "For most functionality that can be operated using a single pointer, the action is not triggered on the down-event, or the action completes on the up-event with a mechanism available to abort or undo it, or the up-event reverses any outcome of the preceding down-event.",
+    "Does not Support": "For most, if not all, functionality that can be operated using a single pointer, the action is triggered on the down-event and no mechanism is available to abort, undo, or reverse it, and completing the function on the down-event is not essential.",
+    "Not Applicable": "The product does not contain functionality that can be operated using a single pointer.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.5.3.a - Label in Name",
+    "Criteria": "2.5.3",
+    "Supports": "For each user interface component that includes a visible text label, the accessible name matches (or includes) the visible text in the label.",
+    "Partially Supports": "For most user interface components that include visible text labels, the accessible name matches (or includes) the visible text in the label.",
+    "Does not Support": "For most, if not all, user interface components that include visible text labels, the accessible name does not match and does not include the visible text in the label.",
+    "Not Applicable": "The tested application does not contain user interface components that include a visible text label.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.5.4.a - Motion Actuation",
+    "Criteria": "2.5.4",
+    "Supports": "Functionality that can be triggered by device motion or user motion detected by a device can be disabled, and the functionality can be operated without using motion.",
+    "Partially Supports": "Most functionality that can be triggered by device motion or user motion detected by a device can be disabled, and the functionality can be operated without using motion.",
+    "Does not Support": "Most, if not all, functionality that can be triggered by device motion or user motion detected by a device cannot be disabled, and the functionality cannot be operated without using motion.",
+    "Not Applicable": "No functionality that can be triggered by device motion or user motion detected by a device.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.5.7.a Dragging Movements",
+    "Criteria": "2.5.7",
+    "Supports": "All functionality that uses a dragging movement can be achieved by a single pointer without dragging, unless dragging is essential or the functionality is determined by the user agent and not modified by the author.",
+    "Partially Supports": "Most functionality that uses a dragging movement can be achieved by a single pointer without dragging, unless dragging is essential or the functionality is determined by the user agent and not modified by the author.",
+    "Does not Support": "Most, if not all, functionality that uses a dragging movement cannot be achieved by a single pointer without dragging, except for functions for which dragging is essential or the functionality is determined by the user agent and not modified by the author.",
+    "Not Applicable": "No functionality that uses a dragging movement.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.4.5.a Multiple Ways",
+    "Criteria": "2.4.5",
+    "Supports": "Multiple ways are available to find other pages on the site.",
+    "Partially Supports": "Most pages have multiple ways to find other pages on the site.",
+    "Does not Support": "Most, or all, pages do not have multiple ways to find other pages on the site.",
+    "Not Applicable": "This success criterion technically doesn't apply to native mobile applications.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.5.8.a Target Size (Minimum)",
+    "Criteria": "2.5.8",
+    "Supports": "The size of the target for each clickable control is at least 24 by 24 CSS pixels, except where the target size is determined by the user agent; there is a different control with equivalent functionality; the target is in line with text; the presentation of the target is essential to the function or otherwise exempted under the rule; or each control is spaced such that a 24-pixel circle placed around the bounding box of the control will not intersect any similar circle for another control. ",
+    "Partially Supports": "The size of the target for most clickable controls is at least 24 by 24 CSS pixels, except where the target size is determined by the user agent; there is a different control with equivalent functionality; the target is in line with text; the presentation of the target is essential to the function or otherwise exempted under the rule; or each control is spaced such that a 24-pixel circle placed around the bounding box of the control will not intersect any similar circle for another control.",
+    "Does not Support": "The size of the target for most, if not all, clickable controls is not at least 24 by 24 CSS pixels, and the target size is not determined by the user agent; there is not a different control with equivalent functionality; the target is not in line with text; the presentation of the target is not essential to the function or otherwise exempted under the rule; and each control is not spaced such that a 24-pixel circle placed around the bounding box of the control will intersect any similar circle for another control.",
+    "Not Applicable": "The tested application does not contain clickable controls.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "3.1.2.a Language of Parts",
+    "Criteria": "3.1.2",
+    "Supports": "The language of each section of content that is different from the default language of the page is correctly identified and can be determined programmatically.",
+    "Partially Supports": "On most pages, the language of each section of content that is different from the default language of the page is correctly identified and can be determined programmatically.",
+    "Does not Support": "In most, if not all, instances where the language of a section of content is different from the default language of the page, the differing language is not correctly identified and/or cannot be determined programmatically.",
+    "Not Applicable": "The tested application does not contain content in a language that differs from the default language of the page.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "3.2.1.a Context Changes (on Focus)",
+    "Criteria": "3.2.1",
+    "Supports": "When an element receives focus, a change in context (such as a substantial change to the page, the spawning of a pop-up window, or a change in focus) that may disorient the user does not occur.",
+    "Partially Supports": "In most cases, when an element receives focus, a change in context (such as a substantial change to the page, the spawning of a pop-up window, or a change in focus) that may disorient the user does not occur.",
+    "Does not Support": "In most, if not all, cases, when an element receives focus, a change in context (such as a substantial change to the page, the spawning of a pop-up window, or a change in focus) occurs that may disorient the user.",
+    "Not Applicable": "The tested application does not contain elements that can receive focus.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "3.2.2.a Context Changes (on Input)",
+    "Criteria": "3.2.2",
+    "Supports": "When a user inputs information or interacts with a control, it does not result in a substantial change to the page that could disorient the user unless the user is informed about the change ahead of time.",
+    "Partially Supports": "In most cases, when a user inputs information or interacts with a control, it does not result in a substantial change to the page that could disorient the user, or the user is informed about the change ahead of time.",
+    "Does not Support": "When a user inputs information or interacts with a control, it results in a substantial change to the page that could disorient the user, and the user is not warned of the change ahead of time.",
+    "Not Applicable": "The tested application does not contain controls or input fields that accept user input.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "3.2.3.a Consistent Navigation Patterns",
+    "Criteria": "3.2.3",
+    "Supports": "Navigation patterns that are repeated on web pages are presented in the same relative order each time they appear and do not change order when navigating through the site.",
+    "Partially Supports": "On most pages, navigation patterns that are repeated on web pages are presented in the same relative order each time they appear and do not change order when navigating through the site.",
+    "Does not Support": "On most, if not all, pages, navigation patterns that are repeated on web pages are not presented in the same relative order each time they appear, and/or change order when navigating through the site.",
+    "Not Applicable": "The tested application does not contain navigation patterns that are repeated across multiple pages.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "3.2.4.a Consistent Identification",
+    "Criteria": "3.2.4",
+    "Supports": "Labels, names, and/or text alternatives for content that have the same functionality across multiple web pages are consistently identified.",
+    "Partially Supports": "In most cases, labels, names, and/or text alternatives for content that have the same functionality across multiple web pages are consistently identified.",
+    "Does not Support": "Labels, names, and/or text alternatives for content that have the same functionality across multiple web pages are not consistently identified.",
+    "Not Applicable": "The tested application does not contain components with the same functionality that appear across multiple pages.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "3.2.6.a Consistent Help",
+    "Criteria": "3.2.6",
+    "Supports": "On web pages that contain help features (including human or automated contact options or self-help options), those features occur in the same order relative to other page content unless the user changes that order.",
+    "Partially Supports": "On most pages that contain help features (including human or automated contact options or self-help options), those features occur in the same order relative to other page content unless the user changes that order.",
+    "Does not Support": "On most, if not all, pages that contain help features (including human or automated contact options or self-help options), those features do not occur in the same order relative to other page content.",
+    "Not Applicable": "No help features are provided on any page on the site.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "3.3.1.b Errors Identification",
+    "Criteria": "3.3.1",
+    "Supports": "For form controls where an input error is automatically detected, a text message or alert is provided that identifies the field/control where the error was detected and describes the error.",
+    "Partially Supports": "For most form controls where an input error is automatically detected, a text message or alert is provided that identifies the field/control where the error was detected and describes the error.",
+    "Does not Support": "For most, if not all, form controls where an input error is automatically detected, a text message or alert is not provided that identifies the field/control where the error was detected and describes the error.",
+    "Not Applicable": "The tested application does not contain form controls for which an input error is automatically detected.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "3.3.2.a Visible Labels",
+    "Criteria": "3.3.2",
+    "Supports": "For form controls/input fields requiring user input, labels, instructions, and/or error messages are provided to identify the controls/input fields in the form so that users know what input data is expected. ",
+    "Partially Supports": "For most form controls/input fields requiring user input, labels, instructions, and/or error messages are provided to identify the controls/input fields in the form so that users know what input data is expected.",
+    "Does not Support": "For most, if not all, form controls/input fields requiring user input, labels, instructions, and/or error messages are not provided to identify the controls/input fields in the form, so that users do not know what input data is expected.",
+    "Not Applicable": "The tested application does not contain form controls or input fields that require user input.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 11 - Software (Only 11.7 and 11.8 apply to Web)",
+    "Checkpoint": "11.5.2.15 Change notification",
+    "Criteria": "11.5.2.15",
+    "Supports": "The software provides programmatically determinable notices of changes for elements, structure and actions when changes happen within the software itself.",
+    "Partially Supports": "The software provides programmatically determinable notices of changes for most elements, structure, and actions when changes happen within the software itself.",
+    "Does not Support": "The software does not provide programmatically determinable notices of changes for most, if not all, elements, structure, and actions when changes happen within the software itself.",
+    "Not Applicable": "The ICT does not have a user interface.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "3.3.3.a Error Suggestion",
+    "Criteria": "3.3.3",
+    "Supports": "If input errors are automatically detected, suggestions are provided in text for correcting the input in a timely and accessible manner before the data is submitted to the server.",
+    "Partially Supports": "In most cases, if input errors are automatically detected, suggestions are provided in text for correcting the input in a timely and accessible manner before the data is submitted to the server.",
+    "Does not Support": "In most, if not all, if input errors are automatically detected, suggestions are not provided in text for correcting the input in a timely and accessible manner before the data is submitted to the server.",
+    "Not Applicable": "The tested application does not contain form controls for which an input error is automatically detected.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "3.3.4.a - Error Prevention (Legal, Financial, Data)",
+    "Criteria": "3.3.4",
+    "Supports": "If the user can change or delete legal transactions, financial transactions, student exam responses, or data transactions that are unrecoverable or unintentionally modify or delete data, the changes and/or deletions are reversible, verified, or confirmed.",
+    "Partially Supports": "In most cases, when the user can change or delete legal transactions, financial transactions, student exam responses, or data transactions that are unrecoverable or unintentionally modify or delete data, the changes and/or deletions are reversible, verifiable, or confirmable.",
+    "Does not Support": "In most, if not all, cases when the user can change or delete legal transactions, financial transactions, student exam responses, or data transactions that are unrecoverable or unintentionally modify or delete data, the changes and/or deletions are not able to be reversible, verified, and/or confirmed.",
+    "Not Applicable": "The tested application does not contain legal, financial, or data transactions, or student exam responses, that can be changed or deleted by the user.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "3.3.7.a Redundant Entry",
+    "Criteria": "3.3.7",
+    "Supports": "If information previously entered by, or provided to, the user is required to be entered again in the same process, that information is either automatically populated or available for the user to select unless the previously entered information is no longer valid or re-entering the information is essential or required to ensure security.",
+    "Partially Supports": "In most cases, when information previously entered by, or provided to, the user is required to be entered again in the same process, that information is either automatically populated or available for the user to select unless the previously entered information is no longer valid or re-entering the information is essential or required to ensure security.",
+    "Does not Support": "In most, if not all, cases when information previously entered by, or provided to, the user is required to be entered again in the same process, that information is not either automatically populated or available for the user to select.",
+    "Not Applicable": "No processes on the site require users to re-enter information previously entered as part of the same process. ",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "3.3.8.a Accessible Authentication (Minimum)",
+    "Criteria": "3.3.8",
+    "Supports": "A cognitive function test (such as remembering a password or solving a puzzle) is not required for any step in an authentication process unless either another method is available that does not rely on a cognitive function test; help is available to assist the user in completing the test; or the test is to recognize objects or identify non-text content the user provided to the website.",
+    "Partially Supports": "A cognitive function test (such as remembering a password or solving a puzzle) is not required for any step in most authentication processes unless either another method is available that does not rely on a cognitive function test; help is available to assist the user in completing the test; or the test is to recognize objects or identify non-text content the user provided to the website.",
+    "Does not Support": "A cognitive function test (such as remembering a password or solving a puzzle) is required for any step in most, if not all, authentication processes and another method is not available that relies on a cognitive function test; help is not available to assist the user in completing the test; and the test does not require the user to recognize objects or identify non-text content the user provided to the website.",
+    "Not Applicable": "No authentication processes are included in the website, or if authentication processes are present, they do not include a cognitive function test.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "4.1.2.a Name, Role, Value",
+    "Criteria": "4.1.2",
+    "Supports": "The name, role, state, and/or value of each user interface component can be programmatically determined.",
+    "Partially Supports": "The name, role, state, and/or value of most user interface components can be programmatically determined.",
+    "Does not Support": "The name, role, state, and/or value of most, if not all, user interface components cannot be programmatically determined.",
+    "Not Applicable": "The tested application does not contain user interface components.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "4.1.3 - Status Messages",
+    "Criteria": "4.1.3",
+    "Supports": "Status messages can be programmatically determined and presented by assistive technologies without receiving focus.",
+    "Partially Supports": "In most cases, status messages can be programmatically determined and presented by assistive technologies without receiving focus.",
+    "Does not Support": "Most, if not all, status messages cannot be programmatically determined and presented by assistive technologies without receiving focus.",
+    "Not Applicable": "The tested application does not generate status messages.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 3",
+    "Checkpoint": "302.1 Without Vision",
+    "Criteria": "302.1",
+    "Supports": "All functionality is usable without vision.",
+    "Partially Supports": "Most functionality is usable without vision.",
+    "Does not Support": "Most, if not all, functionality is not usable without vision.",
+    "Not Applicable": "The product does not require the use of vision.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 3",
+    "Checkpoint": "302.2 With Limited Vision",
+    "Criteria": "302.2",
+    "Supports": "All functionality is usable with limited vision.",
+    "Partially Supports": "Most functionality is usable with limited vision.",
+    "Does not Support": "Most, if not all, functionality is not usable with limited vision.",
+    "Not Applicable": "The product does not require the use of vision.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 3",
+    "Checkpoint": "302.3 Without Perception of Color",
+    "Criteria": "302.3",
+    "Supports": "All functionality is usable without requiring color perception.",
+    "Partially Supports": "Most functionality is usable without perception of color.",
+    "Does not Support": "Most, if not all, functionality is not usable without perception of color.",
+    "Not Applicable": "The product does not require the perception of color.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 3",
+    "Checkpoint": "302.4 Without Hearing",
+    "Criteria": "302.4",
+    "Supports": "All functionality is usable without hearing.",
+    "Partially Supports": "Most functionality is usable without hearing.",
+    "Does not Support": "Most, if not all, functionality is not usable without hearing.",
+    "Not Applicable": "The product does not require the use of hearing.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 3",
+    "Checkpoint": "302.5 With Limited Hearing",
+    "Criteria": "302.5",
+    "Supports": "All functionality is usable with limited hearing.",
+    "Partially Supports": "Most functionality is usable with limited hearing.",
+    "Does not Support": "Most, if not all, functionality is not usable with limited hearing.",
+    "Not Applicable": "The product does not require the use of hearing.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 3",
+    "Checkpoint": "302.6 Without Speech",
+    "Criteria": "302.6",
+    "Supports": "All functionality is usable without speech.",
+    "Partially Supports": "Most functionality is usable without speech.",
+    "Does not Support": "Most, if not all, functionality is not usable without speech.",
+    "Not Applicable": "The product does not require the use of speech.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 3",
+    "Checkpoint": "302.8 With Limited Reach and Strength",
+    "Criteria": "302.8",
+    "Supports": "All functionality is usable with limited reach and strength.",
+    "Partially Supports": "Most functionality is usable with limited reach and strength.",
+    "Does not Support": "Users with limited reach and strength will have difficulty navigating and/or operating most of the product's controls.",
+    "Not Applicable": "The product does not require reach or strength to operate.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "502.2.1 User Control of Accessibility Features",
+    "Criteria": "502.2.1",
+    "Supports": "The platform software provides user control over its documented accessibility features, allowing users to enable, adjust, and disable those features.",
+    "Partially Supports": "The platform software provides user control over most of its documented accessibility features, allowing users to enable, adjust, and disable those features.",
+    "Does not Support": "The platform software does not provide user control over most, if not all, of its documented accessibility features.",
+    "Not Applicable": "The website or application is not platform software, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "502.2.2 No Disruption of Accessibility Features",
+    "Criteria": "502.2.2",
+    "Supports": "The website or application does not disrupt platform (browser and OS) features that are defined in the platform documentation as accessibility features.",
+    "Partially Supports": "The website or application does not disrupt most platform (browser and OS) features that are defined in the platform documentation as accessibility features.",
+    "Does not Support": "The website or application disrupts most, if not all, platform (browser and OS) features that are defined in the platform documentation as accessibility features.",
+    "Not Applicable": "The platform does not define any accessibility features that the website or application could disrupt.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "502.3.1 Object Information",
+    "Criteria": "502.3.1",
+    "Supports": "The role, state(s), properties, boundary, name, and description of each object are programmatically determinable, so those attributes can be perceived and conveyed by assistive technology.",
+    "Partially Supports": "The role, state(s), properties, boundary, name, and description of most objects can be programmatically determined, so those attributes can be perceived and conveyed by assistive technology.",
+    "Does not Support": "The role, state(s), properties, boundary, name, and description of most, if not all, objects cannot be programmatically determined, so those attributes cannot be perceived and conveyed by assistive technology.",
+    "Not Applicable": "The website or application does not contain user interface objects that expose role, state, properties, boundary, name, or description.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "502.3.3 Row, Column, and Headers",
+    "Criteria": "502.3.3",
+    "Supports": "When a data table is present, all information in the data cells and the row and/or column headers associated with each data cell are available programmatically, so they can be perceived and conveyed by assistive technology.",
+    "Partially Supports": "In most instances, when a data table is present, all information in the data cells and the row and/or column headers associated with each data cell are available programmatically, so they can be perceived and conveyed by assistive technology.",
+    "Does not Support": "In most, if not all, instances when a data table is present, all information in the data cells and the row and/or column headers associated with each data cell are not available programmatically, so they cannot be perceived and conveyed by assistive technology.",
+    "Not Applicable": "The website or application does not contain data tables.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "502.3.4 Values",
+    "Criteria": "502.3.4",
+    "Supports": "When objects are present that have a current value or have a set or range of values associated with the object, the value(s) are available programmatically, so they can be perceived and conveyed by assistive technology.",
+    "Partially Supports": "For most objects that have a current value or have a set or range of values associated with the object, the value(s) are available programmatically, so they can be perceived and conveyed by assistive technology.",
+    "Does not Support": "For most, if not all, objects that have a current value or have a set or range of values associated with the object, the value(s) are not available programmatically, so they cannot be perceived and conveyed by assistive technology.",
+    "Not Applicable": "The website or application does not contain objects that have a current value or have a set or range of values associated with the object.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "502.3.5 Modification of Values",
+    "Criteria": "502.3.5",
+    "Supports": "When an object is present that allows the user to set or modify its value, the act of setting a value is available programmatically, so that it can be perceived and performed using assistive technology.",
+    "Partially Supports": "For most objects that allow the user to set or modify their value, the act of setting a value is available programmatically, so that it can be perceived and performed using assistive technology.",
+    "Does not Support": "For most, if not all, objects that allow the user to set or modify their value, the act of setting a value is not available programmatically, so that it cannot be perceived and performed using assistive technology.",
+    "Not Applicable": "The website or application does not contain an object that allows the user to set or modify its value.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "503.2 User Preferences",
+    "Criteria": "503.2",
+    "Supports": "The website or application allows users to set or modify color, contrast, font type, and size, and focus the cursor.",
+    "Partially Supports": "In most instances, the website or application allows users to set or modify color, contrast, font type, and size, and focus the cursor.",
+    "Does not Support": "In most instances, the website or application does not allow users to set or modify color, contrast, font type, and size, and focus the cursor.",
+    "Not Applicable": "The product is not platform software that provides user preferences for color, contrast, font type, font size, or focus cursor; these preferences are provided by the platform and assistive technologies.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 11 - Software (Only 11.7 and 11.8 apply to Web)",
+    "Checkpoint": "11.5.2.16 Modifications of states and properties",
+    "Criteria": "11.5.2.16",
+    "Supports": "The states and properties of user interface elements, whose state can be modified by a user without the use of assistive technology, can be programmatically modified by assistive technologies.",
+    "Partially Supports": "The states and properties of most user interface elements, whose state can be modified by a user without the use of assistive technology, can be programmatically modified by assistive technologies.",
+    "Does not Support": "The states and properties of most, if not all, user interface elements, whose state can be modified by a user without the use of assistive technology, cannot be programmatically modified by assistive technologies.",
+    "Not Applicable": "The ICT does not have a user interface, or The ICT does not have user interface elements that can be modified by the user without the use of assistive technology, or The ICT security requirements do not permit modification of user interface elements.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "502.3.7 Hierarchical Relationships",
+    "Criteria": "502.3.7",
+    "Supports": "When a page contains elements that have a parent-child relationship, those relationships are programmatically determinable, so they can be perceived by assistive technology.",
+    "Partially Supports": "For most elements that have a parent-child relationship, those relationships are programmatically determinable, so they can be perceived by assistive technology.",
+    "Does not Support": "For most, if not all, elements that have a parent-child relationship, those relationships are not programmatically determinable, so they cannot be perceived by assistive technology.",
+    "Not Applicable": "The website or application does not contain elements that have a parent-child relationship.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "502.3.8 Text",
+    "Criteria": "502.3.8",
+    "Supports": "All text, text attributes (such as whether text is static or editable), and text boundaries (such as text that receives visual focus) are programmatically determinable, so they can be perceived and conveyed by assistive technology.",
+    "Partially Supports": "Most text, text attributes (such as whether text is static or editable), and text boundaries are programmatically determinable, so they can be perceived and conveyed by assistive technology.",
+    "Does not Support": "Most, if not all, text, text attributes (such as whether text is static or editable), and text boundaries (such as text receiving visual focus) are not programmatically determinable, so they cannot be perceived and conveyed by assistive technology.",
+    "Not Applicable": "The website or application does not contain any text content.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "502.3.9 Modification of Text",
+    "Criteria": "502.3.9",
+    "Supports": "When text can be set by the user (such as by typing in an input field), the act of adding or modifying text is available programmatically, so that it can be perceived and performed using assistive technology.",
+    "Partially Supports": "In most instances, when text can be set by the user (such as by typing in an input field), the act of adding or modifying text is available programmatically, so that it can be perceived and performed using assistive technology.",
+    "Does not Support": "In most, if not all, instances when text can be set by the user (such as by typing in an input field), the act of adding or modifying text is not available programmatically, so that it cannot be perceived or performed using assistive technology.",
+    "Not Applicable": "The website or application does not contain elements that allow text to be entered or modified.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "502.3.10 List of Actions",
+    "Criteria": "502.3.10",
+    "Supports": "When one or more actions may be performed on an element, all of those actions are programmatically determinable, so that each action can be perceived and conveyed by assistive technology.",
+    "Partially Supports": "For most of the elements on which one or more actions may be performed, all of those actions are programmatically determinable, so that each action can be perceived and conveyed by assistive technology.",
+    "Does not Support": "For most, if not all, elements on which one or more actions may be performed, those actions are not programmatically determinable, so that each action cannot be perceived and conveyed by assistive technology.",
+    "Not Applicable": "The website or application does not contain interactive elements on which one or more actions may be performed.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "502.3.11 Actions on Objects",
+    "Criteria": "502.3.11",
+    "Supports": "When one or more actions may be performed on an element, all of those actions are available programmatically, so that each action can be performed using assistive technology.",
+    "Partially Supports": "For most of the elements on which one or more actions may be performed, all of those actions are available programmatically, so that each action can be performed using assistive technology.",
+    "Does not Support": "For most, if not all, elements on which one or more actions may be performed, those actions are not  programmatically determinable, so that each action cannot be performed using assistive technology.",
+    "Not Applicable": "The website or application does not contain interactive elements on which one or more actions may be performed.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "502.3.12 Focus Cursor",
+    "Criteria": "502.3.12",
+    "Supports": "The position and content of the focus indicator, text insertion point, and/or text selector are programmatically determinable, so that focus position and content can be perceived and conveyed by assistive technology.",
+    "Partially Supports": "On most pages, the position and content of the focus indicator, text insertion point, and/or text selector are programmatically determinable, so that focus position and content can be perceived and conveyed by assistive technology.",
+    "Does not Support": "On most, if not all, pages, the position and content of the focus indicator, text insertion point, and/or text selector are not programmatically determinable, so that focus position and content cannot be perceived and conveyed by assistive technology.",
+    "Not Applicable": "The website or application does not contain a focus indicator, text insertion point, or text selector.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "502.3.13 Modification of Focus Cursor",
+    "Criteria": "502.3.13",
+    "Supports": "When the focus indicator, text insertion point, and/or text selector indicator can be modified, the modifications are programmatically determinable, so they can be performed by assistive technology.",
+    "Partially Supports": "When the focus indicator, text insertion point, and/or text selector indicator can be modified, most of the modifications are programmatically determinable, so they can be performed by assistive technology.",
+    "Does not Support": "When the focus indicator, text insertion point, and/or text selector indicator can be modified, most, if not all, of the modifications are not programmatically determinable, so they cannot be performed by assistive technology.",
+    "Not Applicable": "The website or application does not allow modification of the focus indicator, text insertion point, or text selector indicator.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "502.3.14 Event Notification",
+    "Criteria": "502.3.14",
+    "Supports": "Status messages relevant to user interactions are available to, and presented by, assistive technology.",
+    "Partially Supports": "In most cases, status messages relevant to user interactions are available to, and presented by, assistive technology.",
+    "Does not Support": "Most, if not all, status messages relevant to user interactions are not available to, and are not presented by, assistive technology.",
+    "Not Applicable": "The website or application does not generate status messages.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "502.4 Platform Accessibility Features",
+    "Criteria": "502.4",
+    "Supports": "The platform software provides the set of documented accessibility services needed to support applications running on the platform in an accessible manner.",
+    "Partially Supports": "The platform software provides most of the documented accessibility services needed to support applications running on the platform in an accessible manner.",
+    "Does not Support": "The platform software does not provide most, if not all, of the documented accessibility services needed to support applications running on the platform in an accessible manner.",
+    "Not Applicable": "The website or application is not platform software, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 11 - Software (Only 11.7 and 11.8 apply to Web)",
+    "Checkpoint": "11.5.2.6 Row, column, and headers",
+    "Criteria": "11.5.2.6",
+    "Supports": "The ICT is software that provides a user interface and makes the row and column of each cell in a data table, including headers of the row and column if present, programmatically determinable by assistive technologies.",
+    "Partially Supports": "The ICT is software that provides a user interface and makes the row and column of most cells in a data table, including headers of the row and column if present, programmatically determinable by assistive technologies.",
+    "Does not Support": "The ICT is software that provides a user interface but does not make the row and column of most, if not all, cells in a data table, including headers of the row and column if present, programmatically determinable by assistive technologies.",
+    "Not Applicable": "The ICT is not software that provides a user interface.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "503.4.1 Caption Controls",
+    "Criteria": "503.4.1",
+    "Supports": "Each multimedia player provides the closed caption controls at the same level as other media controls, so people who are deaf and others who need closed captions are able to find the controls and activate the captions.",
+    "Partially Supports": "In most instances, multimedia players provide closed caption controls at the same level as other media controls.",
+    "Does not Support": "In most, if not all, instances, multimedia players do not provide closed caption controls at the same level as other media controls.",
+    "Not Applicable": "The website or application does not contain media with an audio component that has closed captions.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "503.4.2 Audio Description Controls",
+    "Criteria": "503.4.2",
+    "Supports": "Each multimedia player provides the audio description controls at the same level as other media controls, so people who are blind or have low vision and others who need audio descriptions are able to find the controls and activate the descriptions.",
+    "Partially Supports": "In most instances, multimedia players provide the audio description controls at the same level as other media controls.",
+    "Does not Support": "In most, if not all, instances, multimedia players do not provide the audio description controls at the same level as other media controls.",
+    "Not Applicable": "The website or application does not contain media with a video component that offers audio descriptions.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "504.2.2 PDF Export",
+    "Criteria": "504.2.2",
+    "Supports": "In its capacity as an authoring tool, the website or application preserves accessibility information when converting content to a PDF file, so information in the original format necessary to make portions of the content accessible is provided in the PDF file, and this content will be available to people with disabilities.",
+    "Partially Supports": "In most instances, in its capacity as an authoring tool, the website or application preserves accessibility information when converting content to a PDF file, so information in the original format necessary to make portions of the content accessible is provided in the PDF file, and this content will be available to people with disabilities.",
+    "Does not Support": "In most, if not all, instances in its capacity as an authoring tool, the website or application does not preserve accessibility information when converting content to a PDF file, so information in the original format necessary to make portions of the content accessible is not provided in the PDF file, and this content will not be available to people with disabilities.",
+    "Not Applicable": "The website or application is not an authoring tool.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "504.3 Prompts",
+    "Criteria": "504.3",
+    "Supports": "In its capacity as an authoring tool, the website or application prompts content creators to make the content accessible during or after creation, so the information necessary to make portions of the content accessible may be added, and that content will be available to some people with disabilities.",
+    "Partially Supports": "In most instances, in its capacity as an authoring tool, the website or application prompts content creators to make the content accessible during or after creation, so the information necessary to make portions of the content accessible may be added, and that content will be available to some people with disabilities.",
+    "Does not Support": "In most, if not all, instances in its capacity as an authoring tool, the website or application does not prompt content creators to make the content accessible during or after creation, so the information necessary to make portions of the content accessible may not be added, and that content will not be available to some people with disabilities.",
+    "Not Applicable": "The website or application is not an authoring tool.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 6",
+    "Checkpoint": "602.2 Accessibility and Compatibility Features",
+    "Criteria": "602.2",
+    "Supports": "Documentation is provided for the website or application that includes information on its accessibility features or on features that make it compatible with assistive technology, so people with disabilities will know these features exist and how to use them.",
+    "Partially Supports": "Documentation is provided for the website or application that includes most information on its accessibility features or on features that make it compatible with assistive technology, so people with disabilities will know these features exist and how to use them.",
+    "Does not Support": "Documentation is provided for the website or application, but it does not include most, if not all, information on its accessibility features or on features that make it compatible with assistive technology, so people with disabilities will not know these features exist, nor how to use them.",
+    "Not Applicable": "Documentation is not provided for the website or application.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 11 - Software (Only 11.7 and 11.8 apply to Web)",
+    "Checkpoint": "11.5.2.7 Values",
+    "Criteria": "11.5.2.7",
+    "Supports": "The ICT is software that provides a user interface and makes all element values programmatically determinable.",
+    "Partially Supports": "The ICT is software that provides a user interface and makes most element values programmatically determinable.",
+    "Does not Support": "The ICT is software that provides a user interface but does not make most, if not all, element values programmatically determinable.",
+    "Not Applicable": "The ICT is not software that provides a user interface.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 6",
+    "Checkpoint": "602.4 Alternate Formats for Non-Electronic Support Documentation",
+    "Criteria": "602.4",
+    "Supports": "Documentation for the website or application is provided in non-electronic formats, but alternative accessible formats are available, so the documentation and the information it contains are accessible to people with disabilities.",
+    "Partially Supports": "Documentation for the website or application is provided in non-electronic formats, but alternative accessible formats are available for most content, so the documentation and the information it contains are accessible to people with disabilities.",
+    "Does not Support": "Documentation for the website or application is provided in non-electronic formats, but alternative accessible formats are not available for most or all content, so the documentation and the information it contains may not be accessible to some people with disabilities.",
+    "Not Applicable": "Documentation is not provided for the website or application.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 6",
+    "Checkpoint": "603.2 Information on Accessibility and Compatibility Features",
+    "Criteria": "603.2",
+    "Supports": "Support services provide information on the website's or application's accessibility features or on features that make it compatible with assistive technology, so people with disabilities will know these features exist and how to use them.",
+    "Partially Supports": "Support services provide most information on the website's or application's accessibility features or on features that make it compatible with assistive technology, so people with disabilities will know these features exist and how to use them.",
+    "Does not Support": "Support services do not provide most, if not all, information on the website's or application's accessibility features or on features that make it compatible with assistive technology, so people with disabilities may not know these features exist or how to use them.",
+    "Not Applicable": "Support services are not provided for the website or application.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 6",
+    "Checkpoint": "603.3 Accommodation of Communication Needs",
+    "Criteria": "603.3",
+    "Supports": "Support services for the website or application provide accommodations to support people with communication-related disabilities, so people with communication-related disabilities can access needed product support.",
+    "Partially Supports": "Most support services for the website or application provide accommodations to support people with communication-related disabilities, so people with communication-related disabilities can access needed product support.",
+    "Does not Support": "Most, if not all, support services for the website or application do not provide accommodations to support people with communication-related disabilities, so at least some people with disabilities cannot access needed product support.",
+    "Not Applicable": "Support services are not provided for the website or application.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 4",
+    "Checkpoint": "4.2.1 Usage without vision",
+    "Criteria": "4.2.1",
+    "Supports": "All functionality is usable without vision.",
+    "Partially Supports": "Most functionality is usable without vision.",
+    "Does not Support": "Most, if not all, functionality is not usable without vision.",
+    "Not Applicable": "The product does not require the use of vision.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 4",
+    "Checkpoint": "4.2.2 Usage with limited vision",
+    "Criteria": "4.2.2",
+    "Supports": "All functionality is usable with limited vision.",
+    "Partially Supports": "Most functionality is usable with limited vision.",
+    "Does not Support": "Most, if not all, functionality is not usable with limited vision.",
+    "Not Applicable": "The product does not require the use of vision.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 4",
+    "Checkpoint": "4.2.3 Usage without perception of colour",
+    "Criteria": "4.2.3",
+    "Supports": "All functionality is usable without requiring color perception.",
+    "Partially Supports": "Most functionality is usable without perception of color.",
+    "Does not Support": "Most, if not all, functionality is not usable without perception of color.",
+    "Not Applicable": "The product does not require the perception of color.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 4",
+    "Checkpoint": "4.2.4 Usage without hearing",
+    "Criteria": "4.2.4",
+    "Supports": "All functionality is usable without hearing.",
+    "Partially Supports": "Most functionality is usable without hearing.",
+    "Does not Support": "Most, if not all, functionality is not usable without hearing.",
+    "Not Applicable": "The product does not require the use of hearing.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 4",
+    "Checkpoint": "4.2.5 Usage with limited hearing",
+    "Criteria": "4.2.5",
+    "Supports": "All functionality is usable with limited hearing.",
+    "Partially Supports": "Most functionality is usable with limited hearing.",
+    "Does not Support": "Most, if not all, functionality is not usable with limited hearing.",
+    "Not Applicable": "The product does not require the use of hearing.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 4",
+    "Checkpoint": "4.2.6 Usage with no or limited vocal capability",
+    "Criteria": "4.2.6",
+    "Supports": "All functionality is usable without speech or other vocal output.",
+    "Partially Supports": "Most functionality is usable without speech or other vocal output.",
+    "Does not Support": "Most, if not all, functionality is not usable without speech or other vocal output.",
+    "Not Applicable": "The product does not require the use of speech or other vocal output.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 4",
+    "Checkpoint": "4.2.7 Usage with limited manipulation or strength",
+    "Criteria": "4.2.7",
+    "Supports": "All functionality is usable by people with limited manipulation or strength and does not require manipulation, simultaneous action, or hand strength.",
+    "Partially Supports": "Most functionality is usable by people with limited manipulation and does not require manipulation, simultaneous action, or hand strength.",
+    "Does not Support": "Most, if not all, functionality is not usable by people with limited manipulation and/or requires manipulation, simultaneous action, or hand strength.",
+    "Not Applicable": "The product does not require manipulation or strength to operate.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 4",
+    "Checkpoint": "4.2.8 Usage with limited reach",
+    "Criteria": "4.2.8",
+    "Supports": "All functionality is usable by people with limited reach.",
+    "Partially Supports": "Most functionality is usable by people with limited reach.",
+    "Does not Support": "Users with limited reach will have difficulty navigating and/or operating most of the product's controls.",
+    "Not Applicable": "The product does not require reach to operate.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 4",
+    "Checkpoint": "4.2.9 Minimize photosensitive seizure triggers",
+    "Criteria": "4.2.9",
+    "Supports": "All functionality may be operated in a mode that minimizes the potential for triggering photosensitive seizures.",
+    "Partially Supports": "Most functionality may be operated in a mode that minimizes the potential for triggering photosensitive seizures.",
+    "Does not Support": "Most, if not all, functionality cannot be operated in a mode that minimizes the potential for triggering photosensitive seizures.",
+    "Not Applicable": "The product does not contain flashing content or media.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 11 - Software (Only 11.7 and 11.8 apply to Web)",
+    "Checkpoint": "11.5.2.9 Parent-child relationships",
+    "Criteria": "11.5.2.9",
+    "Supports": "The ICT software provides a user interface that makes the relationship between a user interface element and any parent or children elements programmatically determinable by assistive technologies.",
+    "Partially Supports": "The ICT software provides a user interface that makes the relationship between most user interface elements and any parent or children elements programmatically determinable by assistive technologies.",
+    "Does not Support": "The ICT software provides a user interface but does not make the relationship between most, if not all, user interface elements and any parent or children elements programmatically determinable by assistive technologies.",
+    "Not Applicable": "The ICT is not software that provides a user interface.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 11 - Software (Only 11.7 and 11.8 apply to Web)",
+    "Checkpoint": "11.5.2.8 Label relationships",
+    "Criteria": "11.5.2.8",
+    "Supports": "The ICT software provides a user interface that exposes the relationship that a user interface element has as a label for another element, or of being labelled by another element, using the services as described in clause 11.5.2.3.",
+    "Partially Supports": "The ICT software provides a user interface that, for most elements, exposes the relationship that a user interface element has as a label for another element, or of being labelled by another element, using the services as described in clause 11.5.2.3.",
+    "Does not Support": "The ICT software provides a user interface but, for most, if not all, elements, does not expose the relationship that a user interface element has as a label for another element, or of being labelled by another element, using the services as described in clause 11.5.2.3.",
+    "Not Applicable": "The ICT is not software that provides a user interface.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.1.3.3 Auditory output correlation",
+    "Criteria": "5.1.3.3",
+    "Supports": "Where the product provides closed functionality with auditory output, any non-speech auditory output that conveys information is correlated with the corresponding visual output, so that people who cannot see the display can understand the information.",
+    "Partially Supports": "Where the product provides closed functionality with auditory output, most non-speech auditory output that conveys information is correlated with the corresponding visual output.",
+    "Does not Support": "Where the product provides closed functionality with auditory output, most, if not all, non-speech auditory output that conveys information is not correlated with the corresponding visual output.",
+    "Not Applicable": "The product does not provide closed functionality, and it permits information to be conveyed to assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.1.3.4 Speech output user control",
+    "Criteria": "5.1.3.4",
+    "Supports": "Where the product provides speech output as a non-visual means of accessing closed functionality, the user is able to interrupt, repeat, and replay the speech output.",
+    "Partially Supports": "Where the product provides speech output as a non-visual means of accessing closed functionality, the user is able to interrupt, repeat, and replay most of the speech output.",
+    "Does not Support": "Where the product provides speech output as a non-visual means of accessing closed functionality, the user is not able to interrupt, repeat, or replay most, if not all, of the speech output.",
+    "Not Applicable": "The product does not provide speech output as a non-visual means of accessing closed functionality; access is provided through the platform and assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.1.3.5 Speech output automatic interruption",
+    "Criteria": "5.1.3.5",
+    "Supports": "Where the product provides speech output as a non-visual means of accessing closed functionality, the speech output is automatically interrupted when the user takes an action and when new speech output begins.",
+    "Partially Supports": "Where the product provides speech output as a non-visual means of accessing closed functionality, most speech output is automatically interrupted when the user takes an action and when new speech output begins.",
+    "Does not Support": "Where the product provides speech output as a non-visual means of accessing closed functionality, most, if not all, speech output is not automatically interrupted when the user takes an action or when new speech output begins.",
+    "Not Applicable": "The product does not provide speech output as a non-visual means of accessing closed functionality; access is provided through the platform and assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.1.3.6 Speech output for non-text content",
+    "Criteria": "5.1.3.6",
+    "Supports": "Where the product provides speech output as a non-visual means of accessing closed functionality, non-text content that is displayed to the user is also presented as speech output through its text alternative.",
+    "Partially Supports": "Where the product provides speech output as a non-visual means of accessing closed functionality, most non-text content that is displayed to the user is also presented as speech output through its text alternative.",
+    "Does not Support": "Where the product provides speech output as a non-visual means of accessing closed functionality, most, if not all, non-text content that is displayed to the user is not presented as speech output through its text alternative.",
+    "Not Applicable": "The product does not provide speech output as a non-visual means of accessing closed functionality; access is provided through the platform and assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.1.3.7 Speech output for video information",
+    "Criteria": "5.1.3.7",
+    "Supports": "Where the product provides speech output as a non-visual means of accessing closed functionality, essential visual information presented in video is also available through speech output.",
+    "Partially Supports": "Where the product provides speech output as a non-visual means of accessing closed functionality, most essential visual information presented in video is also available through speech output.",
+    "Does not Support": "Where the product provides speech output as a non-visual means of accessing closed functionality, most, if not all, essential visual information presented in video is not available through speech output.",
+    "Not Applicable": "The product does not provide speech output as a non-visual means of accessing closed functionality; access is provided through the platform and assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.1.3.8 Masked entry",
+    "Criteria": "5.1.3.8",
+    "Supports": "Where the product provides speech output and masks entered data on the display, it provides at least one mode in which the corresponding speech output is also masked, or the user can control whether it is spoken aloud, preserving the privacy of the entered data.",
+    "Partially Supports": "Where the product provides speech output and masks entered data on the display, in most cases it provides a mode in which the corresponding speech output is also masked, or the user can control whether it is spoken aloud.",
+    "Does not Support": "Where the product provides speech output and masks entered data on the display, in most, if not all, cases it does not provide a mode in which the corresponding speech output is masked, and the user cannot control whether it is spoken aloud.",
+    "Not Applicable": "The product does not provide speech output as a non-visual means of accessing closed functionality; access is provided through the platform and assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.1.3.9 Private access to personal data",
+    "Criteria": "5.1.3.9",
+    "Supports": "Where the product provides speech output of the user's personal data, it provides a mechanism for that speech output to be heard privately, such as through a personal headset.",
+    "Partially Supports": "Where the product provides speech output of the user's personal data, in most cases it provides a mechanism for that speech output to be heard privately, such as through a personal headset.",
+    "Does not Support": "Where the product provides speech output of the user's personal data, in most, if not all, cases it does not provide a mechanism for that speech output to be heard privately.",
+    "Not Applicable": "The product does not provide speech output as a non-visual means of accessing closed functionality; access is provided through the platform and assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.1.3.10 Non-interfering audio output",
+    "Criteria": "5.1.3.10",
+    "Supports": "Where the product provides speech output and also plays other automatic audio for more than three seconds, it provides a mechanism to reduce the volume of, or turn off, the non-speech audio so that it does not interfere with the speech output.",
+    "Partially Supports": "Where the product provides speech output and also plays other automatic audio for more than three seconds, in most cases it provides a mechanism to reduce the volume of, or turn off, the non-speech audio so that it does not interfere with the speech output.",
+    "Does not Support": "Where the product provides speech output and also plays other automatic audio for more than three seconds, in most, if not all, cases it does not provide a mechanism to reduce the volume of, or turn off, the non-speech audio, and it interferes with the speech output.",
+    "Not Applicable": "The product does not provide speech output as a non-visual means of accessing closed functionality; access is provided through the platform and assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.1.3.11 Private listening volume",
+    "Criteria": "5.1.3.11",
+    "Supports": "Where the product provides speech output through a mechanism for private listening, the user is able to control the volume of the speech output.",
+    "Partially Supports": "Where the product provides speech output through a mechanism for private listening, in most cases the user is able to control the volume of the speech output.",
+    "Does not Support": "Where the product provides speech output through a mechanism for private listening, in most, if not all, cases the user is not able to control the volume of the speech output.",
+    "Not Applicable": "The product does not provide speech output as a non-visual means of accessing closed functionality; access is provided through the platform and assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.1.3.12 Speaker volume",
+    "Criteria": "5.1.3.12",
+    "Supports": "Where the product provides auditory output through a speaker, the user is able to adjust the volume across an incremental range of settings.",
+    "Partially Supports": "Where the product provides auditory output through a speaker, in most cases the user is able to adjust the volume across an incremental range of settings.",
+    "Does not Support": "Where the product provides auditory output through a speaker, in most, if not all, cases the user is not able to adjust the volume across an incremental range of settings.",
+    "Not Applicable": "The product does not provide auditory output through an integral speaker; audio is conveyed through the platform and assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.1.3.13 Volume reset",
+    "Criteria": "5.1.3.13",
+    "Supports": "Where the product provides auditory output that is not delivered through a private listening mechanism, any volume increase above the default level is automatically reset to the default when the product is used by a new user.",
+    "Partially Supports": "Where the product provides auditory output that is not delivered through a private listening mechanism, in most cases any volume increase above the default level is automatically reset to the default when the product is used by a new user.",
+    "Does not Support": "Where the product provides auditory output that is not delivered through a private listening mechanism, in most, if not all, cases any volume increase above the default level is not automatically reset to the default when the product is used by a new user.",
+    "Not Applicable": "The product does not provide auditory output through an integral speaker; audio is conveyed through the platform and assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.1.3.14 Spoken languages",
+    "Criteria": "5.1.3.14",
+    "Supports": "Where the product provides speech output, the speech is delivered in the same human language as the displayed content, provided the language is supported by the speech synthesizer.",
+    "Partially Supports": "Where the product provides speech output, in most cases the speech is delivered in the same human language as the displayed content, provided the language is supported by the speech synthesizer.",
+    "Does not Support": "Where the product provides speech output, in most, if not all, cases the speech is not delivered in the same human language as the displayed content, even where the language is supported by the speech synthesizer.",
+    "Not Applicable": "The product does not provide speech output as a non-visual means of accessing closed functionality; access is provided through the platform and assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.1.3.15 Non-visual error identification",
+    "Criteria": "5.1.3.15",
+    "Supports": "Where the product provides speech output and automatically detects an input error, it identifies the item that is in error and describes the error through speech output.",
+    "Partially Supports": "Where the product provides speech output and automatically detects an input error, in most cases it identifies the item that is in error and describes the error through speech output.",
+    "Does not Support": "Where the product provides speech output and automatically detects an input error, in most, if not all, cases it does not identify the item that is in error or describe the error through speech output.",
+    "Not Applicable": "The product does not provide speech output as a non-visual means of accessing closed functionality; access is provided through the platform and assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.1.3.16 Receipts, tickets, and transactional outputs",
+    "Criteria": "5.1.3.16",
+    "Supports": "Where the product provides speech output and issues receipts, tickets, or other transactional outputs, the information on those outputs is also available through speech output while preserving privacy.",
+    "Partially Supports": "Where the product provides speech output and issues receipts, tickets, or other transactional outputs, in most cases the information on those outputs is also available through speech output while preserving privacy.",
+    "Does not Support": "Where the product provides speech output and issues receipts, tickets, or other transactional outputs, in most, if not all, cases the information on those outputs is not available through speech output.",
+    "Not Applicable": "The product does not issue receipts, tickets, or other transactional outputs through closed functionality; this information is available electronically and through assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.1.4 Functionality closed to text enlargement",
+    "Criteria": "5.1.4",
+    "Supports": "Where the product's functionality is closed to assistive technology used for text enlargement, the product provides a mode of operation that displays text at a size of at least twice the default, or provides a means to connect an external monitor for enlargement.",
+    "Partially Supports": "Where the product's functionality is closed to assistive technology used for text enlargement, in most cases the product provides a mode of operation that enlarges text to at least twice the default size, or provides a means to connect an external monitor for enlargement.",
+    "Does not Support": "Where the product's functionality is closed to assistive technology used for text enlargement, in most, if not all, cases the product does not provide a mode of operation that enlarges text, nor a means to connect an external monitor for enlargement.",
+    "Not Applicable": "The product's functionality is not closed to assistive technology; users can enlarge text using the platform and assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.1.5 Visual output for auditory information",
+    "Criteria": "5.1.5",
+    "Supports": "Where the product provides closed functionality that conveys information through auditory output, an equivalent visual alternative is also provided, so that people who are deaf or hard of hearing can access the information.",
+    "Partially Supports": "Where the product provides closed functionality that conveys information through auditory output, in most cases an equivalent visual alternative is also provided.",
+    "Does not Support": "Where the product provides closed functionality that conveys information through auditory output, in most, if not all, cases an equivalent visual alternative is not provided.",
+    "Not Applicable": "The product does not provide closed functionality, and auditory information is available to assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.1.6.2 Input focus",
+    "Criteria": "5.1.6.2",
+    "Supports": "Where the product provides closed functionality that is operable through a keyboard or keyboard interface, the component with the input focus is visually indicated, so that users can see which element will respond to input.",
+    "Partially Supports": "Where the product provides closed functionality that is operable through a keyboard or keyboard interface, in most cases the component with the input focus is visually indicated.",
+    "Does not Support": "Where the product provides closed functionality that is operable through a keyboard or keyboard interface, in most, if not all, cases the component with the input focus is not visually indicated.",
+    "Not Applicable": "The product does not provide closed functionality; keyboard focus is handled through the platform and assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.1.7 Access without speech",
+    "Criteria": "5.1.7",
+    "Supports": "Where the product provides closed functionality that is operated through speech input, at least one mode of operation is provided that does not require the user to produce speech.",
+    "Partially Supports": "Where the product provides closed functionality that is operated through speech input, in most cases at least one mode of operation is provided that does not require the user to produce speech.",
+    "Does not Support": "Where the product provides closed functionality that is operated through speech input, in most, if not all, cases no mode of operation is provided that does not require the user to produce speech.",
+    "Not Applicable": "The product does not require speech input to operate; all functionality can be operated through standard input methods, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.2 Activation of accessibility features",
+    "Criteria": "5.2",
+    "Supports": "Where the product provides documented accessibility features, it provides a means to activate those features that can itself be operated by the users who need them, without requiring the very ability the feature is intended to support.",
+    "Partially Supports": "Where the product provides documented accessibility features, most of those features can be activated by a means that can itself be operated by the users who need them.",
+    "Does not Support": "Where the product provides documented accessibility features, most, if not all, of those features cannot be activated by a means that can itself be operated by the users who need them.",
+    "Not Applicable": "The product does not have any documented accessibility features that require activation. Accessibility support is provided through the platform and assistive technologies, which do not need to be activated within the product.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.3 Biometrics",
+    "Criteria": "5.3",
+    "Supports": "Where the product uses biological characteristics for user identification or control, it does not rely on a single biological characteristic, and it provides at least one mode of operation that does not require biometrics.",
+    "Partially Supports": "Where the product uses biological characteristics for user identification or control, in most cases it does not rely on a single biological characteristic and provides an alternative mode of operation that does not require biometrics.",
+    "Does not Support": "Where the product uses biological characteristics for user identification or control, in most, if not all, cases it relies on a single biological characteristic and does not provide an alternative mode of operation that does not require biometrics.",
+    "Not Applicable": "The product does not use biometric forms of user identification or control. All functionality is accessible through standard input methods (keyboard, mouse, UI).",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.4 Preservation of accessibility information during conversion",
+    "Criteria": "5.4",
+    "Supports": "Where the product converts information or communication from one format to another, the accessibility information present in the source is preserved in the output to the extent that equivalent mechanisms exist in the destination format.",
+    "Partially Supports": "Where the product converts information or communication from one format to another, in most cases the accessibility information present in the source is preserved in the output where equivalent mechanisms exist in the destination format.",
+    "Does not Support": "Where the product converts information or communication from one format to another, in most, if not all, cases the accessibility information present in the source is not preserved in the output even where equivalent mechanisms exist in the destination format.",
+    "Not Applicable": "The product does not convert information or communication from one format to another. As no conversion of accessibility information takes place, there is no accessibility information to be preserved.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.5.1 Means of operation",
+    "Criteria": "5.5.1",
+    "Supports": "Where the product has operable parts that require grasping, pinching, or twisting of the wrist to operate, an alternative accessible means of operation that does not require these actions is provided.",
+    "Partially Supports": "Where the product has operable parts, in most cases an alternative means of operation that does not require grasping, pinching, or twisting of the wrist is provided.",
+    "Does not Support": "Where the product has operable parts, in most, if not all, cases no alternative means of operation is provided that does not require grasping, pinching, or twisting of the wrist.",
+    "Not Applicable": "The product does not have physical operable parts; all functionality is operated through standard input methods, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.5.2 Operable parts discernibility",
+    "Criteria": "5.5.2",
+    "Supports": "Where the product has physical operable parts, those parts are discernible without vision through tactile or auditory means.",
+    "Partially Supports": "Where the product has physical operable parts, in most cases those parts are discernible without vision through tactile or auditory means.",
+    "Does not Support": "Where the product has physical operable parts, in most, if not all, cases those parts are not discernible without vision through tactile or auditory means.",
+    "Not Applicable": "The product does not have physical operable parts; all functionality is operated through standard input methods, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.6.1 Tactile or auditory status",
+    "Criteria": "5.6.1",
+    "Supports": "Where the product has a locking or toggle control that is presented visually, the status of that control can be determined through touch or sound without requiring vision.",
+    "Partially Supports": "Where the product has locking or toggle controls, in most cases the status of the control can be determined through touch or sound without requiring vision.",
+    "Does not Support": "Where the product has locking or toggle controls, in most, if not all, cases the status of the control cannot be determined through touch or sound without requiring vision.",
+    "Not Applicable": "The product does not have physical locking or toggle controls; control status is conveyed through the platform and assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.6.2 Visual status",
+    "Criteria": "5.6.2",
+    "Supports": "Where the product has a locking or toggle control, the status of that control is visually discernible, so that it can be determined visually.",
+    "Partially Supports": "Where the product has locking or toggle controls, in most cases the status of the control is visually discernible.",
+    "Does not Support": "Where the product has locking or toggle controls, in most, if not all, cases the status of the control is not visually discernible.",
+    "Not Applicable": "The product does not have physical locking or toggle controls; control status is conveyed through the platform and assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.7 Key repeat",
+    "Criteria": "5.7",
+    "Supports": "Where the product provides a key repeat function, the user is able to turn off key repeat or adjust the key repeat delay to at least two seconds.",
+    "Partially Supports": "Where the product provides a key repeat function, in most cases the user is able to turn off key repeat or adjust the key repeat delay to at least two seconds.",
+    "Does not Support": "Where the product provides a key repeat function, in most, if not all, cases the user is not able to turn off key repeat or adjust the key repeat delay.",
+    "Not Applicable": "The product does not provide a physical keyboard with a key repeat function; text entry is handled through the platform and assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.8 Double-strike key acceptance",
+    "Criteria": "5.8",
+    "Supports": "Where the product has a keyboard or keypad, the user is able to adjust the time period during which two presses of the same key are not accepted as two separate key presses.",
+    "Partially Supports": "Where the product has a keyboard or keypad, in most cases the user is able to adjust the time period during which two presses of the same key are not accepted as two separate key presses.",
+    "Does not Support": "Where the product has a keyboard or keypad, in most, if not all, cases the user is not able to adjust the time period during which two presses of the same key are accepted as two separate key presses.",
+    "Not Applicable": "The product does not have a physical keyboard or keypad; text entry is handled through the platform and assistive technologies, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.9 Simultaneous user actions",
+    "Criteria": "5.9",
+    "Supports": "Where the product's operation requires simultaneous user actions, an alternative mode of operation is provided that does not require more than one action at a time.",
+    "Partially Supports": "Where the product's operation requires simultaneous user actions, in most cases an alternative mode of operation is provided that does not require more than one action at a time.",
+    "Does not Support": "Where the product's operation requires simultaneous user actions, in most, if not all, cases no alternative mode of operation is provided that can be performed with a single action.",
+    "Not Applicable": "The product does not require simultaneous user actions to operate; all functionality can be operated through single actions, so this requirement does not apply.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 4",
+    "Checkpoint": "4.2.11 Privacy",
+    "Criteria": "4.2.11",
+    "Supports": "Where the product provides features for accessibility, it maintains the privacy of people who use these features at the same level as other users.",
+    "Partially Supports": "Where the product provides features for accessibility, it maintains the privacy of most people who use these features at the same level as other users.",
+    "Does not Support": "The product provides features for accessibility; however, the privacy of most, if not all, people who use these features is not maintained at the same level as other users.",
+    "Not Applicable": "The product does not provide any specific accessibility features that impact the user's privacy.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.1.3.2 Auditory output delivery including speech",
+    "Criteria": "5.1.3.2",
+    "Supports": "The product provides closed functionality for auditory output (including speech). However, it allows such output to be provided through only integral auditory features such as speakers or by a personal headset that can be connected through a 3.5 mm audio jack, or another industry standard connection, without requiring the use of vision, so people or who are blind or have low vision and others who use a screen reader, can access audible output.",
+    "Partially Supports": "The product provides closed functionality for auditory output (including speech), and it allows most auditory output to be provided through only integral auditory features such as speakers or by a personal headset that can be connected through a 3.5 mm audio jack, or another industry standard connection, without requiring the use of vision.",
+    "Does not Support": "The product provides closed functionality for auditory output (including speech), and it does not allow most, if not all, auditory output to be provided through only integral auditory features such as speakers or by a personal headset that can be connected through a 3.5 mm audio jack, or another industry standard connection, without requiring the use of vision.",
+    "Not Applicable": "The product allows auditory output (including speech) to be conveyed by outside mechanisms (including speakers, handsets, and earbuds).",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 11 - Software (Only 11.7 and 11.8 apply to Web)",
+    "Checkpoint": "11.5.2.10 Text",
+    "Criteria": "11.5.2.10",
+    "Supports": "The ICT renders text available to assistive technologies including information about the text attributes and the boundary (where the text starts and ends).",
+    "Partially Supports": "The ICT renders most text available to assistive technologies, including information about the text attributes and the boundary (where the text starts and ends).",
+    "Does not Support": "The ICT does not render most, if not all, text available to assistive technologies, including information about the text attributes and the boundary (where the text starts and ends).",
+    "Not Applicable": "The ICT does not have a user interface or render text to the screen.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 11 - Software (Only 11.7 and 11.8 apply to Web)",
+    "Checkpoint": "11.5.2.11 List of available actions",
+    "Criteria": "11.5.2.11",
+    "Supports": "The ICT has a user interface that provides a list of actions that can be executed by the user. This list of actions is programmatically determinable by assistive technologies.",
+    "Partially Supports": "The ICT has a user interface that provides a list of actions that can be executed by the user, and most of those actions are programmatically determinable by assistive technologies.",
+    "Does not Support": "The ICT has a user interface that provides a list of actions that can be executed by the user, but most, if not all, of those actions are not programmatically determinable by assistive technologies.",
+    "Not Applicable": "The ICT does not have a user interface or a list of actions that can be executed by the user.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 7",
+    "Checkpoint": "7.1.2 Captioning synchronization",
+    "Criteria": "7.1.2",
+    "Supports": "When the website or application displays captions for a video that has synchronized audio, the captions are synchronized with the audio, so people who are deaf and others who need captions are able to access the information conveyed in the audio track.",
+    "Partially Supports": "When the website or application displays captions for most videos that have synchronized audio, the captions are synchronized with the audio.",
+    "Does not Support": "When the website or application displays captions for a video that has synchronized audio, the captions are not synchronized with the audio.",
+    "Not Applicable": "The website or application does not contain video that has synchronized audio.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 7",
+    "Checkpoint": "7.1.4 Captions characteristics",
+    "Criteria": "7.1.4",
+    "Supports": "When the website or application displays captions for a video that has synchronized audio, the display characteristics (such as color, font, or size) of the caption text can be modified by the user so people with low vision or color blindness can adapt the caption text to meet their needs.",
+    "Partially Supports": "When the website or application displays captions for video that has synchronized audio, the display characteristics (such as color, font, or size) of most caption text can be modified by the user.",
+    "Does not Support": "When the website or application displays captions for video that has synchronized audio, the display characteristics (such as color, font, or size) of caption text cannot be modified by the user.",
+    "Not Applicable": "The website or application does not contain video that has synchronized audio.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 7",
+    "Checkpoint": "7.1.5 Spoken subtitles",
+    "Criteria": "7.1.5",
+    "Supports": "When the website or application displays captions for a video that has synchronized audio, the captions can be announced as spoken output.",
+    "Partially Supports": "When the website or application displays captions for a video that has synchronized audio, most captions can be announced as spoken output.",
+    "Does not Support": "When the website or application displays captions for a video that has synchronized audio, most, if not all, captions cannot be announced as spoken output.",
+    "Not Applicable": "The website or application does not contain video that has synchronized audio.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 7",
+    "Checkpoint": "7.2.1 Audio description playback",
+    "Criteria": "7.2.1",
+    "Supports": "When the website or application displays video that has synchronized audio, a mechanism is provided to select and play audio description, so people who are blind or have low vision and others who cannot view the video can hear a description of the action and other visual information not conveyed in the soundtrack.",
+    "Partially Supports": "The website or application allows the user to play audio description if it is available for most videos that have synchronized audio.",
+    "Does not Support": "The website or application does not allow the user to play audio description if it is available for a video that has synchronized audio.",
+    "Not Applicable": "The website or application does not contain video that has synchronized audio.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 7",
+    "Checkpoint": "7.2.2 Audio description synchronization",
+    "Criteria": "7.2.2",
+    "Supports": "When the website or application plays audio description for video that has synchronized audio, the audio description is synchronized with the audio soundtrack and the video, so people who are blind or have low vision and other who cannot view the video can hear a description of the action and other visual information not conveyed in the soundtrack.",
+    "Partially Supports": "When the website or application plays audio description for most videos that have synchronized audio, the audio description is synchronized with the audio soundtrack and the video.",
+    "Does not Support": "When the website or application plays audio description for a video that has synchronized audio, the audio description is not synchronized with the audio soundtrack and the video.",
+    "Not Applicable": "The website or application does not contain video that has synchronized audio.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 7",
+    "Checkpoint": "7.2.3 Preservation of audio description",
+    "Criteria": "7.2.3",
+    "Supports": "When the website or application transmits, converts, or records video with synchronized audio, data associated with audio description is preserved, so people who are blind or have low vision and other who cannot view the video are able to hear a description of the action and other visual information not conveyed in the soundtrack.",
+    "Partially Supports": "In most cases, when the website or application transmits, converts, or records video with synchronized audio, data associated with audio description is preserved.",
+    "Does not Support": "In most, if not all, cases, when the website or application transmits, converts, or records video with synchronized audio, data associated with audio descriptions is not preserved",
+    "Not Applicable": "The website or application does not transmit, convert, or record video that has synchronized audio.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 7",
+    "Checkpoint": "7.3 User controls for captions and audio description",
+    "Criteria": "7.3",
+    "Supports": "Each multimedia player provides the caption and audio description controls at the same level as other media controls, so people who are deaf and others who need closed captions are able to find the controls and activate the captions and people who are blind or have low vision and others who need audio descriptions are able to find the controls and activate the descriptions.",
+    "Partially Supports": "In most instances, multimedia players provide closed caption and audio description controls at the same level as other media controls.",
+    "Does not Support": "In most, if not all, instances, multimedia players do not provide closed caption and audio description controls at the same level as other media controls.",
+    "Not Applicable": "The website or application does not contain media with an audio component that has closed captions or media with a video component that has audio description.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 11 - Software (Only 11.7 and 11.8 apply to Web)",
+    "Checkpoint": "11.5.2.5 Object information",
+    "Criteria": "11.5.2.5",
+    "Supports": "The ICT is software that provides a user interface and makes all elements' role, state, boundary, name and description programmatically determinable.",
+    "Partially Supports": "The ICT is software that provides a user interface and makes most elements' role, state, boundary, name and description programmatically determinable.",
+    "Does not Support": "The ICT is software that provides a user interface but does not make most, if not all, elements' role, state, boundary, name and description programmatically determinable.",
+    "Not Applicable": "The ICT is not software that provides a user interface.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 11 - Software (Only 11.7 and 11.8 apply to Web)",
+    "Checkpoint": "11.5.2.4 Assistive technology",
+    "Criteria": "11.5.2.4",
+    "Supports": "The ICT is assistive technology and provides a set of documented platform services to interoperate with assistive technology.",
+    "Partially Supports": "The ICT is assistive technology and provides most of the documented platform services needed to interoperate with assistive technology.",
+    "Does not Support": "The ICT is assistive technology but does not provide most, if not all, of the documented platform services needed to interoperate with assistive technology.",
+    "Not Applicable": "The ICT is not assistive technology.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.4.11.a Focus Not Obscured (Minimum)",
+    "Criteria": "2.4.11",
+    "Supports": "When a user interface component receives keyboard focus, the component is not entirely hidden due to author-created content.",
+    "Partially Supports": "When most user interface components receive keyboard focus, each component is not entirely hidden due to author-created content.",
+    "Does not Support": "When most, if not all, user interface components receive keyboard focus, each component is entirely hidden due to author-created content.",
+    "Not Applicable": "This success criterion technically doesn't apply to native mobile applications.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 11 - Software (Only 11.7 and 11.8 apply to Web)",
+    "Checkpoint": "11.6.1 User control of accessibility features",
+    "Criteria": "11.6.1",
+    "Supports": "The ICT allows user control over platform accessibility features.",
+    "Partially Supports": "The ICT allows user control over most platform accessibility features.",
+    "Does not Support": "The ICT does not allow user control over most, if not all, platform accessibility features.",
+    "Not Applicable": "There are no platform features that are defined in the platform documentation as accessibility features intended for users.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 11 - Software (Only 11.7 and 11.8 apply to Web)",
+    "Checkpoint": "11.8.4 Repair assistance",
+    "Criteria": "11.8.4",
+    "Supports": "In its capacity as an authoring tool, the website or application prompts content creators to make the content accessible during or after creation, so the information necessary to make portions of the content accessible may be added and that content will be available to some people with disabilities.",
+    "Partially Supports": "In most instances, in its capacity as an authoring tool, the website or application prompts content creators to make the content accessible during or after creation, so the information necessary to make portions of the content accessible may be added, and that content will be available to some people with disabilities.",
+    "Does not Support": "In most, if not all, instances in its capacity as an authoring tool, the website or application does not prompt content creators to make the content accessible during or after creation, so the information necessary to make portions of the content accessible may not be added and that content will not be available to some people with disabilities.",
+    "Not Applicable": "The website or application is not an authoring tool.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 12 - Documentation and Support Svcs.",
+    "Checkpoint": "12.1.1 Accessibility and compatibility features",
+    "Criteria": "12.1.1",
+    "Supports": "Documentation is provided for the website or application that includes information on its accessibility features or on features that make it compatible with assistive technology, so people with disabilities will know these features exist and how to use them.",
+    "Partially Supports": "Documentation is provided for the website or application that includes most information on its accessibility features or on features that make it compatible with assistive technology, so people with disabilities will know these features exist and how to use them.",
+    "Does not Support": "Documentation is provided for the website or application, but it does not include most, if not all, information on its accessibility features or on features that make it compatible with assistive technology, so people with disabilities will not know these features exist, nor how to use them.",
+    "Not Applicable": "Documentation is not provided for the website or application.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 12 - Documentation and Support Svcs.",
+    "Checkpoint": "12.1.2 Accessible documentation",
+    "Criteria": "12.1.2",
+    "Supports": "Documentation provided for the website or application is available in digital formats that conform to WCAG 2.1, so the documentation and the information it contains are accessible to people with disabilities.",
+    "Partially Supports": "Most documentation provided for the website or application is available in at least one digital format that conforms to WCAG 2.1, so the documentation and the information it contains are accessible to people with disabilities.",
+    "Does not Support": "Documentation provided for the website or application is not available in at least one digital format that conforms to WCAG 2.1, so the documentation and the information it contains may not be accessible to some people with disabilities.",
+    "Not Applicable": "Documentation is not provided for the website or application.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 11 - Software (Only 11.7 and 11.8 apply to Web)",
+    "Checkpoint": "11.5.2.17 Modifications of values and text",
+    "Criteria": "11.5.2.17",
+    "Supports": "The values of user interface elements, whose values can be modified by a user without the use of assistive technology, can be modified by assistive technologies using the input methods of the platform as well as text of user interface elements.",
+    "Partially Supports": "The values of most user interface elements, whose values can be modified by a user without the use of assistive technology, can be modified by assistive technologies using the input methods of the platform, as well as the text of those user interface elements.",
+    "Does not Support": "The values of most, if not all, user interface elements, whose values can be modified by a user without the use of assistive technology, cannot be modified by assistive technologies using the input methods of the platform, nor can the text of those user interface elements.",
+    "Not Applicable": "The ICT does not have a user interface, \nor The ICT does not have user interface elements that can be modified by the user without the use of assistive technology, or The ICT security requirements do not permit modification of user interface elements.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 11 - Software (Only 11.7 and 11.8 apply to Web)",
+    "Checkpoint": "11.7 User preferences",
+    "Criteria": "11.7",
+    "Supports": "The website or application allows users to set or modify color, contrast, font type, and size, and focus the cursor.",
+    "Partially Supports": "In most instances, the website or application allows users to set or modify color, contrast, font type, and size, and focus the cursor.",
+    "Does not Support": "In most instances, the website or application does not allow users to set or modify color, contrast, font type, and size, and focus the cursor.",
+    "Not Applicable": "The ICT does not have a user interface, or The ICT does not have settings for language, color, contrast, font type, font size, or focus cursor, that correspond to platform settings, or The software is designed to be isolated from its underlying platforms",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "1.2.1.a Text Transcript (Prerecorded Audio Only)",
+    "Criteria": "1.2.1",
+    "Supports": "Prerecorded audio-only (such as MP3 files and audio podcasts) and video-only files have a descriptive text transcript, or the application supports equivalent alternatives to audio and video.",
+    "Partially Supports": "Most prerecorded audio-only files (such as MP3 files and audio podcasts) and video-only files have a descriptive text transcript.",
+    "Does not Support": "Most, if not all, prerecorded audio-only files, such as MP3 files, audio podcasts, and video-only files, do not have a descriptive text transcript.",
+    "Not Applicable": "Prerecorded audio-only and video-only files are not present.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.4.1.a Skip Navigation, Headings or Landmarks",
+    "Criteria": "2.4.1",
+    "Supports": "A method is provided to skip navigation and other page elements that are repeated across web pages.",
+    "Partially Supports": "On most pages, a method is provided to skip navigation and other page elements that are repeated across web pages.",
+    "Does not Support": "On most, if not all, pages, a method is not provided to skip navigation and other page elements that are repeated across web pages.",
+    "Not Applicable": "This success criterion technically doesn't apply to native mobile applications.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.4.4.a Link Purpose (In Context)",
+    "Criteria": "2.4.4",
+    "Supports": "The purpose of each link can be determined from the link text alone or from the link text and its programmatic context.",
+    "Partially Supports": "The purpose of most links can be determined from the link text alone or from the link text and its programmatic context.",
+    "Does not Support": "The purpose of most, if not all, links cannot be determined from the link text alone or from the link text and its programmatic context.",
+    "Not Applicable": "This success criterion technically doesn't apply to native mobile applications.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "3.1.1.a Default Page Language",
+    "Criteria": "3.1.1",
+    "Supports": "The language of each page is correct and can be determined programmatically.",
+    "Partially Supports": "On most pages, the language of the page is correct and can be determined programmatically.",
+    "Does not Support": "On most pages, the language of the page is not correct and/or cannot be determined programmatically.",
+    "Not Applicable": "This success criterion technically doesn't apply to native mobile applications.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "4.1.1.a Complete Start and End Tags",
+    "Criteria": "4.1.1",
+    "Supports": "For WCAG 2.0, 2.1, EN 301 549, and Revised 508 Standards, the September 2023 errata update indicates this criterion is always supported. See the WCAG 2.0 Editorial Errata and the WCAG 2.1 Editorial Errata.",
+    "Partially Supports": "For WCAG 2.0, 2.1, EN 301 549, and Revised 508 Standards, the September 2023 errata update indicates this criterion is always supported. See the WCAG 2.0 Editorial Errata and the WCAG 2.1 Editorial Errata.",
+    "Does not Support": "For WCAG 2.0, 2.1, EN 301 549, and Revised 508 Standards, the September 2023 errata update indicates this criterion is always supported. See the WCAG 2.0 Editorial Errata and the WCAG 2.1 Editorial Errata.",
+    "Not Applicable": "This success criterion technically doesn't apply to native mobile applications.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "2.1.4.a - Character Key Shortcuts",
+    "Criteria": "2.1.4",
+    "Supports": "If a single-character key shortcut exists, then the single-character key shortcut can be turned off or remapped, or it is only active when the relevant user interface component is in focus.",
+    "Partially Supports": "In most cases, when a single-character key shortcut exists, then the single-character key shortcut can be turned off or remapped, or it is only active when the relevant user interface component is in focus.",
+    "Does not Support": "When a single-character key shortcut exists, then the single-character key shortcut cannot be turned off or remapped, and it is active when the relevant user interface component is not in focus.",
+    "Not Applicable": "This success criterion technically doesn't apply to native mobile applications.",
+    "Note": NaN
+  },
+  {
+    "Version": "WCAG",
+    "Checkpoint": "1.3.5.a - Identify Input Purpose",
+    "Criteria": "1.3.5",
+    "Supports": "The purpose for each input field that collects an individual's personal data is programmatically defined based on the WCAG list of Input Purposes for User Interface Components.",
+    "Partially Supports": "The purpose of most input fields that collect an individual's personal data is programmatically defined based on the WCAG list of Input Purposes for User Interface Components.",
+    "Does not Support": "The purpose of most, if not all, input fields that collect an individual's personal data is not programmatically defined based on the WCAG list of Input Purposes for User Interface Components.",
+    "Not Applicable": "This success criterion technically doesn't apply to native mobile applications.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 12 - Documentation and Support Svcs.",
+    "Checkpoint": "12.2.4 Accessible documentation",
+    "Criteria": "12.2.4",
+    "Supports": "Documentation provided by support services is available in digital formats that conform to WCAG 2.1, so the documentation and the information it contains are accessible to people with disabilities.",
+    "Partially Supports": "Most documentation provided by support services is available in at least one digital format that conforms to WCAG 2.1, so the documentation and the information it contains are accessible to people with disabilities.",
+    "Does not Support": "Documentation provided by support services is not available in at least one digital format that conforms to WCAG 2.1, so the documentation and the information it contains may not be accessible to some people with disabilities.",
+    "Not Applicable": "Documentation is not provided by support services for the website or application.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 12 - Documentation and Support Svcs.",
+    "Checkpoint": "12.2.3 Effective communication",
+    "Criteria": "12.2.3",
+    "Supports": "Support services for the website or application provide accommodations to support people with communication-related disabilities, so people with communication-related disabilities can access needed product support.",
+    "Partially Supports": "Most support services for the website or application provide accommodations to support people with communication-related disabilities, so people with communication-related disabilities can access needed product support.",
+    "Does not Support": "Most, if not all, support services for the website or application do not provide accommodations to support people with communication-related disabilities, so at least some people with disabilities cannot access needed product support.",
+    "Not Applicable": "Support services are not provided for the website or application.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 3",
+    "Checkpoint": "302.7 With Limited Manipulation",
+    "Criteria": "302.7",
+    "Supports": "All functionality is usable with limited manipulation and does not require fine motor control or simultaneous manual operations.",
+    "Partially Supports": "Most functionality is usable with limited manipulation and does not require fine motor control or simultaneous manual operations.",
+    "Does not Support": "Most, if not all, functionality is not usable with limited manipulation and/or requires fine motor control or simultaneous manual operations.",
+    "Not Applicable": "The product does not require manipulation to operate.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 3",
+    "Checkpoint": "302.9 With Limited Language, Cognitive, and Learning Abilities",
+    "Criteria": "302.9",
+    "Supports": "The product's functionality is usable by people with limited language, cognitive, and learning abilities. People with cognitive disabilities have varying needs for features that allow them to adapt content and work with assistive technology.",
+    "Partially Supports": "Most functionality is usable by people with limited language, cognitive, and learning abilities. People with cognitive disabilities have varying needs for features that allow them to adapt content and work with assistive technology.",
+    "Does not Support": "Most, if not all, functionality is not usable by people with limited language, cognitive, and learning abilities. People with cognitive disabilities have varying needs for features that allow them to adapt content and work with assistive technology.",
+    "Not Applicable": "The product does not require language, cognitive, or learning ability to operate.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "502.3.2 Modification of Object Information",
+    "Criteria": "502.3.2",
+    "Supports": "When objects that allow the user to set their respective properties and/or state are present, the act of setting a property or state is available programmatically, so that it can be perceived and performed using assistive technology.",
+    "Partially Supports": "For most objects that allow the user to set their respective properties and/or state, the act of setting a property or state is available programmatically, so that it can be perceived and performed using assistive technology.",
+    "Does not Support": "For most, if not all, objects that allow the user to set their respective properties and/or state, the act of setting a property or state is not available programmatically, so that it cannot be perceived and performed using assistive technology.",
+    "Not Applicable": "The website or application does not contain objects that allow the user to set their properties and/or state.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "502.3.6 Label Relationships",
+    "Criteria": "502.3.6",
+    "Supports": "When a page contains an element that acts as a label for another element or has an element that is labeled by another element, each labeling relationship is programmatically determinable, so it can be perceived and conveyed by assistive technology.",
+    "Partially Supports": "For most elements that act as a label for another element and elements that are labeled by another element, the labeling relationship is programmatically determinable, so it can be perceived and conveyed by assistive technology.",
+    "Does not Support": "For most, if not all, elements that act as a label for another element and elements that are labeled by another element, the labeling relationship is not programmatically determinable, so it cannot be perceived and conveyed by assistive technology.",
+    "Not Applicable": "The website or application does not contain an element that acts as a label for another element, and it does not contain an element that is labeled by another element.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "503.3 Alternative User Interfaces",
+    "Criteria": "503.3",
+    "Supports": "The product offers an alternative user interface that allows users to access all platform (OS and browser) accessibility features.",
+    "Partially Supports": "The product offers an alternative user interface that allows users to access most platform (OS and browser) accessibility features.",
+    "Does not Support": "The product offers an alternative user interface that does not allow users to access most, if not all, platform (OS and browser) accessibility features.",
+    "Not Applicable": "The website or application does not offer an alternative user interface.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "504.2.1 Preservation of Information Provided for Accessibility in Format Conversion",
+    "Criteria": "504.2.1",
+    "Supports": "In its capacity as an authoring tool, the website or application preserves accessibility information when converting content from one format to another, so some or all of the information in the original format necessary to make portions of the content accessible is provided in the new format, and this content will be available to people with disabilities.",
+    "Partially Supports": "In most instances, in its capacity as an authoring tool, the website or application preserves accessibility information when converting content from one format to another, so information in the original format necessary to make portions of the content accessible is provided in the new format, and this content will be available to people with disabilities.",
+    "Does not Support": "In most, if not all, instances in its capacity as an authoring tool, the website or application does not preserve accessibility information when converting content from one format to another.",
+    "Not Applicable": "The website or application is not an authoring tool.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 5",
+    "Checkpoint": "504.4 Templates",
+    "Criteria": "504.4",
+    "Supports": "In its capacity as an authoring tool, the website or application provides templates that allow the creation of accessible content, so content created using these templates will include content that will be accessible to people with disabilities.",
+    "Partially Supports": "In most instances, in its capacity as an authoring tool, the website or application provides templates that allow the creation of accessible content, so content created using these templates will include content that will be accessible to people with disabilities.",
+    "Does not Support": "In most instances in its capacity as an authoring tool, the website or application does not provide templates that allow the creation of accessible content, so content created using these templates will include content that will not be accessible to people with disabilities.",
+    "Not Applicable": "The website or application is not an authoring tool.",
+    "Note": NaN
+  },
+  {
+    "Version": "Section 508 Chapter 6",
+    "Checkpoint": "602.3 Electronic Support Documentation",
+    "Criteria": "602.3",
+    "Supports": "Documentation provided for the website or application is available in digital formats that conform to WCAG 2.0, so the documentation and the information it contains are accessible to people with disabilities.",
+    "Partially Supports": "Most documentation provided for the website or application is available in at least one digital format that conforms to WCAG 2.0, so the documentation and the information it contains are accessible to people with disabilities.",
+    "Does not Support": "Documentation provided for the website or application is not available in at least one digital format that conforms to WCAG 2.0, so the documentation and the information it contains may not be accessible to some people with disabilities.",
+    "Not Applicable": "Documentation is not provided for the website or application.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 4",
+    "Checkpoint": "4.2.10 Usage with limited cognition, language or learning",
+    "Criteria": "4.2.10",
+    "Supports": "The product's functionality is usable by people with limited language, cognitive, and learning abilities. People with cognitive disabilities have varying needs for features that allow them to adapt content and work with assistive technology.",
+    "Partially Supports": "Most functionality is usable by people with limited language, cognitive, and learning abilities. People with cognitive disabilities have varying needs for features that allow them to adapt content and work with assistive technology.",
+    "Does not Support": "Most, if not all, functionality is not usable by people with limited language, cognitive, and learning abilities. People with cognitive disabilities have varying needs for features that allow them to adapt content and work with assistive technology.",
+    "Not Applicable": "The product does not require language, cognitive, or learning ability to operate.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 5",
+    "Checkpoint": "5.1.3.1 Audio output of visual information",
+    "Criteria": "5.1.3.1",
+    "Supports": "The product provides closed functionality for audio output of visual information and does not permit the use of an outside or add-on screen reader. However, it provides a method to enable that functionality that does not require sight, so people  who are blind or have low vision and others who use a screen reader can enable audio output of visual information.",
+    "Partially Supports": "The product provides closed functionality for audio output of visual information and does not permit the use of an outside or add-on screen reader, and in most cases, it provides a method to enable that functionality that does not require sight.",
+    "Does not Support": "The product provides closed functionality for audio output of visual information and does not permit use of an outside or add-on screen reader, and in most, if not all, cases, it does not provide a method to enable that functionality that does not require sight.",
+    "Not Applicable": "The product allows the use of an outside or add-on screen reader to provide audio output of visual information.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 7",
+    "Checkpoint": "7.1.1 Captioning playback",
+    "Criteria": "7.1.1",
+    "Supports": "The website or application allows the user to display captions if they are available for a video that has synchronized audio, so people who are deaf and others who need captions are able to access the information conveyed in the audio track.",
+    "Partially Supports": "The website or application allows the user to display captions if they are available for most videos that have synchronized audio.",
+    "Does not Support": "The website or application does not allow the user to display captions if they are available for most videos that have synchronized audio.",
+    "Not Applicable": "The website or application does not contain video that has synchronized audio.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 7",
+    "Checkpoint": "7.1.3 Preservation of captioning",
+    "Criteria": "7.1.3",
+    "Supports": "When the website or application transmits, converts, or records video with synchronized audio, data associated with captions is preserved, so people who are deaf and others who need captions will be able to access those captions.",
+    "Partially Supports": "In most cases, when the website or application transmits, converts, or records video with synchronized audio, data associated with captions is preserved",
+    "Does not Support": "In most, if not all, cases, when the website or application transmits, converts, or records video with synchronized audio, data associated with captions is not preserved",
+    "Not Applicable": "The website or application does not transmit, convert, or record video that has synchronized audio.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 11 - Software (Only 11.7 and 11.8 apply to Web)",
+    "Checkpoint": "11.8.3 Preservation of accessibility information in transformations",
+    "Criteria": "11.8.3",
+    "Supports": "In its capacity as an authoring tool, the website or application preserves accessibility information when converting content from one format to another, so some or all of the information in the original format necessary to make portions of the content accessible is provided in the new format, and this content will be available to people with disabilities.",
+    "Partially Supports": "In most instances, in its capacity as an authoring tool, the website or application preserves accessibility information when converting content from one format to another, so information in the original format necessary to make portions of the content accessible is provided in the new format, and this content will be available to people with disabilities.",
+    "Does not Support": "In most, if not all, instances in its capacity as an authoring tool, the website or application does not preserve accessibility information when converting content from one format to another.",
+    "Not Applicable": "The website or application is not an authoring tool.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 11 - Software (Only 11.7 and 11.8 apply to Web)",
+    "Checkpoint": "11.8.5 Templates",
+    "Criteria": "11.8.5",
+    "Supports": "In its capacity as an authoring tool, the website or application provides at least one template that allows the creation of accessible content, so content created using the template(s) will include content that will be accessible to people with disabilities.",
+    "Partially Supports": "In most instances, in its capacity as an authoring tool, the website or application provides at least one template that allows the creation of accessible content, so content created using the template(s) will include content that will be accessible to people with disabilities.",
+    "Does not Support": "In most instances, in its capacity as an authoring tool, the website or application does not provide templates that allow the creation of accessible content, so content created using these templates will include content that will not be accessible to people with disabilities.",
+    "Not Applicable": "The website or application is not an authoring tool.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 12 - Documentation and Support Svcs.",
+    "Checkpoint": "12.2.2 Information on accessibility and compatibility features",
+    "Criteria": "12.2.2",
+    "Supports": "Support services provide information on the website's or application's accessibility features or on features that make it compatible with assistive technology, so people with disabilities will know these features exist and how to use them.",
+    "Partially Supports": "Support services provide most information on the website's or application's accessibility features or on features that make it compatible with assistive technology, so people with disabilities will know these features exist and how to use them.",
+    "Does not Support": "Support services do not provide most, if not all, information on the website's or application's accessibility features or on features that make it compatible with assistive technology, so people with disabilities may not know these features exist or how to use them.",
+    "Not Applicable": "Support services are not provided for the website or application.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 11 - Software (Only 11.7 and 11.8 apply to Web)",
+    "Checkpoint": "11.5.2.14 Modification of focus and selection attributes",
+    "Criteria": "11.5.2.14",
+    "Supports": "For user interface elements that can receive focus, where the focus can be modified by a user and that enable text editing without the use of assistive technology, the focus can be programmatically modified by assistive technologies.",
+    "Partially Supports": "For most user interface elements that can receive focus, where the focus can be modified by a user and that enable text editing without the use of assistive technology, the focus can be programmatically modified by assistive technologies.",
+    "Does not Support": "For most, if not all, user interface elements that can receive focus, where the focus can be modified by a user and that enable text editing without the use of assistive technology, the focus cannot be programmatically modified by assistive technologies.",
+    "Not Applicable": "The ICT does not have a user interface or does not have user interface elements that enable text editing.",
+    "Note": NaN
+  },
+  {
+    "Version": "EN 301 549 - Chapter 11 - Software (Only 11.7 and 11.8 apply to Web)",
+    "Checkpoint": "11.6.2 No disruption of accessibility features",
+    "Criteria": "11.6.2",
+    "Supports": "The website or application does not disrupt platform features that are defined in the platform documentation as accessibility features.",
+    "Partially Supports": "The website or application does not disrupt most platform features that are defined in the platform documentation as accessibility features.",
+    "Does not Support": "The website or application disrupts most, if not all, platform features that are defined in the platform documentation as accessibility features.",
+    "Not Applicable": "There are no platform features that are defined in the platform documentation as accessibility features intended for users.",
+    "Note": NaN
+  }
+]
