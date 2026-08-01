@@ -50,9 +50,15 @@ tr:last-child td{border-bottom:none}
 .pill.ne{background:var(--nabg);color:var(--na);font-style:italic}
 .ovr{font:inherit;font-size:12px;padding:3px 6px;border:1px solid var(--bd2);border-radius:8px;background:var(--card)}
 .rembox{background:var(--accentbg);border:1px solid #d8d5f5;border-radius:10px;padding:12px 16px}
-.rembox textarea{width:100%;min-height:90px;font:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--bd2);border-radius:8px;background:#fff;resize:vertical}
+.rembox .remedit{width:100%;min-height:90px;font:inherit;font-size:13px;line-height:1.55;padding:8px 12px;border:1px solid var(--bd2);border-radius:8px;background:#fff}
+.rembox .remedit:focus{outline:2px solid var(--accent);outline-offset:1px}
+.rembox .remedit p{margin:0 0 8px}
+.rembox .remedit ul{margin:0;padding-left:22px}
+.rembox .remedit li{margin:0 0 8px;list-style:disc}
+.rembox .remedit li:last-child{margin-bottom:0}
 .rembox .hint{font-size:11px;color:var(--mut);margin-top:6px}
-.infoic{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;border-radius:50%;background:var(--accentbg);color:var(--accent);font-size:11px;line-height:1;cursor:help;vertical-align:middle;font-style:normal}
+.infoic{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--accentbg);color:var(--accent);font-size:10px;line-height:1;cursor:help;vertical-align:middle;font-style:normal;font-family:inherit;border:1px solid #d8d5f5;padding:0}
+.infoic:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .bar{height:7px;background:#eceae2;border-radius:4px;position:relative;margin-top:4px;overflow:hidden}
 .bar i{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
 .bar .thr{position:absolute;left:50%;top:-2px;bottom:-2px;width:1px;background:var(--mut)}
@@ -65,7 +71,8 @@ tr:last-child td{border-bottom:none}
 .failed{font-size:12px;min-width:150px;max-width:260px}
 .cchip{display:inline-block;background:var(--accentbg);color:var(--accent);font-weight:600;padding:1px 7px;border-radius:20px;margin:0 3px 3px 0}
 .cchip.crit{background:var(--dnsbg);color:var(--dns)}
-.tog{color:var(--accent);cursor:pointer;text-decoration:underline;white-space:nowrap}
+.tog{color:var(--accent);cursor:pointer;text-decoration:underline;white-space:nowrap;background:none;border:0;padding:0;font:inherit;font-size:12px}
+.tog:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .plist{margin-top:4px;color:var(--mut);line-height:1.5}
 .planbtn{margin-top:6px;font-size:11px;padding:3px 9px}
 .plan{background:var(--dnsbg);border:1px solid #f3cfcd;border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.6}
@@ -79,7 +86,7 @@ tr:last-child td{border-bottom:none}
 <div class="comp" style="margin:0 0 12px;padding:14px 18px">
  <div class="comp-head" style="margin-bottom:10px"><span class="comp-name">Platform / asset type</span></div>
  <p class="note" style="margin:0 0 8px">Auto-marks the criteria that don&rsquo;t apply for this platform as <b>Not Applicable</b>. Override any single row in the results table if needed.</p>
- <select id="platform" style="font:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--bd2);border-radius:8px;background:var(--card)">
+ <select id="platform" aria-label="Platform / asset type" style="font:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--bd2);border-radius:8px;background:var(--card)">
   <option value="web" selected>Default (Web)</option>
   <option value="mobileweb">Mobile Web</option>
   <option value="ios">iOS</option>
@@ -116,19 +123,19 @@ tr:last-child td{border-bottom:none}
 </div>
 <details class="help" style="margin:0 0 12px"><summary>Full page list (optional) — overrides the count and enables exact mapping</summary>
 <p style="margin:8px 0 6px;color:var(--mut);font-size:13px">Paste every in-scope page (URL or name), one per line or comma-separated — including pages with <b>zero</b> issues. When filled, this list becomes the denominator and the page universe for component mapping. Failing pages from the CSV are always merged in automatically.</p>
-<textarea id="pageList" placeholder="Home&#10;Search&#10;Results&#10;Profile&#10;Settings&#10;Help" style="width:100%;min-height:96px;font:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--bd2);border-radius:8px;background:var(--card);resize:vertical"></textarea>
+<textarea id="pageList" aria-label="Full page list, one page per line or comma-separated" placeholder="Home&#10;Search&#10;Results&#10;Profile&#10;Settings&#10;Help" style="width:100%;min-height:96px;font:inherit;font-size:13px;padding:8px 10px;border:1px solid var(--bd2);border-radius:8px;background:var(--card);resize:vertical"></textarea>
 </details>
 <div class="comp" style="margin:0 0 12px;padding:12px 14px">
  <div class="comp-head" style="margin-bottom:6px"><span class="comp-name">Add pages manually</span><span class="cnt" id="extraCnt">0 added</span></div>
  <p class="note" style="margin:0 0 8px">Pages with <b>zero issues</b> never appear in the CSV, so they are missing from the page lists (component mapping and project-wide issue mapping) and from the denominator. Add them here — each added page joins the page universe, the total count, and every mapping list.</p>
  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-  <input id="addPageName" placeholder="Page name, e.g. TV Media tab" style="flex:1;min-width:220px;font:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--bd2);border-radius:8px;background:var(--card)">
+  <input id="addPageName" aria-label="New page name" placeholder="Page name, e.g. TV Media tab" style="flex:1;min-width:220px;font:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--bd2);border-radius:8px;background:var(--card)">
   <button id="addPageBtn" type="button">+ Add page</button>
  </div>
  <div id="extraChips" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"></div>
 </div>
-<div class="drop" id="drop"><b>Click to choose</b> or drag &amp; drop CSV files here<p>axe Auditor exports &middot; multiple files allowed</p>
-<input type="file" id="file" accept=".csv,text/csv" multiple hidden></div>
+<div class="drop" id="drop" role="button" tabindex="0" aria-label="Upload CSV files. Click, or press Enter, to choose files, or drag and drop them here."><b>Click to choose</b> or drag &amp; drop CSV files here<p>axe Auditor exports &middot; multiple files allowed</p>
+<input type="file" id="file" accept=".csv,text/csv" multiple style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0" aria-hidden="true" tabindex="-1"></div>
 <div class="files" id="files"></div>
 
 <div class="stats">
@@ -155,13 +162,13 @@ tr:last-child td{border-bottom:none}
 <div class="toolbar"><h2>3. Conformance results</h2><span class="sp"></span>
 <button onclick="exportCSV()">Export CSV</button><button onclick="resetMap()">Reset mapping</button><button onclick="newVpat()">Start new VPAT</button></div>
 <h3 style="margin:18px 0 8px;font-size:15px;font-weight:600">Level A</h3>
-<div style="overflow-x:auto"><table><thead><tr><th>SC</th><th>Criterion</th><th>Direct pages</th><th>Coverage %</th><th>Conformance</th><th>Failed on</th><th>Override</th></tr></thead>
+<div style="overflow-x:auto"><table><thead><tr><th scope="col">SC</th><th scope="col">Criterion</th><th scope="col">Direct pages</th><th scope="col">Coverage %</th><th scope="col">Conformance</th><th scope="col">Failed on</th><th scope="col">Override</th></tr></thead>
 <tbody id="rows-a"><tr><td colspan="7" class="empty">Choose a target and upload a CSV.</td></tr></tbody></table></div>
 <h3 style="margin:24px 0 8px;font-size:15px;font-weight:600">Level AA</h3>
-<div style="overflow-x:auto"><table><thead><tr><th>SC</th><th>Criterion</th><th>Direct pages</th><th>Coverage %</th><th>Conformance</th><th>Failed on</th><th>Override</th></tr></thead>
+<div style="overflow-x:auto"><table><thead><tr><th scope="col">SC</th><th scope="col">Criterion</th><th scope="col">Direct pages</th><th scope="col">Coverage %</th><th scope="col">Conformance</th><th scope="col">Failed on</th><th scope="col">Override</th></tr></thead>
 <tbody id="rows-aa"></tbody></table></div>
 <h3 id="aaaHeading" style="margin:24px 0 8px;font-size:15px;font-weight:600;display:none">Level AAA</h3>
-<div id="aaaWrap" style="overflow-x:auto;display:none"><table><thead><tr><th>SC</th><th>Criterion</th><th>Direct pages</th><th>Coverage %</th><th>Conformance</th><th>Failed on</th><th>Override</th></tr></thead>
+<div id="aaaWrap" style="overflow-x:auto;display:none"><table><thead><tr><th scope="col">SC</th><th scope="col">Criterion</th><th scope="col">Direct pages</th><th scope="col">Coverage %</th><th scope="col">Conformance</th><th scope="col">Failed on</th><th scope="col">Override</th></tr></thead>
 <tbody id="rows-aaa"></tbody></table></div>
 <p class="note"><b>How the verdict is decided.</b> <b>Does Not Support</b> if (1) a <b>blocker</b> issue is present anywhere, <b>or</b> (2) the <b>union of directly-failing pages and every failing component’s mapped pages</b> covers <b>more than 50%</b> of in-scope pages. <b>Coverage %</b> here is that page union. Component severity/criticality is <b>not</b> used: every failing component contributes its full mapped pages, and a union at or below 50% (with no blocker) keeps the criterion at <b>Partially Supports</b>. For pages + components we take the page union, deduped. No findings is <b>Supports</b>. Project-wide pages are excluded from the count; their issues redistribute to mapped pages as direct failures. Rows marked Not Applicable by the platform/content defaults above can still be overridden per row.</p>
 </div>
@@ -232,7 +239,7 @@ function col(H,n){return H.findIndex(h=>h.trim().toLowerCase()===n.toLowerCase()
 function fcol(H,names){for(const n of names){const i=col(H,n);if(i>=0)return i;}return -1;}
 function normSC(v){if(!v)return[];return String(v).split(/[,;\n]+/).map(s=>{const m=s.match(/\d+\.\d+(?:\.\d+)?/);return m?m[0]:null;}).filter(Boolean);}
 
-let FILES=[],MAP={},OVR={},AGG={},openWhere=new Set(),openFix=new Set(),openRem=new Set(),openUnion=new Set();
+let FILES=[],MAP={},OVR={},AGG={},openWhere=new Set(),openFix=new Set(),openRem=new Set(),openUnion=new Set(),SAVEDRANGE={};
 let PW=new Set(),PWM={};
 let EXTRA=new Set();// manually added zero-issue pages// PW = page names marked project-wide; PWM[page][sc] = Set of real pages that issue is redistributed to
 // No persistence by design: every session starts clean so one VPAT's mappings/overrides never leak into the next report.
@@ -314,7 +321,7 @@ function renderComps(){const wrap=document.getElementById('comps');wrap.innerHTM
  const K=AGG.pages.length;
  active.forEach(c=>{if(!MAP[c])MAP[c]=new Set();const scs=[...(AGG.comp_sc[c]||[])].sort();const isG=K>0&&MAP[c].size===K;
   const card=document.createElement('div');card.className='comp';
-  card.innerHTML='<div class="comp-head"><span class="comp-name">'+c+'</span><span class="chips">'+scs.map(s=>'<span class="chip">'+s+'</span>').join('')+'</span><span class="cnt" id="cnt-'+enc(c)+'">'+MAP[c].size+' / '+K+' pages</span></div><div class="btns"><button class="g '+(isG?'on':'')+'">Global (all '+K+')</button><button class="clr">Clear</button></div><input class="search" placeholder="Filter pages…"><div class="pglist"></div>';
+  card.innerHTML='<div class="comp-head"><span class="comp-name">'+c+'</span><span class="chips">'+scs.map(s=>'<span class="chip">'+s+'</span>').join('')+'</span><span class="cnt" id="cnt-'+enc(c)+'">'+MAP[c].size+' / '+K+' pages</span></div><div class="btns"><button class="g '+(isG?'on':'')+'">Global (all '+K+')</button><button class="clr">Clear</button></div><input class="search" aria-label="Filter pages for component '+esc(c)+'" placeholder="Filter pages…"><div class="pglist"></div>';
   wrap.appendChild(card);
   card.querySelector('.g').onclick=()=>{MAP[c]=(MAP[c].size===K)?new Set():new Set(AGG.pages);saveMap();renderComps();compute();};
   card.querySelector('.clr').onclick=()=>{MAP[c]=new Set();saveMap();renderComps();compute();};
@@ -347,7 +354,7 @@ function renderPW(){const wrap=document.getElementById('pwpages');wrap.innerHTML
    const scChips=iss.scs.map(s=>'<span class="chip" title="'+esc(NAMES[s]||'')+'">'+s+'</span>').join('');
    const idLabel=String(iss.id).startsWith('auto:')?'auto-id':esc(iss.id);
    const sub=document.createElement('div');sub.style.cssText='border-top:1px solid var(--bd);padding-top:8px;margin-top:8px';
-   sub.innerHTML='<div class="comp-head" style="margin-bottom:6px"><span class="comp-name" style="font-size:13px">#'+idLabel+'</span>'+(sev?' <span class="chip"'+sevStyle+'>'+esc(sev)+'</span>':'')+' <span class="chips">'+scChips+'</span><span class="cnt" id="pwc-'+id+'">'+cnt+' / '+K+' pages</span></div>'+(iss.desc?'<p class="note" style="margin:0 0 6px">'+esc(iss.desc)+'</p>':'')+'<div class="btns"><button class="g '+(isG?'on':'')+'">All pages ('+K+')</button><button class="clr">Clear</button></div><input class="search" placeholder="Filter pages…"><div class="pglist"></div>';
+   sub.innerHTML='<div class="comp-head" style="margin-bottom:6px"><span class="comp-name" style="font-size:13px">#'+idLabel+'</span>'+(sev?' <span class="chip"'+sevStyle+'>'+esc(sev)+'</span>':'')+' <span class="chips">'+scChips+'</span><span class="cnt" id="pwc-'+id+'">'+cnt+' / '+K+' pages</span></div>'+(iss.desc?'<p class="note" style="margin:0 0 6px">'+esc(iss.desc)+'</p>':'')+'<div class="btns"><button class="g '+(isG?'on':'')+'">All pages ('+K+')</button><button class="clr">Clear</button></div><input class="search" aria-label="Filter pages for issue '+esc(idLabel)+'" placeholder="Filter pages…"><div class="pglist"></div>';
    card.appendChild(sub);
    sub.querySelector('.g').onclick=()=>{PWM[pw][iss.id]=(PWM[pw][iss.id].size===K)?new Set():new Set(real);savePW();refresh();};
    sub.querySelector('.clr').onclick=()=>{PWM[pw][iss.id]=new Set();savePW();refresh();};
@@ -391,7 +398,7 @@ function failedOn(sc){const comps=(AGG.comps||[]).filter(c=>(AGG.comp_sc[c]||new
   const cp=[...(MAP[c]||new Set())].filter(p=>uniP.has(p));const un=!cp.length;
   return '<span class="cchip'+cls+'"'+(un?' title="Not mapped to any pages — contributes 0 pages to Coverage %, which may be undercounted. Map it in section 2."':' title="All '+cp.length+' mapped page(s) count toward Coverage %"')+'>'+tag+esc(c)+suf+(un?' · unmapped':' · '+cp.length+' pg')+'</span>';}).join('');
  if(pages.length){const open=openWhere.has(sc);const pb=AGG.sc_pageblk&&AGG.sc_pageblk[sc]&&AGG.sc_pageblk[sc].size;
-  h+='<span class="tog" data-w="'+sc+'">'+(open?'▾':'▸')+' '+pages.length+' direct page'+(pages.length>1?'s':'')+'</span>';
+  h+='<button type="button" class="tog" data-w="'+sc+'" aria-expanded="'+(open?'true':'false')+'">'+(open?'▾':'▸')+' '+pages.length+' direct page'+(pages.length>1?'s':'')+'</button>';
   if(pb)h+=' <span class="cchip crit">⛔ blocker on '+pb+' page'+(pb>1?'s':'')+'</span>';
   if(open)h+='<div class="plist">'+pages.map(esc).join(', ')+'</div>';}
  // live coverage-union viewer: every page in the union, with why it is there (direct and/or via which component)
@@ -399,7 +406,7 @@ function failedOn(sc){const comps=(AGG.comps||[]).filter(c=>(AGG.comp_sc[c]||new
  comps.forEach(c=>{[...(MAP[c]||new Set())].filter(p=>uniP.has(p)).forEach(p=>{(srcs[p]=srcs[p]||[]).push('via '+c);});});
  const upages=Object.keys(srcs).sort();
  if(upages.length&&comps.length){const openU=openUnion.has(sc);
-  h+=' <span class="tog" data-u="'+sc+'">'+(openU?'▾':'▸')+' coverage union: '+upages.length+' page'+(upages.length>1?'s':'')+'</span>';
+  h+=' <button type="button" class="tog" data-u="'+sc+'" aria-expanded="'+(openU?'true':'false')+'">'+(openU?'▾':'▸')+' coverage union: '+upages.length+' page'+(upages.length>1?'s':'')+'</button>';
   if(openU)h+='<div class="plist">'+upages.map(p=>esc(p)+' — '+srcs[p].map(esc).join(' + ')).join('<br>')+'</div>';}
  const rd=AGG.sc_redist&&AGG.sc_redist[sc];
  if(rd&&rd.size)h+=' <span class="cchip" title="Pages mapped from a project-wide page">↺ '+rd.size+' via project-wide</span>';
@@ -437,7 +444,7 @@ function ruleGroups(sc){const inc=document.getElementById('incClosed').checked;c
   if(PW.has(r.test)){pgs=(PWM[r.test]&&PWM[r.test][r.id])?[...PWM[r.test][r.id]]:[];}
   else if(/component/i.test(r.unit)){pgs=MAP[r.test]?[...MAP[r.test]]:[];}
   else{pgs=[r.test];}
-  pgs.forEach(p=>g[key].pages.add(p));
+  pgs.filter(p=>!PW.has(p)).forEach(p=>g[key].pages.add(p));// never let a project-wide container name itself enter the remark's page list
   if(r.id&&!/^auto:/.test(r.id))g[key].ids.add(r.id);}));
  return Object.values(g).filter(x=>x.pages.size);}
 function summarize(s,maxWords){maxWords=maxWords||20;if(!s)return'';const t=s.trim();const words=t.split(/\s+/);
@@ -451,20 +458,20 @@ function remarksParts(sc){const x=rowFor(sc);if(x.verdict!=='part'&&x.verdict!==
  const suffix=dns?(n>1?'The following issues exist:':'The following issue exists:'):(n>1?'The following exceptions exist:':'The following exception exists:');
  const lead=(intro?intro+' ':'')+suffix;
  if(!groups.length)return{lead,bullets:[{text:'(No individual issue rows matched this criterion in the uploaded CSV \u2014 verify Rule ID / Test Unit columns.)',ids:[]}]};
- const bullets=groups.map(g=>{const pages=[...g.pages].sort();
+ const bullets=groups.map(g=>{const pages=[...g.pages].filter(p=>!PW.has(p)).sort();
   const t=g.rule&&VDATA.rulemap[g.rule];const useMulti=pages.length>1;
   const body=t&&((useMulti&&t[1])||t[0]||t[1]);
   const text=body?(body+' This occurs '+locClause(pages)):
    ('\u26a0\ufe0f [Action Required: Change to Human-Centered VPAT Text] '+summarize(g.desc||(t&&t[2])||g.rule||'Unrecognized issue')+'. This occurs '+locClause(pages));
   return{text,ids:[...g.ids].sort()};});
  return{lead,bullets};}
-function genRemarks(sc){const p=remarksParts(sc);if(!p)return '';return p.lead+p.bullets.map(b=>'\n\n* '+b.text).join('');}
+function genRemarks(sc){const p=remarksParts(sc);if(!p)return '';return p.lead+p.bullets.map(b=>'\n\n\u2022 '+b.text).join('');}
 function ovrCell(sc){const isAAA=LEVELS[sc]==='AAA',cur=OVR[sc]||'';const auto=autoNASet().has(sc);
  let o='<option value="">Auto'+(auto?' (N/A default)':'')+'</option>';
  if(auto)o+='<option value="calc"'+(cur==='calc'?' selected':'')+'>Override: compute normally</option>';
  o+='<option value="na"'+(cur==='na'?' selected':'')+'>Not Applicable</option>';
  if(isAAA)o+='<option value="ne"'+(cur==='ne'?' selected':'')+'>Not Evaluated</option><option value="sup"'+(cur==='sup'?' selected':'')+'>Supports</option>';
- return '<select class="ovr" data-sc="'+sc+'">'+o+'</select>';}
+ return '<select class="ovr" data-sc="'+sc+'" aria-label="Override conformance for '+sc+' '+esc(NAMES[sc]||'')+'">'+o+'</select>';}
 function computeRows(scs,tb){
  if(!scs.length){tb.innerHTML='<tr><td colspan="7" class="empty">No criteria at this level for the current target/data.</td></tr>';return{sup:0,part:0,dns:0,na:0,ne:0};}
  tb.innerHTML='';const cnt={sup:0,part:0,dns:0,na:0,ne:0};
@@ -483,18 +490,31 @@ function computeRows(scs,tb){
   const rb=tr.querySelector('[data-r]');if(rb)rb.onclick=()=>{openRem.has(sc)?openRem.delete(sc):openRem.add(sc);compute();};
   tb.appendChild(tr);
   if(openFix.has(sc)&&x.verdict=='dns'){const dr=document.createElement('tr');dr.innerHTML='<td colspan="7">'+fixPlan(sc)+'</td>';tb.appendChild(dr);}
-  if(openRem.has(sc)&&(x.verdict=='dns'||x.verdict=='part')){const rp=remarksParts(sc);const taId='rem-'+enc(sc);const initial=genRemarks(sc);
-   const src=rp.bullets.map((b,i)=>'<span class="infoic" tabindex="0" title="'+esc('Bullet '+(i+1)+' \u2014 Issue ID(s): '+(b.ids.length?b.ids.join(', '):'none found in source data'))+'">'+(i+1)+'</span>').join(' ');
+  if(openRem.has(sc)&&(x.verdict=='dns'||x.verdict=='part')){const rp=remarksParts(sc);const taId='rem-'+enc(sc);
+   const src=rp.bullets.map((b,i)=>{const lbl='Bullet '+(i+1)+' \u2014 Issue ID(s): '+(b.ids.length?b.ids.join(', '):'none found in source data');return '<button type="button" class="infoic" aria-label="'+esc(lbl)+'" title="'+esc(lbl)+'">'+(i+1)+'</button>';}).join(' ');
    const tags=['(Third party content)','RWD Mobile','RWD Tablet'];
    const tagBtns=tags.map(t=>'<button type="button" class="tagbtn" data-tag="'+esc(t)+'" data-ta="'+taId+'">+ '+esc(t)+'</button>').join('');
+   const liHtml=rp.bullets.map(b=>'<li>'+esc(b.text)+'</li>').join('');
    const rr=document.createElement('tr');
    rr.innerHTML='<td colspan="7"><div class="rembox"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b>Remarks &amp; Explanations (draft) — '+sc+' '+esc(NAMES[sc]||'')+'</b><button type="button" class="copybtn" data-ta="'+taId+'" style="margin-left:auto">Copy</button></div>'
-    +'<textarea id="'+taId+'" style="margin-top:8px">'+esc(initial)+'</textarea>'
+    +'<div id="'+taId+'" class="remedit" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Editable remarks and explanations for '+esc(sc+' '+(NAMES[sc]||''))+'" style="margin-top:8px"><p>'+esc(rp.lead)+'</p><ul>'+liHtml+'</ul></div>'
     +'<div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">'+tagBtns+'</div>'
-    +'<div class="hint">Sources: '+(src||'\u2014')+' — hover/focus a number for that bullet\u2019s Issue ID(s). Fully editable; use the tag buttons to insert a note at the cursor before copying into your ACR.</div></div></td>';
+    +'<div class="hint">Sources: '+(src||'\u2014')+' — hover/focus a number for that bullet\u2019s Issue ID(s). Click into the text to edit; Copy preserves the bulleted list when pasted into Word/your ACR. Tag buttons insert a note at the cursor.</div></div></td>';
    tb.appendChild(rr);
-   rr.querySelector('.copybtn').onclick=e=>{const ta=document.getElementById(taId);ta.select();try{navigator.clipboard.writeText(ta.value);}catch(err){document.execCommand('copy');}const b=e.currentTarget;const old=b.textContent;b.textContent='Copied!';setTimeout(()=>b.textContent=old,1200);};
-   rr.querySelectorAll('.tagbtn').forEach(btn=>btn.onclick=()=>{const ta=document.getElementById(taId);const tag=btn.dataset.tag;const s=ta.selectionStart==null?ta.value.length:ta.selectionStart,en=ta.selectionEnd==null?ta.value.length:ta.selectionEnd;ta.focus();ta.setRangeText(' '+tag+' ',s,en,'end');});}});
+   const ed=document.getElementById(taId);
+   const saveSel=()=>{const s=window.getSelection();if(s.rangeCount&&ed.contains(s.anchorNode))SAVEDRANGE[taId]=s.getRangeAt(0).cloneRange();};
+   ed.addEventListener('mouseup',saveSel);ed.addEventListener('keyup',saveSel);ed.addEventListener('blur',saveSel);
+   rr.querySelector('.copybtn').onclick=async e=>{const b=e.currentTarget,old=b.textContent;
+    try{const html='<div>'+ed.innerHTML+'</div>';const text=ed.innerText;
+     if(window.ClipboardItem){await navigator.clipboard.write([new window.ClipboardItem({'text/html':new Blob([html],{type:'text/html'}),'text/plain':new Blob([text],{type:'text/plain'})})]);}
+     else{await navigator.clipboard.writeText(text);}}
+    catch(err){const range=document.createRange();range.selectNodeContents(ed);const sel=window.getSelection();sel.removeAllRanges();sel.addRange(range);try{document.execCommand('copy');}catch(e2){}sel.removeAllRanges();}
+    b.textContent='Copied!';setTimeout(()=>b.textContent=old,1200);};
+   rr.querySelectorAll('.tagbtn').forEach(btn=>btn.onclick=()=>{ed.focus();const sel=window.getSelection();
+    if(SAVEDRANGE[taId]){sel.removeAllRanges();sel.addRange(SAVEDRANGE[taId]);}
+    else{const range=document.createRange();range.selectNodeContents(ed);range.collapse(false);sel.removeAllRanges();sel.addRange(range);}
+    document.execCommand('insertText',false,' '+btn.dataset.tag+' ');
+    if(sel.rangeCount)SAVEDRANGE[taId]=sel.getRangeAt(0).cloneRange();});}});
  return cnt;}
 function compute(){const scs=allSC();
  const byLevel={A:[],AA:[],AAA:[]};scs.forEach(sc=>{const lvl=LEVELS[sc]||'A';(byLevel[lvl]=byLevel[lvl]||(byLevel[lvl]=[])).push(sc);});
@@ -532,6 +552,7 @@ function newVpat(){if(confirm('Start a new VPAT? This clears uploaded files, the
 
 const drop=document.getElementById('drop'),fileInput=document.getElementById('file');
 drop.onclick=()=>fileInput.click();
+drop.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '||e.key==='Spacebar'){e.preventDefault();fileInput.click();}});
 fileInput.onchange=e=>{readFiles(e.target.files);fileInput.value='';};
 ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over');}));
 ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over');}));
@@ -539,6 +560,8 @@ drop.addEventListener('drop',e=>{if(e.dataTransfer.files)readFiles(e.dataTransfe
 function readFiles(list){let p=list.length;if(!p)return;[...list].forEach(f=>{const rd=new FileReader();rd.onload=()=>{try{ingest(f.name,rd.result);}catch(err){alert('Could not parse '+f.name+': '+err.message);}if(--p===0)refresh();};rd.readAsText(f);});}
 document.getElementById('incClosed').onchange=refresh;
 document.getElementById('target').onchange=compute;
+document.getElementById('platform').onchange=compute;
+renderContentQ();
 const totEl=document.getElementById('totPages'),listEl=document.getElementById('pageList');
 let scopeT;const scopeChanged=()=>{clearTimeout(scopeT);scopeT=setTimeout(refresh,250);};
 totEl.oninput=scopeChanged;listEl.oninput=scopeChanged;
