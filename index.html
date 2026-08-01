@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VPAT conformance calculator v4</title>
+<title>VPAT conformance calculator v5</title>
 <style>
 :root{--bg:#faf9f5;--card:#fff;--bd:#e3e1d8;--bd2:#cfcdc2;--tx:#1d1c1a;--mut:#6b6a64;--dns:#b3261e;--dnsbg:#fcebea;--part:#8a5a00;--partbg:#fbf0db;--ok:#1d6b3f;--okbg:#e7f3ea;--na:#555;--nabg:#eceae2;--accent:#3c3489;--accentbg:#eeedfe}
 *{box-sizing:border-box}
@@ -79,7 +79,7 @@ tr:last-child td{border-bottom:none}
 .plan .plist{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:8px 10px;margin-top:6px;max-height:140px;overflow:auto;color:var(--tx)}
 </style></head><body><div class="wrap">
 <h1>VPAT conformance calculator</h1>
-<p class="sub">Upload axe Auditor CSV exports, map shared components to the pages they appear on, and read per-criterion conformance. Multiple files combine cumulatively across platforms. <b>v4</b> — union-based Coverage % formula, per-criterion failing pages/components viewer, and zero persistence: nothing is stored in this browser, so each VPAT starts completely clean.</p>
+<p class="sub">Upload axe Auditor CSV exports, map shared components to the pages they appear on, and read per-criterion conformance. Multiple files combine cumulatively across platforms. <b>v5</b> — union-based Coverage % formula, per-criterion failing pages/components viewer, and zero persistence: nothing is stored in this browser, so each VPAT starts completely clean.</p>
 <div style="background:var(--accentbg);border:1px solid #d8d5f5;border-radius:12px;padding:12px 18px;margin:0 0 14px"><b style="color:var(--accent)">How the verdict is decided</b><br><span style="font-size:13px;color:var(--mut)">Every failing component is mapped to its pages and those pages are added to coverage (union with the pages that fail directly). A criterion is <b>Does Not Support</b> if a <b>blocker</b> is present anywhere, OR that page union covers <b>more than 50%</b> of in-scope pages. Otherwise, any finding caps at <b>Partially Supports</b>. No component severity/criticality is used in the math — every failing component contributes its full mapped pages.</span></div>
 
 <h2>0. Applicability &amp; platform defaults</h2>
