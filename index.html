@@ -37,6 +37,7 @@ button{font:inherit;font-size:13px;border:1px solid var(--bd2);background:var(--
 button:hover{background:#f0efe9}
 button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 .search{width:100%;padding:8px 10px;border:1px solid var(--bd2);border-radius:8px;margin-bottom:8px;font:inherit;font-size:13px}
+textarea.search{resize:vertical;min-height:38px;line-height:1.45;white-space:pre-wrap;display:block}
 .searchrow{display:flex;gap:8px;align-items:stretch;margin-bottom:6px}
 .searchrow .search{margin-bottom:0;flex:1}
 .selbtn{white-space:nowrap;padding:8px 12px;border:1px solid var(--accent);background:var(--accentbg);color:var(--accent);border-radius:8px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
@@ -48,6 +49,7 @@ button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--bd);border-radius:12px;overflow:hidden;font-size:14px}
 th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--bd)}
 th{background:#f4f3ee;font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--mut);font-weight:600}
+tbody th[scope="row"]{background:none;font-size:14px;text-transform:none;letter-spacing:normal;color:var(--tx);font-weight:400;white-space:nowrap}
 tr:last-child td{border-bottom:none}
 .pill{font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap}
 .pill.dns{background:var(--dnsbg);color:var(--dns)}.pill.part{background:var(--partbg);color:var(--part)}
@@ -266,7 +268,13 @@ function fcol(H,names){for(const n of names){const i=col(H,n);if(i>=0)return i;}
 function normSC(v){if(!v)return[];return String(v).split(/[,;\n]+/).map(s=>{const m=s.match(/\d+\.\d+(?:\.\d+)?/);return m?m[0]:null;}).filter(Boolean);}
 
 let FILES=[],MAP={},OVR={},AGG={},openWhere=new Set(),openFix=new Set(),openRem=new Set(),openUnion=new Set(),SAVEDRANGE={};
-let PW=new Set(),PWM={};
+let PW=new Set(),PWM={},PWAUTO=new Set();
+// A page name that looks like a deliberate project-wide / app-wide container. Naming isn't standardized,
+// so match the common variants: project-wide, app-wide, application-wide, site-wide (any separator or none).
+function isPWName(s){return /(project|application|app|site)[\s_-]*wide/i.test(s||'');}
+// On file load, auto-tick pages whose name looks project-wide — but only once per page (PWAUTO), so if the
+// user unticks one it stays unticked and won't be re-flagged on the next upload. Manual control always wins.
+function autoDetectPW(){FILES.forEach(f=>f.rows.forEach(r=>{if(/component/i.test(r.unit))return;const t=r.test;if(!t||PWAUTO.has(t))return;if(isPWName(t)){PWAUTO.add(t);PW.add(t);}}));}
 let EXTRA=new Set();// manually added zero-issue pages// PW = page names marked project-wide; PWM[page][sc] = Set of real pages that issue is redistributed to
 // No persistence by design: every session starts clean so one VPAT's mappings/overrides never leak into the next report.
 function saveMap(){}
@@ -279,7 +287,7 @@ function scCmp(a,b){const A=a.split('.').map(Number),B=b.split('.').map(Number);
 function isUA(r){return /^user[-\s]?agent$/i.test((r.itype||'').trim())||/^\s*user[-\s]?agent/i.test(r.rule||'');}
 
 function ingest(name,text){const rows=parseCSV(text);if(!rows.length)return;const H=rows[0];
- const ci={unit:col(H,'Unit Type'),test:col(H,'Test Unit'),sc:col(H,'Success Criteria'),status:col(H,'Issue Status'),impact:col(H,'Impact'),platform:col(H,'Platform'),
+ const ci={unit:fcol(H,['Unit Type','Unit','Test Unit Type']),test:fcol(H,['Test Unit','Test Unit Name','Page Name','Screen Name','Page/Screen']),sc:fcol(H,['Success Criteria','Success Criterion','SC','WCAG','WCAG SC','WCAG Criteria','Criteria']),status:fcol(H,['Issue Status','Status','State']),impact:fcol(H,['Impact','Severity','Priority']),platform:fcol(H,['Platform','Platform / Asset Type','Asset Type']),
   itype:fcol(H,['Issue Type','IssueType','Issue type','Type of Issue','Issue Category','Type']),
   url:fcol(H,['Issue URL','Issue Url','Issue Link','URL','Url','Link','Permalink']),
   id:fcol(H,['Issue ID','Issue Id','IssueID','ID','Issue Number','Issue #','Issue No','Defect ID','Bug ID','Key']),
@@ -291,10 +299,12 @@ function ingest(name,text){const rows=parseCSV(text);if(!rows.length)return;cons
   let id=(ci.id>=0?row[ci.id]||'':'').trim(),desc=(ci.desc>=0?row[ci.desc]||'':'').trim(),rule=(ci.rule>=0?row[ci.rule]||'':'').trim();
   if(!id){let base='auto:'+test+'|'+scs.join(',')+'|'+impact+'|'+desc;if(seen[base]!=null){seen[base]++;base+='#'+seen[base];}else seen[base]=0;id=base;}
   out.push({unit,test,scs,status,impact,platform,itype,url,id,desc,rule});}
+ if(ci.sc<0)alert('"'+name+'": no Success Criteria column recognized. Detected columns: '+H.join(', ')+'. No issues will be counted from this file — rename the column or tell me the header.');
+ else if(rows.length>1&&!out.length)alert('"'+name+'": '+(rows.length-1)+' row(s) read but none had a usable Success Criteria and Test Unit. Check the column names.');
  FILES.push({name,rows:out});}
 
 function aggregate(){const inc=document.getElementById('incClosed').checked;
- const allPages=new Set(),pages=new Set(),comps=new Set(),sc_pages={},sc_pageblk={},comp_sc={},comp_crit={},comp_blk={},pw_issues={};
+ const allPages=new Set(),pages=new Set(),comps=new Set(),sc_pages={},sc_pageblk={},comp_sc={},comp_crit={},comp_blk={},pw_issues={},sc_urls={};
  let nIss=0,nExcl=0,nUA=0;
  FILES.forEach(f=>f.rows.forEach(r=>{if(!r.test||!r.scs.length)return;
   // A test unit that appears in the CSV was audited and stays in scope even if all its issues are Closed —
@@ -304,6 +314,7 @@ function aggregate(){const inc=document.getElementById('incClosed').checked;
   const excl=closed||isUA(r);// UA issues never contribute to conformance, but the page/component still counts as in-scope (passing)
   if(isUA(r))nUA++;
   if(excl)nExcl++;else nIss++;
+  if(!excl&&r.url&&/^https?:\/\//i.test(r.url))r.scs.forEach(s=>(sc_urls[s]=sc_urls[s]||new Set()).add(r.url));
   const blk=/blocker/i.test(r.impact||''),crit=/critical/i.test(r.impact||'');
   if(/component/i.test(r.unit)){comps.add(r.test);(comp_sc[r.test]=comp_sc[r.test]||new Set());(comp_crit[r.test]=comp_crit[r.test]||new Set());(comp_blk[r.test]=comp_blk[r.test]||new Set());
    if(excl)return;r.scs.forEach(s=>{comp_sc[r.test].add(s);if(crit)comp_crit[r.test].add(s);if(blk)comp_blk[r.test].add(s);});}
@@ -322,7 +333,8 @@ function aggregate(){const inc=document.getElementById('incClosed').checked;
  let universe,total;
  if(listPages.length||manual.length){const u=new Set(listPages);manual.forEach(p=>u.add(p));pages.forEach(p=>u.add(p));universe=[...u];total=Math.max(num>0?num:0,u.size);}
  else{universe=[...pages];total=(num>0?Math.max(num,pages.size):pages.size);}
- AGG={pages:universe.sort(),csvPages:[...pages],total,known:universe.length,nIss,nExcl,nUA,allPages:[...allPages].sort(scCmp),pwPages:[...PW].filter(p=>allPages.has(p)).sort(scCmp),pw_issues,base_pages:sc_pages,base_pageblk:sc_pageblk,sc_pages:{},sc_pageblk:{},sc_redist:{},comps:[...comps].sort(),comp_sc,comp_crit,comp_blk};
+ const sc_urls_arr={};Object.keys(sc_urls).forEach(s=>sc_urls_arr[s]=[...sc_urls[s]]);
+ AGG={pages:universe.sort(),csvPages:[...pages],total,known:universe.length,nIss,nExcl,nUA,sc_urls:sc_urls_arr,allPages:[...allPages].sort(scCmp),pwPages:[...PW].filter(p=>allPages.has(p)).sort(scCmp),pw_issues,base_pages:sc_pages,base_pageblk:sc_pageblk,sc_pages:{},sc_pageblk:{},sc_redist:{},comps:[...comps].sort(),comp_sc,comp_crit,comp_blk};
  redistribute();}
 // Redistribute project-wide issues onto the real pages they reproduce on; they count as direct page failures (carry blocker severity).
 function redistribute(){const base=AGG.base_pages||{},baseB=AGG.base_pageblk||{};const sc_pages={},sc_pageblk={},sc_redist={};
@@ -348,17 +360,18 @@ function addManualPage(){const el=document.getElementById('addPageName');const v
  EXTRA.add(v);el.value='';el.focus();refresh();}
 function refresh(){aggregate();renderFiles();renderExtra();renderPW();renderComps();compute();}
 function renderFiles(){const w=document.getElementById('files');w.innerHTML='';FILES.forEach((f,i)=>{const d=document.createElement('div');d.className='file';
- d.innerHTML='<span class="nm">'+f.name+'</span><span class="meta">'+f.rows.length+' issues</span><button class="rm" data-i="'+i+'">&times;</button>';
+ d.innerHTML='<span class="nm">'+esc(f.name)+'</span><span class="meta">'+f.rows.length+' issues</span><button class="rm" data-i="'+i+'" aria-label="Remove '+esc(f.name)+'">&times;</button>';
  d.querySelector('.rm').onclick=()=>{FILES.splice(i,1);refresh();};w.appendChild(d);});}
 function enc(s){return btoa(unescape(encodeURIComponent(s))).replace(/=/g,'');}
-// Parse a pasted list into page-name tokens. Multi-line input splits on lines (each line = one item);
-// a single-line run splits on commas and spaced dashes. Leading bullet markers are stripped.
-function parseTokens(str){if(!str)return[];const raw=String(str);
- const parts=/\r?\n/.test(raw)?raw.split(/\r?\n/):raw.split(/,| - | \u2013 | \u2014 /);
- return [...new Set(parts.map(s=>s.replace(/^\s*[-*\u2022]\s*/,'').replace(/\s+/g,' ').trim().toLowerCase()).filter(s=>s.length>=2))];}
-// Pages that match ANY token (forgiving substring either direction, case/space-insensitive).
-function matchPages(pages,tokens){if(!tokens.length)return[];const norm=s=>s.replace(/\s+/g,' ').trim().toLowerCase();
- return pages.filter(p=>{const np=norm(p);return tokens.some(t=>np.includes(t)||t.includes(np));});}
+// Parse a pasted list into page-name tokens: one page per line (or comma-separated). We deliberately do
+// NOT split on " - " because real page names contain it (e.g. "Exam - Results"), which would shatter names
+// into fragments like "exam" that match everything. Leading bullet markers are stripped.
+function parseTokens(str){if(!str)return[];
+ return [...new Set(String(str).split(/\r?\n|,/).map(s=>s.replace(/^\s*[-*\u2022]\s*/,'').replace(/\s+/g,' ').trim().toLowerCase()).filter(Boolean))];}
+// Pages whose full name EXACTLY matches a pasted token (case/space-insensitive). Exact — not substring —
+// so pasting "Critical Thinking Demo Exam - Results" selects only that page, never its shorter siblings.
+function matchPages(pages,tokens){if(!tokens.length)return[];const norm=s=>s.replace(/\s+/g,' ').trim().toLowerCase();const set=new Set(tokens);
+ return pages.filter(p=>set.has(norm(p)));}
 function renderComps(){const wrap=document.getElementById('comps');wrap.innerHTML='';
  if(!AGG.comps||!AGG.comps.length){wrap.innerHTML='<p class="empty">No components found yet.</p>';return;}
  // Only components with at least one in-scope (non-excluded) issue need mapping; closed-only components have nothing to map.
@@ -369,13 +382,13 @@ function renderComps(){const wrap=document.getElementById('comps');wrap.innerHTM
  const K=AGG.pages.length;
  active.forEach(c=>{if(!MAP[c])MAP[c]=new Set();const scs=[...(AGG.comp_sc[c]||[])].sort();const isG=K>0&&MAP[c].size===K;
   const card=document.createElement('div');card.className='comp';
-  card.innerHTML='<div class="comp-head"><span class="comp-name">'+c+'</span><span class="chips">'+scs.map(s=>'<span class="chip">'+s+'</span>').join('')+'</span><span class="cnt" id="cnt-'+enc(c)+'">'+MAP[c].size+' / '+K+' pages</span></div><div class="btns"><button class="g '+(isG?'on':'')+'">Global (all '+K+')</button><button class="clr">Clear</button></div><div class="searchrow"><input class="search" aria-label="Filter pages for component '+esc(c)+'" placeholder="Filter or paste a list to select…"><button class="selbtn" type="button">Select matches</button></div><div class="matchhint" aria-live="polite"></div><div class="pglist"></div>';
+  card.innerHTML='<div class="comp-head"><span class="comp-name">'+esc(c)+'</span><span class="chips">'+scs.map(s=>'<span class="chip">'+s+'</span>').join('')+'</span><span class="cnt" id="cnt-'+enc(c)+'">'+MAP[c].size+' / '+K+' pages</span></div><div class="btns"><button class="g '+(isG?'on':'')+'">Global (all '+K+')</button><button class="clr">Clear</button></div><div class="searchrow"><textarea class="search" rows="2" aria-label="Filter pages for component '+esc(c)+'" placeholder="Filter, or paste one page per line to select…"></textarea><button class="selbtn" type="button">Select matches</button></div><div class="matchhint" aria-live="polite"></div><div class="pglist"></div>';
   wrap.appendChild(card);
   card.querySelector('.g').onclick=()=>{MAP[c]=(MAP[c].size===K)?new Set():new Set(AGG.pages);saveMap();renderComps();compute();};
   card.querySelector('.clr').onclick=()=>{MAP[c]=new Set();saveMap();renderComps();compute();};
   const box=card.querySelector('.pglist');
   const shown=raw=>{const t=parseTokens(raw);return t.length>1?matchPages(AGG.pages,t):AGG.pages.filter(p=>p.toLowerCase().includes((raw||'').trim().toLowerCase()));};
-  const draw=raw=>{box.innerHTML='';shown(raw).forEach(p=>{const l=document.createElement('label');l.innerHTML='<input type="checkbox" '+(MAP[c].has(p)?'checked':'')+'> '+p;l.querySelector('input').onchange=e=>{e.target.checked?MAP[c].add(p):MAP[c].delete(p);saveMap();document.getElementById('cnt-'+enc(c)).textContent=MAP[c].size+' / '+K+' pages';compute();};box.appendChild(l);});};
+  const draw=raw=>{box.innerHTML='';shown(raw).forEach(p=>{const l=document.createElement('label');l.innerHTML='<input type="checkbox" '+(MAP[c].has(p)?'checked':'')+'> '+esc(p);l.querySelector('input').onchange=e=>{e.target.checked?MAP[c].add(p):MAP[c].delete(p);saveMap();document.getElementById('cnt-'+enc(c)).textContent=MAP[c].size+' / '+K+' pages';compute();};box.appendChild(l);});};
   const srch=card.querySelector('.search'),hint=card.querySelector('.matchhint');
   draw('');srch.oninput=e=>draw(e.target.value);
   card.querySelector('.selbtn').onclick=()=>{const m=shown(srch.value);m.forEach(p=>MAP[c].add(p));saveMap();document.getElementById('cnt-'+enc(c)).textContent=MAP[c].size+' / '+K+' pages';hint.textContent=m.length?('\u2713 selected '+m.length+' matching page'+(m.length!=1?'s':'')):'No pages matched — check spelling or paste exact page names.';compute();draw(srch.value);};});}
@@ -387,7 +400,9 @@ function renderPW(){const wrap=document.getElementById('pwpages');wrap.innerHTML
  const sel=document.createElement('div');sel.className='comp';
  sel.innerHTML='<div class="comp-head"><span class="comp-name">Mark project-wide pages</span><span class="cnt">'+(AGG.pwPages||[]).length+' selected · removed from page count</span></div><div class="pglist" id="pwsel"></div>';
  wrap.appendChild(sel);const sb=sel.querySelector('#pwsel');
- all.forEach(p=>{const l=document.createElement('label');l.innerHTML='<input type="checkbox" '+(PW.has(p)?'checked':'')+'> '+esc(p);
+ const anyAuto=all.some(p=>isPWName(p));
+ if(anyAuto){const n=document.createElement('p');n.className='note';n.style.margin='0 0 8px';n.innerHTML='\u2728 Pages that look project-wide (e.g. containing \u201cproject-wide\u201d or \u201capp-wide\u201d) are ticked automatically. Untick any that shouldn\u2019t be, or tick others \u2014 your choice always sticks.';sb.parentElement.insertBefore(n,sb);}
+ all.forEach(p=>{const auto=isPWName(p);const l=document.createElement('label');l.innerHTML='<input type="checkbox" '+(PW.has(p)?'checked':'')+'> '+esc(p)+(auto?' <span class="chip" style="background:var(--partbg);color:var(--part)">auto</span>':'');
   l.querySelector('input').onchange=e=>{e.target.checked?PW.add(p):PW.delete(p);savePW();refresh();};sb.appendChild(l);});
  // per project-wide page: list each individual issue (by ID) and map it to the real pages it reproduces on
  const real=AGG.pages||[];const K=real.length;
@@ -406,7 +421,7 @@ function renderPW(){const wrap=document.getElementById('pwpages');wrap.innerHTML
    const scChips=iss.scs.map(s=>'<span class="chip" title="'+esc(NAMES[s]||'')+'">'+s+'</span>').join('');
    const idLabel=String(iss.id).startsWith('auto:')?'auto-id':esc(iss.id);
    const sub=document.createElement('div');sub.style.cssText='border-top:1px solid var(--bd);padding-top:8px;margin-top:8px';
-   sub.innerHTML='<div class="comp-head" style="margin-bottom:6px"><span class="comp-name" style="font-size:13px">#'+idLabel+'</span>'+(sev?' <span class="chip"'+sevStyle+'>'+esc(sev)+'</span>':'')+' <span class="chips">'+scChips+'</span><span class="cnt" id="pwc-'+id+'">'+cnt+' / '+K+' pages</span></div>'+(iss.desc?'<p class="note" style="margin:0 0 6px">'+esc(iss.desc)+'</p>':'')+'<div class="btns"><button class="g '+(isG?'on':'')+'">All pages ('+K+')</button><button class="clr">Clear</button></div><div class="searchrow"><input class="search" aria-label="Filter pages for issue '+esc(idLabel)+'" placeholder="Filter or paste a list to select…"><button class="selbtn" type="button">Select matches</button></div><div class="matchhint" aria-live="polite"></div><div class="pglist"></div>';
+   sub.innerHTML='<div class="comp-head" style="margin-bottom:6px"><span class="comp-name" style="font-size:13px">#'+idLabel+'</span>'+(sev?' <span class="chip"'+sevStyle+'>'+esc(sev)+'</span>':'')+' <span class="chips">'+scChips+'</span><span class="cnt" id="pwc-'+id+'">'+cnt+' / '+K+' pages</span></div>'+(iss.desc?'<p class="note" style="margin:0 0 6px">'+esc(iss.desc)+'</p>':'')+'<div class="btns"><button class="g '+(isG?'on':'')+'">All pages ('+K+')</button><button class="clr">Clear</button></div><div class="searchrow"><textarea class="search" rows="2" aria-label="Filter pages for issue '+esc(idLabel)+'" placeholder="Filter, or paste one page per line to select…"></textarea><button class="selbtn" type="button">Select matches</button></div><div class="matchhint" aria-live="polite"></div><div class="pglist"></div>';
    card.appendChild(sub);
    sub.querySelector('.g').onclick=()=>{PWM[pw][iss.id]=(PWM[pw][iss.id].size===K)?new Set():new Set(real);savePW();refresh();};
    sub.querySelector('.clr').onclick=()=>{PWM[pw][iss.id]=new Set();savePW();refresh();};
@@ -528,11 +543,8 @@ function ovrCell(sc){const isAAA=LEVELS[sc]==='AAA',cur=OVR[sc]||'';const auto=a
  o+='<option value="na"'+(cur==='na'?' selected':'')+'>Not Applicable</option>';
  if(isAAA)o+='<option value="ne"'+(cur==='ne'?' selected':'')+'>Not Evaluated</option><option value="sup"'+(cur==='sup'?' selected':'')+'>Supports</option>';
  return '<select class="ovr" data-sc="'+sc+'" aria-label="Override conformance for '+sc+' '+esc(NAMES[sc]||'')+'">'+o+'</select>';}
-// Unique issue URLs for a criterion, honoring the Include-Closed toggle and excluding UA issues.
-function issueUrlsFor(sc){const inc=document.getElementById('incClosed').checked;const urls=[],seen=new Set();
- FILES.forEach(f=>f.rows.forEach(r=>{if(!r.scs.includes(sc))return;if(/^closed$/i.test(r.status)&&!inc)return;if(isUA(r))return;
-  const u=r.url;if(!u||!/^https?:\/\//i.test(u)||seen.has(u))return;seen.add(u);urls.push(u);}));
- return urls;}
+// Unique issue URLs for a criterion — precomputed in aggregate() (honors Include-Closed, excludes UA).
+function issueUrlsFor(sc){return (AGG.sc_urls&&AGG.sc_urls[sc])||[];}
 // Open every issue URL mapped to a criterion in its own browser tab.
 function openIssueUrls(sc){const urls=issueUrlsFor(sc);
  if(!urls.length){alert('No issue URLs found for '+sc+' (the CSV may lack an "Issue URL" column, or its issues are Closed/User Agent).');return;}
@@ -552,7 +564,7 @@ function computeRows(scs,tb){
   const reason=x.verdict=='dns'&&x.reason?'<div class="viacomp" style="color:var(--dns)">'+esc(x.reason)+'</div>':'';
   const warn=x.naConflict?'<div class="viacomp" style="color:var(--dns)">\u26a0 Marked Not Applicable by platform/content defaults, but the CSV has findings for this criterion \u2014 review the answers above or override this row.</div>':'';
   const tr=document.createElement('tr');
-  tr.innerHTML='<td><b>'+sc+'</b><span class="lvl">'+(LEVELS[sc]||'')+'</span></td><td>'+(NAMES[sc]||'<i>Unknown SC</i>')+reason+warn+'</td><td>'+x.direct+'/'+(AGG.total||0)+'</td><td>'+x.pctE+'%<div class="bar"><i style="width:'+x.pctE+'%;background:'+col+'"></i><span class="thr"></span></div></td><td><span class="pill '+x.verdict+'">'+LABEL[x.verdict]+'</span>'+btns+'</td><td class="failed">'+failedOn(sc)+'</td><td style="text-align:center">'+ovrCell(sc)+'</td>';
+  tr.innerHTML='<th scope="row"><b>'+sc+'</b><span class="lvl">'+(LEVELS[sc]||'')+'</span></th><td>'+(NAMES[sc]||'<i>Unknown SC</i>')+reason+warn+'</td><td>'+x.direct+'/'+(AGG.total||0)+'</td><td>'+x.pctE+'%<div class="bar"><i style="width:'+x.pctE+'%;background:'+col+'"></i><span class="thr"></span></div></td><td><span class="pill '+x.verdict+'">'+LABEL[x.verdict]+'</span>'+btns+'</td><td class="failed">'+failedOn(sc)+'</td><td style="text-align:center">'+ovrCell(sc)+'</td>';
   tr.querySelector('.ovr').onchange=e=>{const val=e.target.value;if(val)OVR[sc]=val;else delete OVR[sc];saveOVR();compute();};
   const tg=tr.querySelector('[data-w]');if(tg)tg.onclick=()=>{openWhere.has(sc)?openWhere.delete(sc):openWhere.add(sc);compute();};
   const tu=tr.querySelector('[data-u]');if(tu)tu.onclick=()=>{openUnion.has(sc)?openUnion.delete(sc):openUnion.add(sc);compute();};
@@ -621,8 +633,8 @@ function exportCSV(){const scs=allSC();if(!scs.length){alert('No data to export.
  rows.push(['Denominator (total in-scope pages) used for this report: '+(AGG.total||0)+'.']);
  const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='vpat_conformance.csv';a.click();}
-function resetMap(){if(confirm('Clear all component mappings, project-wide selections, and overrides?')){MAP={};OVR={};PW=new Set();PWM={};refresh();}}
-function newVpat(){if(confirm('Start a new VPAT? This clears uploaded files, the page list, total pages, all mappings and overrides.')){FILES=[];MAP={};OVR={};PW=new Set();PWM={};EXTRA=new Set();openWhere=new Set();openFix=new Set();openRem=new Set();openUnion=new Set();document.getElementById('pageList').value='';document.getElementById('totPages').value='';refresh();}} /* v7 */
+function resetMap(){if(confirm('Clear all component mappings, project-wide selections, and overrides?')){MAP={};OVR={};PW=new Set();PWM={};PWAUTO=new Set();autoDetectPW();refresh();}}
+function newVpat(){if(confirm('Start a new VPAT? This clears uploaded files, the page list, total pages, all mappings and overrides.')){FILES=[];MAP={};OVR={};PW=new Set();PWM={};PWAUTO=new Set();EXTRA=new Set();openWhere=new Set();openFix=new Set();openRem=new Set();openUnion=new Set();document.getElementById('pageList').value='';document.getElementById('totPages').value='';refresh();}} /* v7 */
 
 const drop=document.getElementById('drop'),fileInput=document.getElementById('file');
 drop.onclick=()=>fileInput.click();
@@ -631,7 +643,7 @@ fileInput.onchange=e=>{readFiles(e.target.files);fileInput.value='';};
 ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over');}));
 ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over');}));
 drop.addEventListener('drop',e=>{if(e.dataTransfer.files)readFiles(e.dataTransfer.files);});
-function readFiles(list){let p=list.length;if(!p)return;[...list].forEach(f=>{const rd=new FileReader();rd.onload=()=>{try{ingest(f.name,rd.result);}catch(err){alert('Could not parse '+f.name+': '+err.message);}if(--p===0)refresh();};rd.readAsText(f);});}
+function readFiles(list){let p=list.length;if(!p)return;[...list].forEach(f=>{const rd=new FileReader();rd.onload=()=>{try{ingest(f.name,rd.result);}catch(err){alert('Could not parse '+f.name+': '+err.message);}if(--p===0){autoDetectPW();refresh();}};rd.onerror=()=>{alert('Could not read '+f.name+'.');if(--p===0){autoDetectPW();refresh();}};rd.readAsText(f);});}
 document.getElementById('incClosed').onchange=refresh;
 document.getElementById('target').onchange=compute;
 document.getElementById('platform').onchange=compute;
