@@ -85,16 +85,16 @@ details.sect[open]>summary{border-bottom:1px solid var(--bd);border-radius:12px 
 details.sect>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 details.sect>summary h2{margin:0;border:0;padding:0}
 .sbody{padding:16px 18px 18px}
-details.lvl{border:1px solid var(--bd);border-radius:10px;margin:12px 0;background:var(--card)}
-details.lvl>summary{list-style:none;cursor:pointer;padding:10px 14px;display:flex;align-items:center;gap:10px;user-select:none;border-radius:10px}
-details.lvl>summary::-webkit-details-marker{display:none}
-details.lvl>summary::before{content:"";width:7px;height:7px;border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(-45deg);transition:transform .15s;flex:none}
-details.lvl[open]>summary::before{transform:rotate(45deg)}
-details.lvl>summary:hover{background:var(--accentbg)}
-details.lvl[open]>summary{border-bottom:1px solid var(--bd);border-radius:10px 10px 0 0}
-details.lvl>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-details.lvl>summary h3{margin:0;font-size:15px;font-weight:600}
-details.lvl>div{padding:12px 14px 14px}
+details.lsec{border:1px solid var(--bd);border-radius:10px;margin:12px 0;background:var(--card)}
+details.lsec>summary{list-style:none;cursor:pointer;padding:10px 14px;display:flex;align-items:center;gap:10px;user-select:none;border-radius:10px}
+details.lsec>summary::-webkit-details-marker{display:none}
+details.lsec>summary::before{content:"";width:7px;height:7px;border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(-45deg);transition:transform .15s;flex:none}
+details.lsec[open]>summary::before{transform:rotate(45deg)}
+details.lsec>summary:hover{background:var(--accentbg)}
+details.lsec[open]>summary{border-bottom:1px solid var(--bd);border-radius:10px 10px 0 0}
+details.lsec>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+details.lsec>summary h3{margin:0;font-size:15px;font-weight:600}
+details.lsec>div{padding:12px 14px 14px}
 .sectctl{display:flex;gap:8px;justify-content:flex-end;margin:10px 0 0}
 .sectctl button{font-size:12px;padding:5px 12px}
 .lvl{display:inline-block;font-size:10px;font-weight:700;color:var(--mut);border:1px solid var(--bd2);border-radius:4px;padding:0 4px;margin-left:6px;vertical-align:1px}
@@ -221,13 +221,13 @@ details.lvl>div{padding:12px 14px 14px}
 <details class="sect" open><summary><h2>3. Conformance results</h2></summary>
 <div class="sbody">
 <div class="toolbar" style="margin:0 0 12px"><span class="sp"></span><button onclick="exportCSV()">Export CSV</button><button onclick="resetMap()">Reset mapping</button><button onclick="newVpat()">Start new VPAT</button></div>
-<details class="lvl" open><summary><h3>Level A</h3></summary>
+<details class="lsec" open><summary><h3>Level A</h3></summary>
 <div style="overflow-x:auto"><table><thead><tr><th scope="col">SC</th><th scope="col">Criterion</th><th scope="col">Direct pages</th><th scope="col">Coverage %</th><th scope="col">Conformance</th><th scope="col">Failed on</th><th scope="col">Override</th></tr></thead>
 <tbody id="rows-a"><tr><td colspan="7" class="empty">Choose a target and upload a CSV.</td></tr></tbody></table></div></details>
-<details class="lvl" open><summary><h3>Level AA</h3></summary>
+<details class="lsec" open><summary><h3>Level AA</h3></summary>
 <div style="overflow-x:auto"><table><thead><tr><th scope="col">SC</th><th scope="col">Criterion</th><th scope="col">Direct pages</th><th scope="col">Coverage %</th><th scope="col">Conformance</th><th scope="col">Failed on</th><th scope="col">Override</th></tr></thead>
 <tbody id="rows-aa"></tbody></table></div></details>
-<details class="lvl" id="aaaDetails" open style="display:none"><summary><h3 id="aaaHeading">Level AAA</h3></summary>
+<details class="lsec" id="aaaDetails" open style="display:none"><summary><h3 id="aaaHeading">Level AAA</h3></summary>
 <div id="aaaWrap" style="overflow-x:auto"><table><thead><tr><th scope="col">SC</th><th scope="col">Criterion</th><th scope="col">Direct pages</th><th scope="col">Coverage %</th><th scope="col">Conformance</th><th scope="col">Failed on</th><th scope="col">Override</th></tr></thead>
 <tbody id="rows-aaa"></tbody></table></div></details>
 <p class="note"><b>How the verdict is decided.</b> <b>Does Not Support</b> if (1) a <b>blocker</b> issue is present anywhere, <b>or</b> (2) the <b>union of directly-failing pages and every failing component’s mapped pages</b> covers <b>more than 50%</b> of in-scope pages. <b>Coverage %</b> here is that page union. Component severity/criticality is <b>not</b> used: every failing component contributes its full mapped pages, and a union at or below 50% (with no blocker) keeps the criterion at <b>Partially Supports</b>. For pages + components we take the page union, deduped. No findings is <b>Supports</b>. Project-wide pages are excluded from the count; their issues redistribute to mapped pages as direct failures. Rows marked Not Applicable by the platform/content defaults above can still be overridden per row.</p>
@@ -691,7 +691,7 @@ let scopeT;const scopeChanged=()=>{clearTimeout(scopeT);scopeT=setTimeout(refres
 totEl.oninput=scopeChanged;listEl.oninput=scopeChanged;
 document.getElementById('addPageBtn').onclick=addManualPage;
 document.getElementById('addPageName').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addManualPage();}});
-const setAllSections=o=>document.querySelectorAll('details.sect,details.lvl').forEach(d=>{d.open=o;});
+const setAllSections=o=>document.querySelectorAll('details.sect,details.lsec').forEach(d=>{d.open=o;});
 document.getElementById('collapseAll').onclick=()=>setAllSections(false);
 document.getElementById('expandAll').onclick=()=>setAllSections(true);
 refresh();
