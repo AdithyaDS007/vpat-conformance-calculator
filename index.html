@@ -37,7 +37,6 @@ button{font:inherit;font-size:13px;border:1px solid var(--bd2);background:var(--
 button:hover{background:#f0efe9}
 button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 .search{width:100%;padding:8px 10px;border:1px solid var(--bd2);border-radius:8px;margin-bottom:8px;font:inherit;font-size:13px}
-textarea.search{resize:vertical;min-height:38px;line-height:1.45;white-space:pre-wrap;display:block}
 .searchrow{display:flex;gap:8px;align-items:stretch;margin-bottom:6px}
 .searchrow .search{margin-bottom:0;flex:1}
 .selbtn{white-space:nowrap;padding:8px 12px;border:1px solid var(--accent);background:var(--accentbg);color:var(--accent);border-radius:8px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
@@ -268,13 +267,7 @@ function fcol(H,names){for(const n of names){const i=col(H,n);if(i>=0)return i;}
 function normSC(v){if(!v)return[];return String(v).split(/[,;\n]+/).map(s=>{const m=s.match(/\d+\.\d+(?:\.\d+)?/);return m?m[0]:null;}).filter(Boolean);}
 
 let FILES=[],MAP={},OVR={},AGG={},openWhere=new Set(),openFix=new Set(),openRem=new Set(),openUnion=new Set(),SAVEDRANGE={};
-let PW=new Set(),PWM={},PWAUTO=new Set();
-// A page name that looks like a deliberate project-wide / app-wide container. Naming isn't standardized,
-// so match the common variants: project-wide, app-wide, application-wide, site-wide (any separator or none).
-function isPWName(s){return /(project|application|app|site)[\s_-]*wide/i.test(s||'');}
-// On file load, auto-tick pages whose name looks project-wide — but only once per page (PWAUTO), so if the
-// user unticks one it stays unticked and won't be re-flagged on the next upload. Manual control always wins.
-function autoDetectPW(){FILES.forEach(f=>f.rows.forEach(r=>{if(/component/i.test(r.unit))return;const t=r.test;if(!t||PWAUTO.has(t))return;if(isPWName(t)){PWAUTO.add(t);PW.add(t);}}));}
+let PW=new Set(),PWM={};
 let EXTRA=new Set();// manually added zero-issue pages// PW = page names marked project-wide; PWM[page][sc] = Set of real pages that issue is redistributed to
 // No persistence by design: every session starts clean so one VPAT's mappings/overrides never leak into the next report.
 function saveMap(){}
@@ -363,15 +356,14 @@ function renderFiles(){const w=document.getElementById('files');w.innerHTML='';F
  d.innerHTML='<span class="nm">'+esc(f.name)+'</span><span class="meta">'+f.rows.length+' issues</span><button class="rm" data-i="'+i+'" aria-label="Remove '+esc(f.name)+'">&times;</button>';
  d.querySelector('.rm').onclick=()=>{FILES.splice(i,1);refresh();};w.appendChild(d);});}
 function enc(s){return btoa(unescape(encodeURIComponent(s))).replace(/=/g,'');}
-// Parse a pasted list into page-name tokens: one page per line (or comma-separated). We deliberately do
-// NOT split on " - " because real page names contain it (e.g. "Exam - Results"), which would shatter names
-// into fragments like "exam" that match everything. Leading bullet markers are stripped.
-function parseTokens(str){if(!str)return[];
- return [...new Set(String(str).split(/\r?\n|,/).map(s=>s.replace(/^\s*[-*\u2022]\s*/,'').replace(/\s+/g,' ').trim().toLowerCase()).filter(Boolean))];}
-// Pages whose full name EXACTLY matches a pasted token (case/space-insensitive). Exact — not substring —
-// so pasting "Critical Thinking Demo Exam - Results" selects only that page, never its shorter siblings.
-function matchPages(pages,tokens){if(!tokens.length)return[];const norm=s=>s.replace(/\s+/g,' ').trim().toLowerCase();const set=new Set(tokens);
- return pages.filter(p=>set.has(norm(p)));}
+// Parse a pasted list into page-name tokens. Multi-line input splits on lines (each line = one item);
+// a single-line run splits on commas and spaced dashes. Leading bullet markers are stripped.
+function parseTokens(str){if(!str)return[];const raw=String(str);
+ const parts=/\r?\n/.test(raw)?raw.split(/\r?\n/):raw.split(/,| - | \u2013 | \u2014 /);
+ return [...new Set(parts.map(s=>s.replace(/^\s*[-*\u2022]\s*/,'').replace(/\s+/g,' ').trim().toLowerCase()).filter(s=>s.length>=2))];}
+// Pages that match ANY token (forgiving substring either direction, case/space-insensitive).
+function matchPages(pages,tokens){if(!tokens.length)return[];const norm=s=>s.replace(/\s+/g,' ').trim().toLowerCase();
+ return pages.filter(p=>{const np=norm(p);return tokens.some(t=>np.includes(t)||t.includes(np));});}
 function renderComps(){const wrap=document.getElementById('comps');wrap.innerHTML='';
  if(!AGG.comps||!AGG.comps.length){wrap.innerHTML='<p class="empty">No components found yet.</p>';return;}
  // Only components with at least one in-scope (non-excluded) issue need mapping; closed-only components have nothing to map.
@@ -382,7 +374,7 @@ function renderComps(){const wrap=document.getElementById('comps');wrap.innerHTM
  const K=AGG.pages.length;
  active.forEach(c=>{if(!MAP[c])MAP[c]=new Set();const scs=[...(AGG.comp_sc[c]||[])].sort();const isG=K>0&&MAP[c].size===K;
   const card=document.createElement('div');card.className='comp';
-  card.innerHTML='<div class="comp-head"><span class="comp-name">'+esc(c)+'</span><span class="chips">'+scs.map(s=>'<span class="chip">'+s+'</span>').join('')+'</span><span class="cnt" id="cnt-'+enc(c)+'">'+MAP[c].size+' / '+K+' pages</span></div><div class="btns"><button class="g '+(isG?'on':'')+'">Global (all '+K+')</button><button class="clr">Clear</button></div><div class="searchrow"><textarea class="search" rows="2" aria-label="Filter pages for component '+esc(c)+'" placeholder="Filter, or paste one page per line to select…"></textarea><button class="selbtn" type="button">Select matches</button></div><div class="matchhint" aria-live="polite"></div><div class="pglist"></div>';
+  card.innerHTML='<div class="comp-head"><span class="comp-name">'+esc(c)+'</span><span class="chips">'+scs.map(s=>'<span class="chip">'+s+'</span>').join('')+'</span><span class="cnt" id="cnt-'+enc(c)+'">'+MAP[c].size+' / '+K+' pages</span></div><div class="btns"><button class="g '+(isG?'on':'')+'">Global (all '+K+')</button><button class="clr">Clear</button></div><div class="searchrow"><input class="search" aria-label="Filter pages for component '+esc(c)+'" placeholder="Filter or paste a list to select…"><button class="selbtn" type="button">Select matches</button></div><div class="matchhint" aria-live="polite"></div><div class="pglist"></div>';
   wrap.appendChild(card);
   card.querySelector('.g').onclick=()=>{MAP[c]=(MAP[c].size===K)?new Set():new Set(AGG.pages);saveMap();renderComps();compute();};
   card.querySelector('.clr').onclick=()=>{MAP[c]=new Set();saveMap();renderComps();compute();};
@@ -400,9 +392,7 @@ function renderPW(){const wrap=document.getElementById('pwpages');wrap.innerHTML
  const sel=document.createElement('div');sel.className='comp';
  sel.innerHTML='<div class="comp-head"><span class="comp-name">Mark project-wide pages</span><span class="cnt">'+(AGG.pwPages||[]).length+' selected · removed from page count</span></div><div class="pglist" id="pwsel"></div>';
  wrap.appendChild(sel);const sb=sel.querySelector('#pwsel');
- const anyAuto=all.some(p=>isPWName(p));
- if(anyAuto){const n=document.createElement('p');n.className='note';n.style.margin='0 0 8px';n.innerHTML='\u2728 Pages that look project-wide (e.g. containing \u201cproject-wide\u201d or \u201capp-wide\u201d) are ticked automatically. Untick any that shouldn\u2019t be, or tick others \u2014 your choice always sticks.';sb.parentElement.insertBefore(n,sb);}
- all.forEach(p=>{const auto=isPWName(p);const l=document.createElement('label');l.innerHTML='<input type="checkbox" '+(PW.has(p)?'checked':'')+'> '+esc(p)+(auto?' <span class="chip" style="background:var(--partbg);color:var(--part)">auto</span>':'');
+ all.forEach(p=>{const l=document.createElement('label');l.innerHTML='<input type="checkbox" '+(PW.has(p)?'checked':'')+'> '+esc(p);
   l.querySelector('input').onchange=e=>{e.target.checked?PW.add(p):PW.delete(p);savePW();refresh();};sb.appendChild(l);});
  // per project-wide page: list each individual issue (by ID) and map it to the real pages it reproduces on
  const real=AGG.pages||[];const K=real.length;
@@ -421,7 +411,7 @@ function renderPW(){const wrap=document.getElementById('pwpages');wrap.innerHTML
    const scChips=iss.scs.map(s=>'<span class="chip" title="'+esc(NAMES[s]||'')+'">'+s+'</span>').join('');
    const idLabel=String(iss.id).startsWith('auto:')?'auto-id':esc(iss.id);
    const sub=document.createElement('div');sub.style.cssText='border-top:1px solid var(--bd);padding-top:8px;margin-top:8px';
-   sub.innerHTML='<div class="comp-head" style="margin-bottom:6px"><span class="comp-name" style="font-size:13px">#'+idLabel+'</span>'+(sev?' <span class="chip"'+sevStyle+'>'+esc(sev)+'</span>':'')+' <span class="chips">'+scChips+'</span><span class="cnt" id="pwc-'+id+'">'+cnt+' / '+K+' pages</span></div>'+(iss.desc?'<p class="note" style="margin:0 0 6px">'+esc(iss.desc)+'</p>':'')+'<div class="btns"><button class="g '+(isG?'on':'')+'">All pages ('+K+')</button><button class="clr">Clear</button></div><div class="searchrow"><textarea class="search" rows="2" aria-label="Filter pages for issue '+esc(idLabel)+'" placeholder="Filter, or paste one page per line to select…"></textarea><button class="selbtn" type="button">Select matches</button></div><div class="matchhint" aria-live="polite"></div><div class="pglist"></div>';
+   sub.innerHTML='<div class="comp-head" style="margin-bottom:6px"><span class="comp-name" style="font-size:13px">#'+idLabel+'</span>'+(sev?' <span class="chip"'+sevStyle+'>'+esc(sev)+'</span>':'')+' <span class="chips">'+scChips+'</span><span class="cnt" id="pwc-'+id+'">'+cnt+' / '+K+' pages</span></div>'+(iss.desc?'<p class="note" style="margin:0 0 6px">'+esc(iss.desc)+'</p>':'')+'<div class="btns"><button class="g '+(isG?'on':'')+'">All pages ('+K+')</button><button class="clr">Clear</button></div><div class="searchrow"><input class="search" aria-label="Filter pages for issue '+esc(idLabel)+'" placeholder="Filter or paste a list to select…"><button class="selbtn" type="button">Select matches</button></div><div class="matchhint" aria-live="polite"></div><div class="pglist"></div>';
    card.appendChild(sub);
    sub.querySelector('.g').onclick=()=>{PWM[pw][iss.id]=(PWM[pw][iss.id].size===K)?new Set():new Set(real);savePW();refresh();};
    sub.querySelector('.clr').onclick=()=>{PWM[pw][iss.id]=new Set();savePW();refresh();};
@@ -633,8 +623,8 @@ function exportCSV(){const scs=allSC();if(!scs.length){alert('No data to export.
  rows.push(['Denominator (total in-scope pages) used for this report: '+(AGG.total||0)+'.']);
  const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='vpat_conformance.csv';a.click();}
-function resetMap(){if(confirm('Clear all component mappings, project-wide selections, and overrides?')){MAP={};OVR={};PW=new Set();PWM={};PWAUTO=new Set();autoDetectPW();refresh();}}
-function newVpat(){if(confirm('Start a new VPAT? This clears uploaded files, the page list, total pages, all mappings and overrides.')){FILES=[];MAP={};OVR={};PW=new Set();PWM={};PWAUTO=new Set();EXTRA=new Set();openWhere=new Set();openFix=new Set();openRem=new Set();openUnion=new Set();document.getElementById('pageList').value='';document.getElementById('totPages').value='';refresh();}} /* v7 */
+function resetMap(){if(confirm('Clear all component mappings, project-wide selections, and overrides?')){MAP={};OVR={};PW=new Set();PWM={};refresh();}}
+function newVpat(){if(confirm('Start a new VPAT? This clears uploaded files, the page list, total pages, all mappings and overrides.')){FILES=[];MAP={};OVR={};PW=new Set();PWM={};EXTRA=new Set();openWhere=new Set();openFix=new Set();openRem=new Set();openUnion=new Set();document.getElementById('pageList').value='';document.getElementById('totPages').value='';refresh();}} /* v7 */
 
 const drop=document.getElementById('drop'),fileInput=document.getElementById('file');
 drop.onclick=()=>fileInput.click();
@@ -643,7 +633,7 @@ fileInput.onchange=e=>{readFiles(e.target.files);fileInput.value='';};
 ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over');}));
 ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over');}));
 drop.addEventListener('drop',e=>{if(e.dataTransfer.files)readFiles(e.dataTransfer.files);});
-function readFiles(list){let p=list.length;if(!p)return;[...list].forEach(f=>{const rd=new FileReader();rd.onload=()=>{try{ingest(f.name,rd.result);}catch(err){alert('Could not parse '+f.name+': '+err.message);}if(--p===0){autoDetectPW();refresh();}};rd.onerror=()=>{alert('Could not read '+f.name+'.');if(--p===0){autoDetectPW();refresh();}};rd.readAsText(f);});}
+function readFiles(list){let p=list.length;if(!p)return;[...list].forEach(f=>{const rd=new FileReader();rd.onload=()=>{try{ingest(f.name,rd.result);}catch(err){alert('Could not parse '+f.name+': '+err.message);}if(--p===0)refresh();};rd.onerror=()=>{alert('Could not read '+f.name+'.');if(--p===0)refresh();};rd.readAsText(f);});}
 document.getElementById('incClosed').onchange=refresh;
 document.getElementById('target').onchange=compute;
 document.getElementById('platform').onchange=compute;
