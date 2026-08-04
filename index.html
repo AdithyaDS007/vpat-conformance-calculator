@@ -37,6 +37,11 @@ button{font:inherit;font-size:13px;border:1px solid var(--bd2);background:var(--
 button:hover{background:#f0efe9}
 button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 .search{width:100%;padding:8px 10px;border:1px solid var(--bd2);border-radius:8px;margin-bottom:8px;font:inherit;font-size:13px}
+.searchrow{display:flex;gap:8px;align-items:stretch;margin-bottom:6px}
+.searchrow .search{margin-bottom:0;flex:1}
+.selbtn{white-space:nowrap;padding:8px 12px;border:1px solid var(--accent);background:var(--accentbg);color:var(--accent);border-radius:8px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.selbtn:hover{background:var(--accent);color:#fff}
+.matchhint{font-size:12px;color:var(--mut);margin:0 0 8px;min-height:0}
 .pglist{max-height:200px;overflow:auto;border:1px solid var(--bd);border-radius:8px;padding:6px;display:grid;grid-template-columns:1fr 1fr;gap:2px}
 .pglist label{display:flex;align-items:center;gap:7px;font-size:13px;padding:3px 6px;border-radius:6px;cursor:pointer}
 .pglist label:hover{background:#f4f3ee}.pglist input{margin:0}
@@ -56,6 +61,8 @@ tr:last-child td{border-bottom:none}
 .rembox .remedit ul{margin:0;padding-left:22px}
 .rembox .remedit li{margin:0 0 8px;list-style:disc}
 .rembox .remedit li:last-child{margin-bottom:0}
+.rembox .remedit li.dup{background:#fff4d6;outline:1px solid #e6b800;border-radius:5px;padding:2px 6px;margin-left:-6px}
+.rembox .remedit li.dup::after{content:" ⚠ duplicate";font-size:11px;color:#8a6d00;font-style:italic}
 .rembox .hint{font-size:11px;color:var(--mut);margin-top:6px}
 .infoic{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;background:var(--accentbg);color:var(--accent);font-size:10px;line-height:1;cursor:help;vertical-align:middle;font-style:normal;font-family:inherit;border:1px solid #d8d5f5;padding:0}
 .infoic:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -77,27 +84,28 @@ tr:last-child td{border-bottom:none}
 .planbtn{margin-top:6px;font-size:11px;padding:3px 9px}
 .plan{background:var(--dnsbg);border:1px solid #f3cfcd;border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.6}
 .plan .plist{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:8px 10px;margin-top:6px;max-height:140px;overflow:auto;color:var(--tx)}
+@media (max-width:640px){
+ .wrap{padding:18px 14px 60px}
+ h1{font-size:21px}h2{font-size:16px}
+ .stat{min-width:calc(50% - 5px);padding:10px 12px}
+ .stat .n{font-size:20px}
+ .comp{padding:14px 14px}
+ .pglist{grid-template-columns:1fr}
+ .cnt{margin-left:0;flex-basis:100%}
+ .toolbar{flex-wrap:wrap}
+ .toolbar .sp{display:none}
+ .toolbar button{flex:1 1 auto}
+ .searchrow{flex-wrap:wrap}
+ .searchrow .search{flex:1 1 100%}
+ .selbtn{flex:1 1 auto}
+ /* wide result tables scroll horizontally instead of crushing their 7 columns */
+ table{min-width:660px}
+ div[style*="overflow-x"]{-webkit-overflow-scrolling:touch}
+}
 </style></head><body><div class="wrap">
 <h1>VPAT conformance calculator</h1>
 <p class="sub">Upload axe Auditor CSV exports, map shared components to the pages they appear on, and read per-criterion conformance. Multiple files combine cumulatively across platforms. <b>v5</b> — union-based Coverage % formula, per-criterion failing pages/components viewer, and zero persistence: nothing is stored in this browser, so each VPAT starts completely clean.</p>
 <div style="background:var(--accentbg);border:1px solid #d8d5f5;border-radius:12px;padding:12px 18px;margin:0 0 14px"><b style="color:var(--accent)">How the verdict is decided</b><br><span style="font-size:13px;color:var(--mut)">Every failing component is mapped to its pages and those pages are added to coverage (union with the pages that fail directly). A criterion is <b>Does Not Support</b> if a <b>blocker</b> is present anywhere, OR that page union covers <b>more than 50%</b> of in-scope pages. Otherwise, any finding caps at <b>Partially Supports</b>. No component severity/criticality is used in the math — every failing component contributes its full mapped pages.</span></div>
-
-<h2>0. Applicability &amp; platform defaults</h2>
-<div class="comp" style="margin:0 0 12px;padding:14px 18px">
- <div class="comp-head" style="margin-bottom:10px"><span class="comp-name">Platform / asset type</span></div>
- <p class="note" style="margin:0 0 8px">Auto-marks the criteria that don&rsquo;t apply for this platform as <b>Not Applicable</b>. Override any single row in the results table if needed.</p>
- <select id="platform" aria-label="Platform / asset type" style="font:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--bd2);border-radius:8px;background:var(--card)">
-  <option value="web" selected>Default (Web)</option>
-  <option value="mobileweb">Mobile Web</option>
-  <option value="ios">iOS</option>
-  <option value="android">Android</option>
- </select>
-</div>
-<div class="comp" style="margin:0 0 12px;padding:14px 18px">
- <div class="comp-head" style="margin-bottom:10px"><span class="comp-name">Content applicability questions</span></div>
- <p class="note" style="margin:0 0 10px">A <b>No</b> marks the related criteria Not Applicable by default; <b>Yes</b> keeps them in scope; <b>Unknown</b> uses the normal computed verdict. If you answer No but the CSV still has findings against that criterion, the results table flags it for review.</p>
- <div id="contentq" style="display:flex;flex-direction:column;gap:8px"></div>
-</div>
 
 <details class="help" open><summary>How to use this tool</summary>
 <ol>
@@ -113,13 +121,30 @@ tr:last-child td{border-bottom:none}
 </ol>
 </details>
 
-<h2>1. Set target &amp; upload audit CSV(s)</h2>
+<h2>1. Upload audit CSV(s)</h2>
+<div class="drop" id="drop" role="button" tabindex="0" aria-label="Upload CSV files. Click, or press Enter, to choose files, or drag and drop them here."><b>Click to choose</b> or drag &amp; drop CSV files here<p>axe Auditor exports &middot; multiple files allowed</p>
+<input type="file" id="file" accept=".csv,text/csv" multiple style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0" aria-hidden="true" tabindex="-1"></div>
+<div class="files" id="files"></div>
+
+<div class="stats">
+<div class="stat"><div class="n" id="s-pages">0</div><div class="l">Pages in scope</div></div>
+<div class="stat"><div class="n" id="s-comp">0</div><div class="l">Components</div></div>
+<div class="stat"><div class="n" id="s-iss" style="color:var(--dns)">0</div><div class="l">Issues in scope</div></div>
+<div class="stat"><div class="n" id="s-ua" style="color:var(--mut)">0</div><div class="l" title="Issues with Issue Type = User Agent. Excluded from conformance (not the content author's responsibility).">User Agent issues (excluded)</div></div>
+<div class="stat"><div class="n" id="s-sup" style="color:var(--ok)">0</div><div class="l">Supports</div></div>
+<div class="stat"><div class="n" id="s-part" style="color:var(--part)">0</div><div class="l">Partially Supports</div></div>
+<div class="stat"><div class="n" id="s-dns" style="color:var(--dns)">0</div><div class="l">Does Not Support</div></div>
+<div class="stat"><div class="n" id="s-na" style="color:var(--na)">0</div><div class="l">Not Applicable</div></div>
+<div class="stat"><div class="n" id="s-ne" style="color:var(--na)">0</div><div class="l">Not Evaluated</div></div>
+</div>
+
+<h2>1b. Set target, applicability &amp; page count</h2>
 <div class="opts" style="margin:0 0 12px">
 <label>WCAG target:&nbsp;<select id="target">
 <option>2.0 A</option><option>2.0 AA</option><option>2.0 AAA</option><option>2.1 A</option><option selected>2.1 AA</option><option>2.1 AAA</option><option>2.2 A</option><option>2.2 AA</option><option>2.2 AAA</option>
 </select></label>
 <label title="By default Open and Fixed issues count as failures; only Closed issues are excluded. Tick to count Closed issues too."><input type="checkbox" id="incClosed"> Include Closed issues</label>
-<label title="The denominator for Coverage %. Pages with zero issues never appear in the CSV, so set the real in-scope page count here to avoid inflated percentages.">Total pages in scope:&nbsp;<input type="number" id="totPages" min="0" placeholder="auto" style="width:78px;font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--bd2);border-radius:8px;background:var(--card)"></label>
+<label title="The denominator for Coverage %. Pages with zero issues never appear in the CSV, so set the real in-scope page count here to avoid inflated percentages. Count every audited page, including any project-wide container — marked project-wide pages are subtracted automatically.">Total pages in scope:&nbsp;<input type="number" id="totPages" min="0" placeholder="auto" style="width:78px;font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--bd2);border-radius:8px;background:var(--card)"><span class="note" style="margin-left:8px;font-size:12px;color:var(--mut)">count all audited pages; project-wide pages are removed automatically</span></label>
 </div>
 <details class="help" style="margin:0 0 12px"><summary>Full page list (optional) — overrides the count and enables exact mapping</summary>
 <p style="margin:8px 0 6px;color:var(--mut);font-size:13px">Paste every in-scope page (URL or name), one per line or comma-separated — including pages with <b>zero</b> issues. When filled, this list becomes the denominator and the page universe for component mapping. Failing pages from the CSV are always merged in automatically.</p>
@@ -134,19 +159,20 @@ tr:last-child td{border-bottom:none}
  </div>
  <div id="extraChips" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"></div>
 </div>
-<div class="drop" id="drop" role="button" tabindex="0" aria-label="Upload CSV files. Click, or press Enter, to choose files, or drag and drop them here."><b>Click to choose</b> or drag &amp; drop CSV files here<p>axe Auditor exports &middot; multiple files allowed</p>
-<input type="file" id="file" accept=".csv,text/csv" multiple style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0" aria-hidden="true" tabindex="-1"></div>
-<div class="files" id="files"></div>
-
-<div class="stats">
-<div class="stat"><div class="n" id="s-pages">0</div><div class="l">Pages in scope</div></div>
-<div class="stat"><div class="n" id="s-comp">0</div><div class="l">Components</div></div>
-<div class="stat"><div class="n" id="s-iss" style="color:var(--dns)">0</div><div class="l">Issues in scope</div></div>
-<div class="stat"><div class="n" id="s-sup" style="color:var(--ok)">0</div><div class="l">Supports</div></div>
-<div class="stat"><div class="n" id="s-part" style="color:var(--part)">0</div><div class="l">Partially Supports</div></div>
-<div class="stat"><div class="n" id="s-dns" style="color:var(--dns)">0</div><div class="l">Does Not Support</div></div>
-<div class="stat"><div class="n" id="s-na" style="color:var(--na)">0</div><div class="l">Not Applicable</div></div>
-<div class="stat"><div class="n" id="s-ne" style="color:var(--na)">0</div><div class="l">Not Evaluated</div></div>
+<div class="comp" style="margin:0 0 12px;padding:14px 18px">
+ <div class="comp-head" style="margin-bottom:10px"><span class="comp-name">Platform / asset type</span></div>
+ <p class="note" style="margin:0 0 8px">Auto-marks the criteria that don&rsquo;t apply for this platform as <b>Not Applicable</b>. Override any single row in the results table if needed.</p>
+ <select id="platform" aria-label="Platform / asset type" style="font:inherit;font-size:13px;padding:6px 10px;border:1px solid var(--bd2);border-radius:8px;background:var(--card)">
+  <option value="web" selected>Default (Web)</option>
+  <option value="mobileweb">Mobile Web</option>
+  <option value="ios">iOS</option>
+  <option value="android">Android</option>
+ </select>
+</div>
+<div class="comp" style="margin:0 0 12px;padding:14px 18px">
+ <div class="comp-head" style="margin-bottom:10px"><span class="comp-name">Content applicability questions</span></div>
+ <p class="note" style="margin:0 0 10px">A <b>No</b> marks the related criteria Not Applicable by default; <b>Yes</b> keeps them in scope; <b>Unknown</b> uses the normal computed verdict. If you answer No but the CSV still has findings against that criterion, the results table flags it for review.</p>
+ <div id="contentq" style="display:flex;flex-direction:column;gap:8px"></div>
 </div>
 
 <h2>2. Map components to pages</h2>
@@ -247,42 +273,56 @@ function saveMap(){}
 function saveOVR(){}
 function savePW(){}
 function scCmp(a,b){const A=a.split('.').map(Number),B=b.split('.').map(Number);for(let i=0;i<3;i++){if((A[i]||0)!=(B[i]||0))return(A[i]||0)-(B[i]||0);}return 0;}
+// A "user agent" issue is the responsibility of the browser / assistive technology, not the content author,
+// so it must NOT count toward VPAT conformance. Primary signal is the CSV's Issue Type column (value "useragent" /
+// "user agent"); the Rule ID prefix is kept as a fallback for exports without that column.
+function isUA(r){return /^user[-\s]?agent$/i.test((r.itype||'').trim())||/^\s*user[-\s]?agent/i.test(r.rule||'');}
 
 function ingest(name,text){const rows=parseCSV(text);if(!rows.length)return;const H=rows[0];
  const ci={unit:col(H,'Unit Type'),test:col(H,'Test Unit'),sc:col(H,'Success Criteria'),status:col(H,'Issue Status'),impact:col(H,'Impact'),platform:col(H,'Platform'),
+  itype:fcol(H,['Issue Type','IssueType','Issue type','Type of Issue','Issue Category','Type']),
+  url:fcol(H,['Issue URL','Issue Url','Issue Link','URL','Url','Link','Permalink']),
   id:fcol(H,['Issue ID','Issue Id','IssueID','ID','Issue Number','Issue #','Issue No','Defect ID','Bug ID','Key']),
   rule:fcol(H,['Rule ID','RuleID','Rule Id','Rule']),
   desc:fcol(H,['Issue Description','Description','Issue','Summary','Title','Issue Summary','Test Name','Rule','Name'])};
  const out=[],seen={};for(let r=1;r<rows.length;r++){const row=rows[r];if(row.every(c=>!String(c).trim()))continue;
-  const unit=(ci.unit>=0?row[ci.unit]||'':'Page').trim(),test=(ci.test>=0?row[ci.test]||'':'').trim(),scs=normSC(ci.sc>=0?row[ci.sc]:''),status=(ci.status>=0?row[ci.status]||'':'').trim(),impact=(ci.impact>=0?row[ci.impact]||'':'').trim(),platform=(ci.platform>=0?row[ci.platform]||'':'').trim();
+  const unit=(ci.unit>=0?row[ci.unit]||'':'Page').trim(),test=(ci.test>=0?row[ci.test]||'':'').trim(),scs=normSC(ci.sc>=0?row[ci.sc]:''),status=(ci.status>=0?row[ci.status]||'':'').trim(),impact=(ci.impact>=0?row[ci.impact]||'':'').trim(),platform=(ci.platform>=0?row[ci.platform]||'':'').trim(),itype=(ci.itype>=0?row[ci.itype]||'':'').trim();
+  const url=(ci.url>=0?row[ci.url]||'':'').trim();
   let id=(ci.id>=0?row[ci.id]||'':'').trim(),desc=(ci.desc>=0?row[ci.desc]||'':'').trim(),rule=(ci.rule>=0?row[ci.rule]||'':'').trim();
   if(!id){let base='auto:'+test+'|'+scs.join(',')+'|'+impact+'|'+desc;if(seen[base]!=null){seen[base]++;base+='#'+seen[base];}else seen[base]=0;id=base;}
-  out.push({unit,test,scs,status,impact,platform,id,desc,rule});}
+  out.push({unit,test,scs,status,impact,platform,itype,url,id,desc,rule});}
  FILES.push({name,rows:out});}
 
 function aggregate(){const inc=document.getElementById('incClosed').checked;
  const allPages=new Set(),pages=new Set(),comps=new Set(),sc_pages={},sc_pageblk={},comp_sc={},comp_crit={},comp_blk={},pw_issues={};
- let nIss=0,nExcl=0;
+ let nIss=0,nExcl=0,nUA=0;
  FILES.forEach(f=>f.rows.forEach(r=>{if(!r.test||!r.scs.length)return;
   // A test unit that appears in the CSV was audited and stays in scope even if all its issues are Closed —
   // it is then a PASSING page. The status filter applies to the ISSUES only, never to the page/component universe.
   // VPAT rule: Open and Fixed issues both count as failures; only Closed issues are excluded (unless included via the toggle).
   const closed=/^closed$/i.test(r.status)&&!inc;
-  if(closed)nExcl++;else nIss++;
+  const excl=closed||isUA(r);// UA issues never contribute to conformance, but the page/component still counts as in-scope (passing)
+  if(isUA(r))nUA++;
+  if(excl)nExcl++;else nIss++;
   const blk=/blocker/i.test(r.impact||''),crit=/critical/i.test(r.impact||'');
   if(/component/i.test(r.unit)){comps.add(r.test);(comp_sc[r.test]=comp_sc[r.test]||new Set());(comp_crit[r.test]=comp_crit[r.test]||new Set());(comp_blk[r.test]=comp_blk[r.test]||new Set());
-   if(closed)return;r.scs.forEach(s=>{comp_sc[r.test].add(s);if(crit)comp_crit[r.test].add(s);if(blk)comp_blk[r.test].add(s);});}
+   if(excl)return;r.scs.forEach(s=>{comp_sc[r.test].add(s);if(crit)comp_crit[r.test].add(s);if(blk)comp_blk[r.test].add(s);});}
   else{allPages.add(r.test);
-   if(PW.has(r.test)){if(closed)return;(pw_issues[r.test]=pw_issues[r.test]||[]).push({id:r.id,desc:r.desc,scs:r.scs.slice(),blk,crit,impact:r.impact,status:r.status});}
-   else{pages.add(r.test);if(closed)return;r.scs.forEach(s=>{(sc_pages[s]=sc_pages[s]||new Set()).add(r.test);if(blk)(sc_pageblk[s]=sc_pageblk[s]||new Set()).add(r.test);});}}}));
+   if(PW.has(r.test)){if(excl)return;(pw_issues[r.test]=pw_issues[r.test]||[]).push({id:r.id,desc:r.desc,scs:r.scs.slice(),blk,crit,impact:r.impact,status:r.status});}
+   else{pages.add(r.test);if(excl)return;r.scs.forEach(s=>{(sc_pages[s]=sc_pages[s]||new Set()).add(r.test);if(blk)(sc_pageblk[s]=sc_pageblk[s]||new Set()).add(r.test);});}}}));
  const listEl=document.getElementById('pageList'),numEl=document.getElementById('totPages');
  const listPages=(listEl?listEl.value:'').split(/[\n,]+/).map(s=>s.trim()).filter(Boolean).filter(p=>!PW.has(p));
  const manual=[...EXTRA].filter(p=>!PW.has(p));
- const num=parseInt(numEl?numEl.value:'',10);
+ const rawNum=parseInt(numEl?numEl.value:'',10);
+ // A manually-entered total is assumed to count every audited page, including any project-wide
+ // container(s) that showed up in the CSV. Those are not real screens, so subtract them before
+ // using the number as the denominator floor — otherwise the max() below silently keeps them in.
+ const pwCount=[...PW].filter(p=>allPages.has(p)).length;
+ const num=rawNum>0?Math.max(0,rawNum-pwCount):rawNum;
  let universe,total;
  if(listPages.length||manual.length){const u=new Set(listPages);manual.forEach(p=>u.add(p));pages.forEach(p=>u.add(p));universe=[...u];total=Math.max(num>0?num:0,u.size);}
  else{universe=[...pages];total=(num>0?Math.max(num,pages.size):pages.size);}
- AGG={pages:universe.sort(),csvPages:[...pages],total,known:universe.length,nIss,nExcl,allPages:[...allPages].sort(scCmp),pwPages:[...PW].filter(p=>allPages.has(p)).sort(scCmp),pw_issues,base_pages:sc_pages,base_pageblk:sc_pageblk,sc_pages:{},sc_pageblk:{},sc_redist:{},comps:[...comps].sort(),comp_sc,comp_crit,comp_blk};
+ AGG={pages:universe.sort(),csvPages:[...pages],total,known:universe.length,nIss,nExcl,nUA,allPages:[...allPages].sort(scCmp),pwPages:[...PW].filter(p=>allPages.has(p)).sort(scCmp),pw_issues,base_pages:sc_pages,base_pageblk:sc_pageblk,sc_pages:{},sc_pageblk:{},sc_redist:{},comps:[...comps].sort(),comp_sc,comp_crit,comp_blk};
  redistribute();}
 // Redistribute project-wide issues onto the real pages they reproduce on; they count as direct page failures (carry blocker severity).
 function redistribute(){const base=AGG.base_pages||{},baseB=AGG.base_pageblk||{};const sc_pages={},sc_pageblk={},sc_redist={};
@@ -311,6 +351,14 @@ function renderFiles(){const w=document.getElementById('files');w.innerHTML='';F
  d.innerHTML='<span class="nm">'+f.name+'</span><span class="meta">'+f.rows.length+' issues</span><button class="rm" data-i="'+i+'">&times;</button>';
  d.querySelector('.rm').onclick=()=>{FILES.splice(i,1);refresh();};w.appendChild(d);});}
 function enc(s){return btoa(unescape(encodeURIComponent(s))).replace(/=/g,'');}
+// Parse a pasted list into page-name tokens. Multi-line input splits on lines (each line = one item);
+// a single-line run splits on commas and spaced dashes. Leading bullet markers are stripped.
+function parseTokens(str){if(!str)return[];const raw=String(str);
+ const parts=/\r?\n/.test(raw)?raw.split(/\r?\n/):raw.split(/,| - | \u2013 | \u2014 /);
+ return [...new Set(parts.map(s=>s.replace(/^\s*[-*\u2022]\s*/,'').replace(/\s+/g,' ').trim().toLowerCase()).filter(s=>s.length>=2))];}
+// Pages that match ANY token (forgiving substring either direction, case/space-insensitive).
+function matchPages(pages,tokens){if(!tokens.length)return[];const norm=s=>s.replace(/\s+/g,' ').trim().toLowerCase();
+ return pages.filter(p=>{const np=norm(p);return tokens.some(t=>np.includes(t)||t.includes(np));});}
 function renderComps(){const wrap=document.getElementById('comps');wrap.innerHTML='';
  if(!AGG.comps||!AGG.comps.length){wrap.innerHTML='<p class="empty">No components found yet.</p>';return;}
  // Only components with at least one in-scope (non-excluded) issue need mapping; closed-only components have nothing to map.
@@ -321,12 +369,16 @@ function renderComps(){const wrap=document.getElementById('comps');wrap.innerHTM
  const K=AGG.pages.length;
  active.forEach(c=>{if(!MAP[c])MAP[c]=new Set();const scs=[...(AGG.comp_sc[c]||[])].sort();const isG=K>0&&MAP[c].size===K;
   const card=document.createElement('div');card.className='comp';
-  card.innerHTML='<div class="comp-head"><span class="comp-name">'+c+'</span><span class="chips">'+scs.map(s=>'<span class="chip">'+s+'</span>').join('')+'</span><span class="cnt" id="cnt-'+enc(c)+'">'+MAP[c].size+' / '+K+' pages</span></div><div class="btns"><button class="g '+(isG?'on':'')+'">Global (all '+K+')</button><button class="clr">Clear</button></div><input class="search" aria-label="Filter pages for component '+esc(c)+'" placeholder="Filter pages…"><div class="pglist"></div>';
+  card.innerHTML='<div class="comp-head"><span class="comp-name">'+c+'</span><span class="chips">'+scs.map(s=>'<span class="chip">'+s+'</span>').join('')+'</span><span class="cnt" id="cnt-'+enc(c)+'">'+MAP[c].size+' / '+K+' pages</span></div><div class="btns"><button class="g '+(isG?'on':'')+'">Global (all '+K+')</button><button class="clr">Clear</button></div><div class="searchrow"><input class="search" aria-label="Filter pages for component '+esc(c)+'" placeholder="Filter or paste a list to select…"><button class="selbtn" type="button">Select matches</button></div><div class="matchhint" aria-live="polite"></div><div class="pglist"></div>';
   wrap.appendChild(card);
   card.querySelector('.g').onclick=()=>{MAP[c]=(MAP[c].size===K)?new Set():new Set(AGG.pages);saveMap();renderComps();compute();};
   card.querySelector('.clr').onclick=()=>{MAP[c]=new Set();saveMap();renderComps();compute();};
-  const box=card.querySelector('.pglist');const draw=fl=>{box.innerHTML='';AGG.pages.filter(p=>p.toLowerCase().includes(fl)).forEach(p=>{const l=document.createElement('label');l.innerHTML='<input type="checkbox" '+(MAP[c].has(p)?'checked':'')+'> '+p;l.querySelector('input').onchange=e=>{e.target.checked?MAP[c].add(p):MAP[c].delete(p);saveMap();document.getElementById('cnt-'+enc(c)).textContent=MAP[c].size+' / '+K+' pages';compute();};box.appendChild(l);});};
-  draw('');card.querySelector('.search').oninput=e=>draw(e.target.value.toLowerCase());});}
+  const box=card.querySelector('.pglist');
+  const shown=raw=>{const t=parseTokens(raw);return t.length>1?matchPages(AGG.pages,t):AGG.pages.filter(p=>p.toLowerCase().includes((raw||'').trim().toLowerCase()));};
+  const draw=raw=>{box.innerHTML='';shown(raw).forEach(p=>{const l=document.createElement('label');l.innerHTML='<input type="checkbox" '+(MAP[c].has(p)?'checked':'')+'> '+p;l.querySelector('input').onchange=e=>{e.target.checked?MAP[c].add(p):MAP[c].delete(p);saveMap();document.getElementById('cnt-'+enc(c)).textContent=MAP[c].size+' / '+K+' pages';compute();};box.appendChild(l);});};
+  const srch=card.querySelector('.search'),hint=card.querySelector('.matchhint');
+  draw('');srch.oninput=e=>draw(e.target.value);
+  card.querySelector('.selbtn').onclick=()=>{const m=shown(srch.value);m.forEach(p=>MAP[c].add(p));saveMap();document.getElementById('cnt-'+enc(c)).textContent=MAP[c].size+' / '+K+' pages';hint.textContent=m.length?('\u2713 selected '+m.length+' matching page'+(m.length!=1?'s':'')):'No pages matched — check spelling or paste exact page names.';compute();draw(srch.value);};});}
 
 function renderPW(){const wrap=document.getElementById('pwpages');wrap.innerHTML='';
  const all=AGG.allPages||[];
@@ -354,12 +406,16 @@ function renderPW(){const wrap=document.getElementById('pwpages');wrap.innerHTML
    const scChips=iss.scs.map(s=>'<span class="chip" title="'+esc(NAMES[s]||'')+'">'+s+'</span>').join('');
    const idLabel=String(iss.id).startsWith('auto:')?'auto-id':esc(iss.id);
    const sub=document.createElement('div');sub.style.cssText='border-top:1px solid var(--bd);padding-top:8px;margin-top:8px';
-   sub.innerHTML='<div class="comp-head" style="margin-bottom:6px"><span class="comp-name" style="font-size:13px">#'+idLabel+'</span>'+(sev?' <span class="chip"'+sevStyle+'>'+esc(sev)+'</span>':'')+' <span class="chips">'+scChips+'</span><span class="cnt" id="pwc-'+id+'">'+cnt+' / '+K+' pages</span></div>'+(iss.desc?'<p class="note" style="margin:0 0 6px">'+esc(iss.desc)+'</p>':'')+'<div class="btns"><button class="g '+(isG?'on':'')+'">All pages ('+K+')</button><button class="clr">Clear</button></div><input class="search" aria-label="Filter pages for issue '+esc(idLabel)+'" placeholder="Filter pages…"><div class="pglist"></div>';
+   sub.innerHTML='<div class="comp-head" style="margin-bottom:6px"><span class="comp-name" style="font-size:13px">#'+idLabel+'</span>'+(sev?' <span class="chip"'+sevStyle+'>'+esc(sev)+'</span>':'')+' <span class="chips">'+scChips+'</span><span class="cnt" id="pwc-'+id+'">'+cnt+' / '+K+' pages</span></div>'+(iss.desc?'<p class="note" style="margin:0 0 6px">'+esc(iss.desc)+'</p>':'')+'<div class="btns"><button class="g '+(isG?'on':'')+'">All pages ('+K+')</button><button class="clr">Clear</button></div><div class="searchrow"><input class="search" aria-label="Filter pages for issue '+esc(idLabel)+'" placeholder="Filter or paste a list to select…"><button class="selbtn" type="button">Select matches</button></div><div class="matchhint" aria-live="polite"></div><div class="pglist"></div>';
    card.appendChild(sub);
    sub.querySelector('.g').onclick=()=>{PWM[pw][iss.id]=(PWM[pw][iss.id].size===K)?new Set():new Set(real);savePW();refresh();};
    sub.querySelector('.clr').onclick=()=>{PWM[pw][iss.id]=new Set();savePW();refresh();};
-   const box=sub.querySelector('.pglist');const draw=fl=>{box.innerHTML='';real.filter(p=>p.toLowerCase().includes(fl)).forEach(p=>{const l=document.createElement('label');l.innerHTML='<input type="checkbox" '+(PWM[pw][iss.id].has(p)?'checked':'')+'> '+esc(p);l.querySelector('input').onchange=e=>{e.target.checked?PWM[pw][iss.id].add(p):PWM[pw][iss.id].delete(p);savePW();document.getElementById('pwc-'+id).textContent=PWM[pw][iss.id].size+' / '+K+' pages';redistribute();compute();};box.appendChild(l);});};
-   draw('');sub.querySelector('.search').oninput=e=>draw(e.target.value.toLowerCase());});});}
+   const box=sub.querySelector('.pglist');
+   const shown=raw=>{const t=parseTokens(raw);return t.length>1?matchPages(real,t):real.filter(p=>p.toLowerCase().includes((raw||'').trim().toLowerCase()));};
+   const draw=raw=>{box.innerHTML='';shown(raw).forEach(p=>{const l=document.createElement('label');l.innerHTML='<input type="checkbox" '+(PWM[pw][iss.id].has(p)?'checked':'')+'> '+esc(p);l.querySelector('input').onchange=e=>{e.target.checked?PWM[pw][iss.id].add(p):PWM[pw][iss.id].delete(p);savePW();document.getElementById('pwc-'+id).textContent=PWM[pw][iss.id].size+' / '+K+' pages';redistribute();compute();};box.appendChild(l);});};
+   const srch=sub.querySelector('.search'),hint=sub.querySelector('.matchhint');
+   draw('');srch.oninput=e=>draw(e.target.value);
+   sub.querySelector('.selbtn').onclick=()=>{const m=shown(srch.value);m.forEach(p=>PWM[pw][iss.id].add(p));savePW();document.getElementById('pwc-'+id).textContent=PWM[pw][iss.id].size+' / '+K+' pages';hint.textContent=m.length?('\u2713 selected '+m.length+' matching page'+(m.length!=1?'s':'')):'No pages matched — check spelling or paste exact page names.';redistribute();compute();draw(srch.value);};});});}
 
 function rowFor(sc){const direct=new Set(AGG.sc_pages&&AGG.sc_pages[sc]||[]);
  const comps=(AGG.comps||[]).filter(c=>(AGG.comp_sc[c]||new Set()).has(sc));
@@ -438,7 +494,7 @@ function fixPlan(sc){const T=AGG.total;const D=[...(AGG.sc_pages&&AGG.sc_pages[s
  h+='<br><br>Clearing the step(s) above moves '+sc+' out of <b>Does Not Support</b>.';
  return h+'</div>';}
 function ruleGroups(sc){const inc=document.getElementById('incClosed').checked;const g={};
- FILES.forEach(f=>f.rows.forEach(r=>{if(!r.scs.includes(sc))return;if(/^closed$/i.test(r.status)&&!inc)return;
+ FILES.forEach(f=>f.rows.forEach(r=>{if(!r.scs.includes(sc))return;if(/^closed$/i.test(r.status)&&!inc)return;if(isUA(r))return;
   const key=r.rule||'desc:'+r.desc||'id:'+r.id;if(!g[key])g[key]={rule:r.rule,desc:r.desc,pages:new Set(),ids:new Set()};
   let pgs;
   if(PW.has(r.test)){pgs=(PWM[r.test]&&PWM[r.test][r.id])?[...PWM[r.test][r.id]]:[];}
@@ -472,13 +528,27 @@ function ovrCell(sc){const isAAA=LEVELS[sc]==='AAA',cur=OVR[sc]||'';const auto=a
  o+='<option value="na"'+(cur==='na'?' selected':'')+'>Not Applicable</option>';
  if(isAAA)o+='<option value="ne"'+(cur==='ne'?' selected':'')+'>Not Evaluated</option><option value="sup"'+(cur==='sup'?' selected':'')+'>Supports</option>';
  return '<select class="ovr" data-sc="'+sc+'" aria-label="Override conformance for '+sc+' '+esc(NAMES[sc]||'')+'">'+o+'</select>';}
+// Unique issue URLs for a criterion, honoring the Include-Closed toggle and excluding UA issues.
+function issueUrlsFor(sc){const inc=document.getElementById('incClosed').checked;const urls=[],seen=new Set();
+ FILES.forEach(f=>f.rows.forEach(r=>{if(!r.scs.includes(sc))return;if(/^closed$/i.test(r.status)&&!inc)return;if(isUA(r))return;
+  const u=r.url;if(!u||!/^https?:\/\//i.test(u)||seen.has(u))return;seen.add(u);urls.push(u);}));
+ return urls;}
+// Open every issue URL mapped to a criterion in its own browser tab.
+function openIssueUrls(sc){const urls=issueUrlsFor(sc);
+ if(!urls.length){alert('No issue URLs found for '+sc+' (the CSV may lack an "Issue URL" column, or its issues are Closed/User Agent).');return;}
+ if(urls.length>8&&!confirm('This will open '+urls.length+' new tabs for '+sc+'. Continue?'))return;
+ let blocked=0;urls.forEach(u=>{const w=window.open(u,'_blank','noopener');if(!w)blocked++;});
+ if(blocked)alert(blocked+' of '+urls.length+' tab(s) were blocked. Allow pop-ups for this site and try again.');}
 function computeRows(scs,tb){
  if(!scs.length){tb.innerHTML='<tr><td colspan="7" class="empty">No criteria at this level for the current target/data.</td></tr>';return{sup:0,part:0,dns:0,na:0,ne:0};}
  tb.innerHTML='';const cnt={sup:0,part:0,dns:0,na:0,ne:0};
  scs.forEach(sc=>{const x=rowFor(sc);cnt[x.verdict]=(cnt[x.verdict]||0)+1;const col=x.verdict=='dns'?'var(--dns)':x.verdict=='part'?'var(--part)':x.verdict=='sup'?'var(--ok)':'var(--na)';
   const planBtn=x.verdict=='dns'?'<button class="planbtn" data-f="'+sc+'">'+(openFix.has(sc)?'Hide fix plan':'Plan fix')+'</button>':'';
   const remBtn=(x.verdict=='dns'||x.verdict=='part')?'<button class="planbtn" data-r="'+sc+'">'+(openRem.has(sc)?'Hide remarks':'Remarks')+'</button>':'';
-  const btns=(planBtn||remBtn)?'<br>'+planBtn+(planBtn&&remBtn?' ':'')+remBtn:'';
+  const nUrls=issueUrlsFor(sc).length;
+  const urlBtn=nUrls?'<button class="planbtn" data-o="'+sc+'" title="Open every issue URL mapped to this criterion in a new tab">Open issue URLs ('+nUrls+')</button>':'';
+  const rowBtns=[planBtn,remBtn,urlBtn].filter(Boolean);
+  const btns=rowBtns.length?'<br>'+rowBtns.join(' '):'';
   const reason=x.verdict=='dns'&&x.reason?'<div class="viacomp" style="color:var(--dns)">'+esc(x.reason)+'</div>':'';
   const warn=x.naConflict?'<div class="viacomp" style="color:var(--dns)">\u26a0 Marked Not Applicable by platform/content defaults, but the CSV has findings for this criterion \u2014 review the answers above or override this row.</div>':'';
   const tr=document.createElement('tr');
@@ -488,13 +558,16 @@ function computeRows(scs,tb){
   const tu=tr.querySelector('[data-u]');if(tu)tu.onclick=()=>{openUnion.has(sc)?openUnion.delete(sc):openUnion.add(sc);compute();};
   const pb=tr.querySelector('[data-f]');if(pb)pb.onclick=()=>{openFix.has(sc)?openFix.delete(sc):openFix.add(sc);compute();};
   const rb=tr.querySelector('[data-r]');if(rb)rb.onclick=()=>{openRem.has(sc)?openRem.delete(sc):openRem.add(sc);compute();};
+  const ob=tr.querySelector('[data-o]');if(ob)ob.onclick=()=>openIssueUrls(sc);
   tb.appendChild(tr);
   if(openFix.has(sc)&&x.verdict=='dns'){const dr=document.createElement('tr');dr.innerHTML='<td colspan="7">'+fixPlan(sc)+'</td>';tb.appendChild(dr);}
   if(openRem.has(sc)&&(x.verdict=='dns'||x.verdict=='part')){const rp=remarksParts(sc);const taId='rem-'+enc(sc);
    const src=rp.bullets.map((b,i)=>{const lbl='Bullet '+(i+1)+' \u2014 Issue ID(s): '+(b.ids.length?b.ids.join(', '):'none found in source data');return '<button type="button" class="infoic" aria-label="'+esc(lbl)+'" title="'+esc(lbl)+'">'+(i+1)+'</button>';}).join(' ');
-   const tags=['(Third party content)','RWD Mobile','RWD Tablet'];
+   const tags=['(Thirdparty content)','(Responsive web design mobile only)','(Responsive web design tablet only)','(Responsive web design mobile and tablet only)'];
    const tagBtns=tags.map(t=>'<button type="button" class="tagbtn" data-tag="'+esc(t)+'" data-ta="'+taId+'">+ '+esc(t)+'</button>').join('');
-   const liHtml=rp.bullets.map(b=>'<li>'+esc(b.text)+'</li>').join('');
+   const normTxt=t=>t.trim().replace(/\s+/g,' ').toLowerCase();
+   const dupCount={};rp.bullets.forEach(b=>{const k=normTxt(b.text);dupCount[k]=(dupCount[k]||0)+1;});
+   const liHtml=rp.bullets.map(b=>{const isDup=dupCount[normTxt(b.text)]>1;return '<li'+(isDup?' class="dup" title="Duplicate remark — identical text appears more than once for this criterion; consider merging before finalizing."':'')+'>'+esc(b.text)+'</li>';}).join('');
    const rr=document.createElement('tr');
    rr.innerHTML='<td colspan="7"><div class="rembox"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><b>Remarks &amp; Explanations (draft) — '+sc+' '+esc(NAMES[sc]||'')+'</b><button type="button" class="copybtn" data-ta="'+taId+'" style="margin-left:auto">Copy</button></div>'
     +'<div id="'+taId+'" class="remedit" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Editable remarks and explanations for '+esc(sc+' '+(NAMES[sc]||''))+'" style="margin-top:8px"><p>'+esc(rp.lead)+'</p><ul>'+liHtml+'</ul></div>'
@@ -529,6 +602,7 @@ function compute(){const scs=allSC();
  else{document.getElementById('aaaHeading').style.display='none';document.getElementById('aaaWrap').style.display='none';document.getElementById('rows-aaa').innerHTML='';}
  const cnt={sup:cA.sup+cAA.sup+cAAA.sup,part:cA.part+cAA.part+cAAA.part,dns:cA.dns+cAA.dns+cAAA.dns,na:cA.na+cAA.na+cAAA.na,ne:cA.ne+cAA.ne+cAAA.ne};
  document.getElementById('s-pages').textContent=AGG.total||0;
+ document.getElementById('s-ua').textContent=AGG.nUA||0;
  document.getElementById('s-comp').textContent=(AGG.comps||[]).length;
  const isEl=document.getElementById('s-iss');isEl.textContent=AGG.nIss||0;isEl.parentElement.title=(AGG.nExcl||0)+' Closed issue(s) excluded';isEl.parentElement.querySelector('.l').textContent=(AGG.nExcl||0)>0?('Issues in scope ('+AGG.nExcl+' closed excluded)'):'Issues in scope';
  document.getElementById('s-sup').textContent=cnt.sup;document.getElementById('s-part').textContent=cnt.part;
