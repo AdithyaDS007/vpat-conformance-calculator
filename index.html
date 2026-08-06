@@ -108,6 +108,32 @@ details.lsec>div{padding:12px 14px 14px}
 .planbtn{margin-top:6px;font-size:11px;padding:3px 9px}
 .plan{background:var(--dnsbg);border:1px solid #f3cfcd;border-radius:10px;padding:12px 16px;font-size:13px;line-height:1.6}
 .plan .plist{background:#fff;border:1px solid var(--bd);border-radius:8px;padding:8px 10px;margin-top:6px;max-height:140px;overflow:auto;color:var(--tx)}
+.pfbanner{background:var(--accentbg);border:1px solid #d8d5f5;border-radius:8px;padding:8px 12px;margin:0 0 12px;font-size:13px;color:var(--tx);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.pfbanner button{margin-left:auto;font-size:12px;padding:3px 10px}
+details.pgrow{border:1px solid var(--bd);border-radius:10px;margin:8px 0;background:var(--card)}
+details.pgrow>summary{list-style:none;cursor:pointer;padding:10px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;user-select:none;border-radius:10px}
+details.pgrow>summary::-webkit-details-marker{display:none}
+details.pgrow>summary::before{content:"";width:7px;height:7px;border-right:2px solid var(--accent);border-bottom:2px solid var(--accent);transform:rotate(-45deg);transition:transform .15s;flex:none}
+details.pgrow[open]>summary::before{transform:rotate(45deg)}
+details.pgrow>summary:hover{background:var(--accentbg)}
+details.pgrow[open]>summary{border-bottom:1px solid var(--bd);border-radius:10px 10px 0 0}
+details.pgrow>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pgname{font-weight:600}
+.pgrow>summary .cnt{margin-left:auto;font-size:12px;color:var(--mut)}
+.pgbody{padding:12px 14px}
+.pgchips{margin-bottom:10px;display:flex;gap:4px;flex-wrap:wrap}
+.pgitems{display:flex;flex-direction:column;gap:8px}
+.pgitem{border:1px solid var(--bd);border-radius:8px;padding:8px 10px;background:var(--bg)}
+.pgitem-h{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.pgid{font-weight:600;font-size:13px}
+.pgid a{color:var(--accent)}
+.srcchip{display:inline-block;background:#eceae2;color:var(--mut);font-size:11px;font-weight:600;padding:1px 8px;border-radius:20px}
+.srcchip.via{background:var(--accentbg);color:var(--accent)}
+.pgdesc{font-size:12px;color:var(--mut);margin-top:5px;line-height:1.5}
+.pgclean{padding:8px 12px;font-size:13px;border-bottom:1px solid var(--bd)}
+.pgclean:last-child{border-bottom:none}
+.pgclean .pgname{color:var(--tx)}
+.pgok{color:var(--ok);font-size:12px;margin-left:8px}
 @media (max-width:640px){
  .wrap{padding:18px 14px 60px}
  h1{font-size:21px}h2{font-size:16px}
@@ -220,7 +246,8 @@ details.lsec>div{padding:12px 14px 14px}
 </div></details>
 <details class="sect" open><summary><h2>3. Conformance results</h2></summary>
 <div class="sbody">
-<div class="toolbar" style="margin:0 0 12px"><span class="sp"></span><button onclick="exportCSV()">Export CSV</button><button onclick="resetMap()">Reset mapping</button><button onclick="newVpat()">Start new VPAT</button></div>
+<div class="toolbar" style="margin:0 0 12px"><label style="font-size:13px;color:var(--mut);display:flex;align-items:center;gap:6px">Filter by page:&nbsp;<select id="pageFilter" aria-label="Show only criteria failing on a chosen page" style="font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--bd2);border-radius:8px;background:var(--card);max-width:240px"><option value="">All pages</option></select></label><span class="sp"></span><button onclick="exportCSV()">Export CSV</button><button onclick="resetMap()">Reset mapping</button><button onclick="newVpat()">Start new VPAT</button></div>
+<div id="pfBanner"></div>
 <details class="lsec" open><summary><h3>Level A</h3></summary>
 <div style="overflow-x:auto"><table><thead><tr><th scope="col">SC</th><th scope="col">Criterion</th><th scope="col">Direct pages</th><th scope="col">Coverage %</th><th scope="col">Conformance</th><th scope="col">Failed on</th><th scope="col">Override</th></tr></thead>
 <tbody id="rows-a"><tr><td colspan="7" class="empty">Choose a target and upload a CSV.</td></tr></tbody></table></div></details>
@@ -231,6 +258,12 @@ details.lsec>div{padding:12px 14px 14px}
 <div id="aaaWrap" style="overflow-x:auto"><table><thead><tr><th scope="col">SC</th><th scope="col">Criterion</th><th scope="col">Direct pages</th><th scope="col">Coverage %</th><th scope="col">Conformance</th><th scope="col">Failed on</th><th scope="col">Override</th></tr></thead>
 <tbody id="rows-aaa"></tbody></table></div></details>
 <p class="note"><b>How the verdict is decided.</b> <b>Does Not Support</b> if (1) a <b>blocker</b> issue is present anywhere, <b>or</b> (2) the <b>union of directly-failing pages and every failing component’s mapped pages</b> covers <b>more than 50%</b> of in-scope pages. <b>Coverage %</b> here is that page union. Component severity/criticality is <b>not</b> used: every failing component contributes its full mapped pages, and a union at or below 50% (with no blocker) keeps the criterion at <b>Partially Supports</b>. For pages + components we take the page union, deduped. No findings is <b>Supports</b>. Project-wide pages are excluded from the count; their issues redistribute to mapped pages as direct failures. Rows marked Not Applicable by the platform/content defaults above can still be overridden per row.</p>
+</div></details>
+<details class="sect" open><summary><h2>4. Failures by page</h2></summary>
+<div class="sbody">
+<p class="note" style="margin:0 0 10px">A page-by-page view of the results. Each page lists every failure that <b>reaches</b> it: its own direct issues, issues via the shared components mapped to it, and project-wide issues redistributed onto it. This is the same coverage picture that drives the verdict, seen per page instead of per criterion.</p>
+<input id="bypageSearch" class="search" placeholder="Filter pages by name\u2026" aria-label="Filter pages by name" style="margin-bottom:10px">
+<div id="bypageList"><p class="empty">Upload a CSV (and set your page list) to see failures per page.</p></div>
 </div></details>
 </div>
 <script>
@@ -302,6 +335,7 @@ function normSC(v){if(!v)return[];return String(v).split(/[,;\n]+/).map(s=>{cons
 
 let FILES=[],MAP={},OVR={},AGG={},openWhere=new Set(),openFix=new Set(),openRem=new Set(),openUnion=new Set(),SAVEDRANGE={};
 let PW=new Set(),PWM={},PWAUTO=new Set();
+let pageFilter='',openByPage=new Set();// results page-filter selection + expanded rows in the Failures-by-page section
 // A page name that looks like a deliberate project-wide / app-wide container. Naming isn't standardized,
 // so match the common variants: project-wide, app-wide, application-wide, site-wide (any separator or none).
 function isPWName(s){return /(project|application|app|site)[\s_-]*wide/i.test(s||'');}
@@ -352,7 +386,7 @@ function aggregate(){const inc=document.getElementById('incClosed').checked;
   if(/component/i.test(r.unit)){comps.add(r.test);(comp_sc[r.test]=comp_sc[r.test]||new Set());(comp_crit[r.test]=comp_crit[r.test]||new Set());(comp_blk[r.test]=comp_blk[r.test]||new Set());
    if(excl)return;r.scs.forEach(s=>{comp_sc[r.test].add(s);if(crit)comp_crit[r.test].add(s);if(blk)comp_blk[r.test].add(s);});}
   else{allPages.add(r.test);
-   if(PW.has(r.test)){if(excl)return;(pw_issues[r.test]=pw_issues[r.test]||[]).push({id:r.id,desc:r.desc,scs:r.scs.slice(),blk,crit,impact:r.impact,status:r.status});}
+   if(PW.has(r.test)){if(excl)return;(pw_issues[r.test]=pw_issues[r.test]||[]).push({id:r.id,desc:r.desc,scs:r.scs.slice(),blk,crit,impact:r.impact,status:r.status,url:r.url});}
    else{pages.add(r.test);if(excl)return;r.scs.forEach(s=>{(sc_pages[s]=sc_pages[s]||new Set()).add(r.test);if(blk)(sc_pageblk[s]=sc_pageblk[s]||new Set()).add(r.test);});}}}));
  const listEl=document.getElementById('pageList'),numEl=document.getElementById('totPages');
  const listPages=(listEl?listEl.value:'').split(/[\n,]+/).map(s=>s.trim()).filter(Boolean).filter(p=>!PW.has(p));
@@ -457,9 +491,12 @@ function renderPW(){const wrap=document.getElementById('pwpages');wrap.innerHTML
    const sev=iss.blk?'⛔ blocker':iss.crit?'⚠ critical':(iss.impact||'').trim();
    const sevStyle=(iss.blk||iss.crit)?' style="background:var(--dnsbg);color:var(--dns)"':'';
    const scChips=iss.scs.map(s=>'<span class="chip" title="'+esc(NAMES[s]||'')+'">'+s+'</span>').join('');
-   const idLabel=String(iss.id).startsWith('auto:')?'auto-id':esc(iss.id);
+   const isAutoId=String(iss.id).startsWith('auto:');
+   const idRaw=isAutoId?'auto-id':String(iss.id);
+   const hasUrl=iss.url&&/^https?:\/\//i.test(iss.url);
+   const idLabel=(hasUrl&&!isAutoId)?('<a href="'+esc(iss.url)+'" target="_blank" rel="noopener" title="Open issue '+esc(idRaw)+' in a new tab">#'+esc(idRaw)+'</a>'):('#'+esc(idRaw));
    const sub=document.createElement('div');sub.style.cssText='border-top:1px solid var(--bd);padding-top:8px;margin-top:8px';
-   sub.innerHTML='<div class="comp-head" style="margin-bottom:6px"><span class="comp-name" style="font-size:13px">#'+idLabel+'</span>'+(sev?' <span class="chip"'+sevStyle+'>'+esc(sev)+'</span>':'')+' <span class="chips">'+scChips+'</span><span class="cnt" id="pwc-'+id+'">'+cnt+' / '+K+' pages</span></div>'+(iss.desc?'<p class="note" style="margin:0 0 6px">'+esc(iss.desc)+'</p>':'')+'<div class="btns"><button class="g '+(isG?'on':'')+'">All pages ('+K+')</button><button class="clr">Clear</button></div><div class="searchrow"><textarea class="search" rows="2" aria-label="Filter pages for issue '+esc(idLabel)+'" placeholder="Filter, or paste one page per line to select…"></textarea><button class="selbtn" type="button">Select matches</button></div><div class="matchhint" aria-live="polite"></div><div class="pglist"></div>';
+   sub.innerHTML='<div class="comp-head" style="margin-bottom:6px"><span class="comp-name" style="font-size:13px">'+idLabel+'</span>'+(sev?' <span class="chip"'+sevStyle+'>'+esc(sev)+'</span>':'')+' <span class="chips">'+scChips+'</span><span class="cnt" id="pwc-'+id+'">'+cnt+' / '+K+' pages</span></div>'+(iss.desc?'<p class="note" style="margin:0 0 6px">'+esc(iss.desc)+'</p>':'')+'<div class="btns"><button class="g '+(isG?'on':'')+'">All pages ('+K+')</button><button class="clr">Clear</button></div><div class="searchrow"><textarea class="search" rows="2" aria-label="Filter pages for issue '+esc(idRaw)+'" placeholder="Filter, or paste one page per line to select…"></textarea><button class="selbtn" type="button">Select matches</button></div><div class="matchhint" aria-live="polite"></div><div class="pglist"></div>';
    card.appendChild(sub);
    sub.querySelector('.g').onclick=()=>{PWM[pw][iss.id]=(PWM[pw][iss.id].size===K)?new Set():new Set(real);savePW();refresh();};
    sub.querySelector('.clr').onclick=()=>{PWM[pw][iss.id]=new Set();savePW();refresh();};
@@ -639,18 +676,88 @@ function computeRows(scs,tb){
     document.execCommand('insertText',false,' '+btn.dataset.tag+' ');
     if(sel.rangeCount)SAVEDRANGE[taId]=sel.getRangeAt(0).cloneRange();});}});
  return cnt;}
-function compute(){const scs=allSC();
+// The set of success criteria whose coverage picture includes a given page: the page fails the SC directly
+// (AGG.sc_pages already merges direct + redistributed project-wide failures), or a failing component mapped
+// to that page fails the SC. This mirrors the union used for the verdict, restricted to one page.
+function scsFailingOnPage(page){const out=new Set();
+ const sp=AGG.sc_pages||{};Object.keys(sp).forEach(sc=>{if(sp[sc]&&sp[sc].has(page))out.add(sc);});
+ (AGG.comps||[]).forEach(c=>{if((MAP[c]||new Set()).has(page))(AGG.comp_sc[c]||new Set()).forEach(s=>out.add(s));});
+ return out;}
+// Every individual failure (issue row) that reaches a page, tagged with how it gets there: a direct issue on
+// the page, an issue on a component mapped to the page, or a project-wide issue redistributed onto the page.
+// Honors the Include-Closed toggle and always excludes User Agent issues, exactly like the aggregate math.
+function pageFailureDetail(page){const inc=document.getElementById('incClosed').checked;const items=[];
+ FILES.forEach(f=>f.rows.forEach(r=>{if(!r.scs.length)return;
+  if(/^closed$/i.test(r.status)&&!inc)return;if(isUA(r))return;
+  const base={id:r.id,desc:r.desc,impact:r.impact,scs:r.scs.slice(),url:r.url,blk:/blocker/i.test(r.impact||'')};
+  if(/component/i.test(r.unit)){if((MAP[r.test]||new Set()).has(page))items.push(Object.assign({source:'component',via:r.test},base));}
+  else if(PW.has(r.test)){if(PWM[r.test]&&PWM[r.test][r.id]&&PWM[r.test][r.id].has(page))items.push(Object.assign({source:'projectwide',via:r.test},base));}
+  else if(r.test===page)items.push(Object.assign({source:'direct',via:''},base));}));
+ return items;}
+// Populate the "Filter by page" dropdown in the results toolbar from the current in-scope page universe,
+// dropping a stale selection if that page no longer exists.
+function renderPageFilter(){const s=document.getElementById('pageFilter');if(!s)return;const pages=AGG.pages||[];
+ if(pageFilter&&!pages.includes(pageFilter))pageFilter='';
+ s.innerHTML='';const o0=document.createElement('option');o0.value='';o0.textContent='All pages ('+pages.length+')';s.appendChild(o0);
+ pages.forEach(p=>{const o=document.createElement('option');o.value=p;o.textContent=p;s.appendChild(o);});// DOM assignment avoids attribute-escaping issues for names with quotes
+ s.value=pageFilter;}
+// Render the Failures-by-page section: one entry per in-scope page (respecting the section's own name filter),
+// clean pages shown as a muted line, failing pages as an expandable disclosure listing their issues by source.
+function renderByPageList(){const w=document.getElementById('bypageList');if(!w)return;
+ const pages=AGG.pages||[];
+ if(!pages.length){w.innerHTML='<p class="empty">Upload a CSV (and set your page list) to see failures per page.</p>';return;}
+ const q=((document.getElementById('bypageSearch')||{}).value||'').trim().toLowerCase();
+ const shown=q?pages.filter(p=>p.toLowerCase().includes(q)):pages;
+ w.innerHTML='';
+ if(!shown.length){w.innerHTML='<p class="empty">No pages match \u201c'+esc(q)+'\u201d.</p>';return;}
+ let withFail=0;const frag=document.createDocumentFragment();
+ const order={direct:0,component:1,projectwide:2};
+ shown.forEach(p=>{const scList=[...scsFailingOnPage(p)].sort(scCmp);const items=pageFailureDetail(p);
+  if(!scList.length){const d=document.createElement('div');d.className='pgclean';d.innerHTML='<span class="pgname">'+esc(p)+'</span><span class="pgok">\u2713 no failures reach this page</span>';frag.appendChild(d);return;}
+  withFail++;
+  const nBlk=items.filter(i=>i.blk).length;
+  const det=document.createElement('details');det.className='pgrow';if(openByPage.has(p))det.open=true;
+  det.addEventListener('toggle',()=>{det.open?openByPage.add(p):openByPage.delete(p);});
+  const sum=document.createElement('summary');
+  sum.innerHTML='<span class="pgname">'+esc(p)+'</span><span class="cnt">'+scList.length+' criteri'+(scList.length!=1?'a':'on')+' \u00b7 '+items.length+' issue'+(items.length!=1?'s':'')+(nBlk?' \u00b7 <span style="color:var(--dns)">\u26d4 '+nBlk+' blocker'+(nBlk!=1?'s':'')+'</span>':'')+'</span>';
+  det.appendChild(sum);
+  const body=document.createElement('div');body.className='pgbody';
+  body.innerHTML='<div class="pgchips">'+scList.map(s=>'<span class="chip" title="'+esc(NAMES[s]||'')+'">'+s+'</span>').join('')+'</div>';
+  const list=document.createElement('div');list.className='pgitems';
+  items.slice().sort((a,b)=>(order[a.source]-order[b.source])||scCmp(a.scs[0]||'0.0',b.scs[0]||'0.0')).forEach(it=>{
+   const row=document.createElement('div');row.className='pgitem';
+   const srcLabel=it.source==='direct'?'direct':it.source==='component'?('via component: '+it.via):('via project-wide: '+it.via);
+   const srcCls=it.source==='direct'?'':' via';
+   const isAuto=String(it.id).startsWith('auto:');const idTxt=isAuto?'auto-id':String(it.id);
+   const hasUrl=it.url&&/^https?:\/\//i.test(it.url);
+   const idHtml=(hasUrl&&!isAuto)?('<a href="'+esc(it.url)+'" target="_blank" rel="noopener" title="Open issue '+esc(idTxt)+' in a new tab">#'+esc(idTxt)+'</a>'):('#'+esc(idTxt));
+   const sev=it.blk?'<span class="cchip crit">\u26d4 blocker</span>':(/critical/i.test(it.impact||'')?'<span class="cchip crit">\u26a0 critical</span>':(it.impact?'<span class="cchip">'+esc(it.impact)+'</span>':''));
+   const scChips=it.scs.map(s=>'<span class="chip">'+s+'</span>').join('');
+   row.innerHTML='<div class="pgitem-h"><span class="pgid">'+idHtml+'</span> <span class="srcchip'+srcCls+'">'+esc(srcLabel)+'</span> '+sev+' <span class="chips">'+scChips+'</span></div>'+(it.desc?'<div class="pgdesc">'+esc(summarize(it.desc,40))+'</div>':'');
+   list.appendChild(row);});
+  body.appendChild(list);det.appendChild(body);frag.appendChild(det);});
+ const head=document.createElement('p');head.className='note';head.style.margin='0 0 10px';
+ head.textContent=withFail+' of '+shown.length+' shown page'+(shown.length!=1?'s':'')+' have at least one failure.';
+ w.appendChild(head);w.appendChild(frag);}
+function compute(){renderPageFilter();const scs=allSC();
  const byLevel={A:[],AA:[],AAA:[]};scs.forEach(sc=>{const lvl=LEVELS[sc]||'A';(byLevel[lvl]=byLevel[lvl]||(byLevel[lvl]=[])).push(sc);});
+ const pfBanner=document.getElementById('pfBanner');
  if(!scs.length){document.getElementById('rows-a').innerHTML='<tr><td colspan="7" class="empty">Choose a target and upload a CSV.</td></tr>';
   document.getElementById('rows-aa').innerHTML='';document.getElementById('rows-aaa').innerHTML='';
-  document.getElementById('aaaDetails').style.display='none';
-  ['pages','comp','sup','part','dns','na','ne'].forEach(k=>document.getElementById('s-'+k).textContent=0);return;}
- const cA=computeRows(byLevel.A,document.getElementById('rows-a'));
- const cAA=computeRows(byLevel.AA,document.getElementById('rows-aa'));
- let cAAA={sup:0,part:0,dns:0,na:0,ne:0};
- if(byLevel.AAA.length){document.getElementById('aaaDetails').style.display='';cAAA=computeRows(byLevel.AAA,document.getElementById('rows-aaa'));}
+  document.getElementById('aaaDetails').style.display='none';if(pfBanner)pfBanner.innerHTML='';
+  ['pages','comp','sup','part','dns','na','ne'].forEach(k=>document.getElementById('s-'+k).textContent=0);renderByPageList();return;}
+ // Stat cards always reflect the whole report, computed independently of any page filter below.
+ const cnt={sup:0,part:0,dns:0,na:0,ne:0};scs.forEach(sc=>{cnt[rowFor(sc).verdict]=(cnt[rowFor(sc).verdict]||0)+1;});
+ // Optional page filter: restrict the visible rows to criteria whose coverage picture includes the chosen page.
+ const pf=(pageFilter&&(AGG.pages||[]).includes(pageFilter))?pageFilter:'';
+ const flt=pf?scsFailingOnPage(pf):null;const vis=a=>flt?a.filter(sc=>flt.has(sc)):a;
+ const visA=vis(byLevel.A),visAA=vis(byLevel.AA),visAAA=vis(byLevel.AAA);
+ computeRows(visA,document.getElementById('rows-a'));
+ computeRows(visAA,document.getElementById('rows-aa'));
+ if(visAAA.length){document.getElementById('aaaDetails').style.display='';computeRows(visAAA,document.getElementById('rows-aaa'));}
  else{document.getElementById('aaaDetails').style.display='none';document.getElementById('rows-aaa').innerHTML='';}
- const cnt={sup:cA.sup+cAA.sup+cAAA.sup,part:cA.part+cAA.part+cAAA.part,dns:cA.dns+cAA.dns+cAAA.dns,na:cA.na+cAA.na+cAAA.na,ne:cA.ne+cAA.ne+cAAA.ne};
+ if(pfBanner){if(pf){const n=visA.length+visAA.length+visAAA.length;pfBanner.innerHTML='<div class="pfbanner"><span>Showing only the <b>'+n+'</b> criteria whose coverage picture includes <b>'+esc(pf)+'</b>. The summary cards above still reflect the whole report.</span><button type="button" id="pfClear">Show all pages</button></div>';const cb=document.getElementById('pfClear');if(cb)cb.onclick=()=>{pageFilter='';const s=document.getElementById('pageFilter');if(s)s.value='';compute();};}else pfBanner.innerHTML='';}
+ renderByPageList();
  document.getElementById('s-pages').textContent=AGG.total||0;
  document.getElementById('s-ua').textContent=AGG.nUA||0;
  document.getElementById('s-comp').textContent=(AGG.comps||[]).length;
@@ -672,7 +779,7 @@ function exportCSV(){const scs=allSC();if(!scs.length){alert('No data to export.
  const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='vpat_conformance.csv';a.click();}
 function resetMap(){if(confirm('Clear all component mappings, project-wide selections, and overrides?')){MAP={};OVR={};PW=new Set();PWM={};PWAUTO=new Set();autoDetectPW();refresh();}}
-function newVpat(){if(confirm('Start a new VPAT? This clears uploaded files, the page list, total pages, all mappings and overrides.')){FILES=[];MAP={};OVR={};PW=new Set();PWM={};PWAUTO=new Set();EXTRA=new Set();openWhere=new Set();openFix=new Set();openRem=new Set();openUnion=new Set();document.getElementById('pageList').value='';document.getElementById('totPages').value='';refresh();}} /* v7 */
+function newVpat(){if(confirm('Start a new VPAT? This clears uploaded files, the page list, total pages, all mappings and overrides.')){FILES=[];MAP={};OVR={};PW=new Set();PWM={};PWAUTO=new Set();EXTRA=new Set();openWhere=new Set();openFix=new Set();openRem=new Set();openUnion=new Set();openByPage=new Set();pageFilter='';document.getElementById('pageList').value='';document.getElementById('totPages').value='';const bps=document.getElementById('bypageSearch');if(bps)bps.value='';refresh();}} /* v7 */
 
 const drop=document.getElementById('drop'),fileInput=document.getElementById('file');
 drop.onclick=()=>fileInput.click();
@@ -691,6 +798,8 @@ let scopeT;const scopeChanged=()=>{clearTimeout(scopeT);scopeT=setTimeout(refres
 totEl.oninput=scopeChanged;listEl.oninput=scopeChanged;
 document.getElementById('addPageBtn').onclick=addManualPage;
 document.getElementById('addPageName').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addManualPage();}});
+const pfSel=document.getElementById('pageFilter');if(pfSel)pfSel.onchange=e=>{pageFilter=e.target.value;compute();};
+const bpSearch=document.getElementById('bypageSearch');if(bpSearch)bpSearch.oninput=()=>renderByPageList();
 const setAllSections=o=>document.querySelectorAll('details.sect,details.lsec').forEach(d=>{d.open=o;});
 document.getElementById('collapseAll').onclick=()=>setAllSections(false);
 document.getElementById('expandAll').onclick=()=>setAllSections(true);
